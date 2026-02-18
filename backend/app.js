@@ -27,8 +27,14 @@ app.get("/", (req, res) => {
   res.json({ message: "API running" });
 });
 
-// const NAMERouter = require("./routes/NAME");
-// app.use("/NAME", NAMERouter);
+const channelRouter = require("./routes/channels.js");
+app.use("/channels", channelRouter);
+
+const messageRouter = require("./routes/messages.js");
+app.use("/messages", messageRouter);
+
+const userRouter = require("./routes/users.js");
+app.use("/users", userRouter);
 
 // 404 handler
 app.use((req, res) => {
