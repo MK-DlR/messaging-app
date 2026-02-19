@@ -115,10 +115,26 @@ const profileGet = async (req, res, next) => {
 };
 
 // editing own profile
-const profilePut = async (req, res) => {
+const profilePut = async (req, res, next) => {
   try {
-    // code
-    console.log("hello");
+    // extract fields to update
+    const { displayName, icon, profileInfo } = req.body;
+
+    // update fields
+    const user = await prisma.user.update({
+      where: { id: req.user.id },
+      data: { displayName, icon, profileInfo },
+      select: {
+        username: true,
+        displayName: true,
+        icon: true,
+        profileInfo: true,
+        lastSeen: true,
+      },
+    });
+
+    // return user
+    res.status(200).json({ user });
   } catch (err) {
     return next(err);
   }
