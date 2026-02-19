@@ -2,6 +2,7 @@
 
 const express = require("express");
 const router = express.Router();
+const channelsController = require("../controllers/channels");
 
 // create a channel (DM or group)
 
