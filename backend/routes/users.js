@@ -12,10 +12,10 @@ router.post("/register", usersController.registerPost);
 router.post("/login", usersController.loginPost);
 
 // view profiles
-// router.get("/:id", usersController.functionName);
+router.get("/:username", usersController.profileGet);
 
 // edit own profile
-// router.put("/:id", authJWT, usersController.functionName);
+router.put("/:username", authJWT, usersController.profilePut);
 
 // last seen timestamp
 

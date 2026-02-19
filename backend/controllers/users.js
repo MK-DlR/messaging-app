@@ -84,9 +84,46 @@ const loginPost = async (req, res, next) => {
 };
 
 // viewing profiles
+const profileGet = async (req, res, next) => {
+  try {
+    // extract username
+    const { username } = req.params;
+
+    // search for user by username
+    const result = await prisma.user.findUnique({
+      where: {
+        username: username,
+      },
+      select: {
+        username: true,
+        displayName: true,
+        icon: true,
+        profileInfo: true,
+        lastSeen: true,
+      },
+    });
+    if (result) {
+      // return user
+      res.status(200).json({ result });
+    } else {
+      // user not found
+      return res.status(404).json({ error: "User not found" });
+    }
+  } catch (err) {
+    return next(err);
+  }
+};
 
 // editing own profile
+const profilePut = async (req, res) => {
+  try {
+    // code
+    console.log("hello");
+  } catch (err) {
+    return next(err);
+  }
+};
 
 // last seen timestamp
 
-module.exports = { registerPost, loginPost };
+module.exports = { registerPost, loginPost, profileGet, profilePut };
