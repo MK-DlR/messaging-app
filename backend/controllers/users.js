@@ -1,11 +1,11 @@
 // backend/controllers/users.js
 
 // imports
-import { validationResult } from "express-validator";
-import bcrypt from "bcryptjs";
-import { prisma } from "../lib/prisma.js";
+const validationResult = require("express-validator");
+const bcrypt = require("bcryptjs");
+const prisma = require("../lib/prisma.js");
 
-// registration handler - insert new user into schema
+// registration - inserts new user into schema
 export const registerPost = async (req, res, next) => {
   const errors = validationResult(req);
 
@@ -39,6 +39,11 @@ export const registerPost = async (req, res, next) => {
 };
 
 // login
+export const loginPost = (req, res) => {
+  // receives username and password
+  // verifies credientals
+  // sends back JWT token if successful
+};
 
 // logout
 

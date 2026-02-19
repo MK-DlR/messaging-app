@@ -7,5 +7,3 @@
 // editing (own) messages
 
 // deleting (own) messages
-
-// module.exports = { functionName, functionName };

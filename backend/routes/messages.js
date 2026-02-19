@@ -2,7 +2,7 @@
 
 const express = require("express");
 const router = express.Router();
-const messagesController = require("../controllers/messages");
+const messagesController = require("../controllers/messages.js");
 
 // send messages
 
@@ -12,4 +12,4 @@ const messagesController = require("../controllers/messages");
 
 // deleting (own) messages
 
-module.exports = router;
+export default router;

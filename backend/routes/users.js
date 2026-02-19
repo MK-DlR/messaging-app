@@ -2,9 +2,10 @@
 
 const express = require("express");
 const router = express.Router();
-const usersController = require("../controllers/users");
+const usersController = require("../controllers/users.js");
 
 // registration
+router.post("/register", usersController.registerPost);
 
 // login
 
@@ -16,4 +17,4 @@ const usersController = require("../controllers/users");
 
 // last seen timestamp
 
-module.exports = router;
+export default router;

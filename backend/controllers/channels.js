@@ -7,5 +7,3 @@
 // fetch single channel's details (name, members, etc)
 
 // add/remove members from group chats
-
-// module.exports = { functionName, functionName };

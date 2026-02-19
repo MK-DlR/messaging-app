@@ -2,7 +2,7 @@
 
 const express = require("express");
 const router = express.Router();
-const channelsController = require("../controllers/channels");
+const channelsController = require("../controllers/channels.js");
 
 // create a channel (DM or group)
 
@@ -12,4 +12,4 @@ const channelsController = require("../controllers/channels");
 
 // add/remove members from group chats
 
-module.exports = router;
+export default router;
