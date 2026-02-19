@@ -12,4 +12,4 @@ const channelsController = require("../controllers/channels.js");
 
 // add/remove members from group chats
 
-export default router;
+module.exports = router;

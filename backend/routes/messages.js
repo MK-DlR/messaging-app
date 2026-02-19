@@ -12,4 +12,4 @@ const messagesController = require("../controllers/messages.js");
 
 // deleting (own) messages
 
-export default router;
+module.exports = router;

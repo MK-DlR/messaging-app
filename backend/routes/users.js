@@ -8,6 +8,7 @@ const usersController = require("../controllers/users.js");
 router.post("/register", usersController.registerPost);
 
 // login
+router.post("/login", usersController.loginPost);
 
 // logout
 
@@ -17,4 +18,4 @@ router.post("/register", usersController.registerPost);
 
 // last seen timestamp
 
-export default router;
+module.exports = router;

@@ -1,12 +1,13 @@
 // backend/controllers/users.js
 
 // imports
-const validationResult = require("express-validator");
+const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const prisma = require("../lib/prisma.js");
 
 // registration - inserts new user into schema
-export const registerPost = async (req, res, next) => {
+const registerPost = async (req, res, next) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
@@ -22,7 +23,7 @@ export const registerPost = async (req, res, next) => {
     });
 
     if (existingUser) {
-      return res.status(400).json({ message: "Username already taken" });
+      return res.status(400).json({ error: "Username already taken" });
     }
 
     // hash password and create user
@@ -39,10 +40,47 @@ export const registerPost = async (req, res, next) => {
 };
 
 // login
-export const loginPost = (req, res) => {
-  // receives username and password
-  // verifies credientals
-  // sends back JWT token if successful
+const loginPost = async (req, res, next) => {
+  try {
+    // extract username and password
+    const { username, password } = req.body;
+
+    // search for user by username
+    const result = await prisma.user.findUnique({
+      where: {
+        username: username,
+      },
+    });
+    if (result) {
+      // compare password
+      bcrypt.compare(
+        req.body.password,
+        result.password,
+        function (compareErr, isMatch) {
+          if (compareErr) {
+            next(compareErr);
+          }
+          if (isMatch) {
+            // password correct
+            const token = jwt.sign(
+              { id: result.id }, // payload
+              process.env.JWT_SECRET,
+              { expiresIn: process.env.JWT_EXPIRES_IN },
+            );
+            res.status(200).json({ token });
+          } else {
+            // password incorrect
+            return res.status(401).json({ error: "Invalid credentials" });
+          }
+        },
+      );
+    } else {
+      // user not found
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+  } catch (err) {
+    return next(err);
+  }
 };
 
 // logout
@@ -52,3 +90,5 @@ export const loginPost = (req, res) => {
 // viewing other profiles
 
 // last seen timestamp
+
+module.exports = { registerPost, loginPost };
