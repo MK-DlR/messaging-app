@@ -3,6 +3,7 @@
 const express = require("express");
 const router = express.Router();
 const usersController = require("../controllers/users.js");
+const authJWT = require("../middleware/auth.js");
 
 // registration
 router.post("/register", usersController.registerPost);
@@ -10,11 +11,11 @@ router.post("/register", usersController.registerPost);
 // login
 router.post("/login", usersController.loginPost);
 
-// logout
+// view profiles
+// router.get("/:id", usersController.functionName);
 
-// viewing/editing own profile
-
-// viewing other profiles
+// edit own profile
+// router.put("/:id", authJWT, usersController.functionName);
 
 // last seen timestamp
 

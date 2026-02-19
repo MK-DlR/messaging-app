@@ -83,11 +83,9 @@ const loginPost = async (req, res, next) => {
   }
 };
 
-// logout
+// viewing profiles
 
-// viewing/editing own profile
-
-// viewing other profiles
+// editing own profile
 
 // last seen timestamp
 
