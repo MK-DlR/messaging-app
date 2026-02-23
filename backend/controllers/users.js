@@ -34,6 +34,13 @@ const registerPost = async (req, res, next) => {
 
     console.log(`${newUser.username} registered successfully`);
     res.status(201).json({ message: "User registered successfully" });
+
+    // TO DO: after user is successfully created
+    // use prisma.channel.update
+    // to find the default channel
+    // and connect new user to it
+    // using Prisma's connect syntax
+    // on the users relation
   } catch (err) {
     return next(err);
   }
