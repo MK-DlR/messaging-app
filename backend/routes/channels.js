@@ -3,6 +3,8 @@
 const express = require("express");
 const router = express.Router();
 const channelsController = require("../controllers/channels.js");
+const { authJWT } = require("../middleware/auth.js");
+const { lastSeen } = require("../middleware/lastSeen.js");
 
 // create a channel (DM or group)
 
