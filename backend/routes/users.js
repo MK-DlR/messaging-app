@@ -4,6 +4,7 @@ const express = require("express");
 const router = express.Router();
 const usersController = require("../controllers/users.js");
 const { authJWT } = require("../middleware/auth.js");
+const { lastSeen } = require("../middleware/lastSeen.js");
 
 // registration
 router.post("/register", usersController.registerPost);
@@ -15,6 +16,6 @@ router.post("/login", usersController.loginPost);
 router.get("/:username", usersController.profileGet);
 
 // edit own profile
-router.put("/:username", authJWT, usersController.profilePut);
+router.put("/:username", authJWT, lastSeen, usersController.profilePut);
 
 module.exports = router;
