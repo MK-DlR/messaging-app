@@ -34,11 +34,12 @@ model Message {
 }
 
 model Channel {
-  id       Int       @id @default(autoincrement())
-  name     String?
-  isGroup  Boolean   @default(false)
-  users    User[]
-  messages Message[]
+  id        Int       @id @default(autoincrement())
+  name      String?
+  isGroup   Boolean   @default(false)
+  isDefault Boolean   @default(false)
+  users     User[]
+  messages  Message[]
 
   @@map("channels")
 }

@@ -14,11 +14,19 @@ const prisma = new PrismaClient({ adapter });
 
 // create default channel
 async function main() {
-  const createChannel = await prisma.channel.upsert({
-    data: {
-      name: "Main Chat",
-    },
+  const defaultChannel = await prisma.channel.findFirst({
+    where: { name: "Main Chat" },
   });
+
+  if (!defaultChannel) {
+    const createChannel = await prisma.channel.create({
+      data: {
+        name: "Main Chat",
+        isDefault: true,
+        isGroup: true,
+      },
+    });
+  }
 }
 
 main()
