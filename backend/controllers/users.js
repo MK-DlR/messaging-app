@@ -4,7 +4,7 @@
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const prisma = require("../lib/prisma.js");
+const { prisma } = require("../lib/prisma.js");
 
 // registration - inserts new user into schema
 const registerPost = async (req, res, next) => {
@@ -139,7 +139,5 @@ const profilePut = async (req, res, next) => {
     return next(err);
   }
 };
-
-// last seen timestamp
 
 module.exports = { registerPost, loginPost, profileGet, profilePut };
