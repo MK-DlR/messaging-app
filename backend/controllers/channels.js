@@ -3,24 +3,77 @@
 // imports
 const { prisma } = require("../lib/prisma.js");
 
+// TO DO: figure out where channel editing (renaming) should go
+
 // create a channel (DM or group)
 const channelPost = async (req, res, next) => {
   try {
-    // before creating a channel:
-    // check if it already exists between those users
-    // isGroup = false (check if dm)
-    // has the exact users as members
-    // in any order
-    // --
-    // DMs:
-    // 2 users
-    // default name is derived from participants
-    // can be custom renamed
-    // --
-    // GROUP:
-    // 3 or more people
-    // default name is derived from participants
-    // can be custom renamed
+    const { userIds, name } = req.body;
+    const creatorId = req.user.id;
+
+    let channelName;
+    let channelData;
+
+    // determine if DM or group channel
+    if (userIds.length === 1) {
+      // DM channel
+      // before creating DM channel, check if it already exists
+      const existingChannel = await prisma.channel.findFirst({
+        where: {
+          isGroup: false,
+          AND: [
+            { users: { some: { id: creatorId } } },
+            { users: { some: { id: userIds[0] } } },
+          ],
+        },
+      });
+      // if channel exists, return to it
+      if (existingChannel) {
+        return res.status(200).json({ existingChannel });
+      } else {
+        // if channel doesn't exist, create new dm channel
+        if (!name) {
+          // generate name from participant users
+          const users = await prisma.user.findMany({
+            where: {
+              id: {
+                in: [creatorId, userIds[0]],
+              },
+            },
+            select: { username: true },
+          });
+          channelName = users.map((user) => user.username).join(", ");
+        }
+      }
+      // create channelData
+      channelData = {
+        isGroup: false,
+        name: name || channelName,
+        creatorId,
+        users: { connect: [{ id: creatorId }, { id: userIds[0] }] },
+      };
+    } else if (userIds.length >= 2) {
+      // group channel
+      if (!name) {
+        // generate name from number of participant users
+        channelName = `Group Chat (${userIds.length + 1})`;
+      }
+      // create channelData
+      channelData = {
+        isGroup: true,
+        name: name || channelName,
+        creatorId,
+        users: {
+          connect: [{ id: creatorId }, ...userIds.map((id) => ({ id }))],
+        },
+      };
+    }
+
+    // create channel using channelData
+    const channel = await prisma.channel.create({
+      data: channelData,
+    });
+    res.status(201).json({ channel });
   } catch (err) {
     return next(err);
   }
@@ -58,5 +111,5 @@ const membersPut = async (req, res, next) => {
 };
 
 module.exports = {
-  /* channelPost, channelsGet, channelDetailsGet, membersPut */
+  channelPost /* , channelsGet, channelDetailsGet, membersPut */,
 };
