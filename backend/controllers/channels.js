@@ -12,5 +12,5 @@ const { prisma } = require("../lib/prisma.js");
 // add/remove members from group chats
 
 module.exports = {
-  /* functions */
+  /* channelPost, channelsGet, channelDetailsGet, membersPut */
 };
