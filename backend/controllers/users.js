@@ -33,16 +33,14 @@ const registerPost = async (req, res, next) => {
     });
 
     // find default channel
-    const defaultChannel = await prisma.channel.update({
+    const defaultChannel = await prisma.channel.findFirst({
       where: { isDefault: true },
-      // connect new user to default channel
-      data: {
-        users: {
-          connect: {
-            id: newUser.id,
-          },
-        },
-      },
+    });
+
+    // connect new user to default channel
+    await prisma.channel.update({
+      where: { id: defaultChannel.id },
+      data: { users: { connect: { id: newUser.id } } },
     });
 
     console.log(`${newUser.username} registered successfully`);
