@@ -8,15 +8,16 @@ datasource db {
 }
 
 model User {
-  id          Int       @id @default(autoincrement())
-  username    String    @unique
-  password    String
-  displayName String?
-  icon        String?
-  profileInfo String?
-  lastSeen    DateTime? @default(now())
-  messages    Message[]
-  channels    Channel[]
+  id              Int       @id @default(autoincrement())
+  username        String    @unique
+  password        String
+  displayName     String?
+  icon            String?
+  profileInfo     String?
+  lastSeen        DateTime? @default(now())
+  messages        Message[]
+  channels        Channel[]
+  createdChannels Channel[] @relation("ChannelCreator")
 
   @@map("users")
 }
@@ -36,6 +37,9 @@ model Message {
 model Channel {
   id        Int       @id @default(autoincrement())
   name      String?
+  createdAt DateTime  @default(now())
+  creatorId Int?
+  creator   User?     @relation("ChannelCreator", fields: [creatorId], references: [id])
   isGroup   Boolean   @default(false)
   isDefault Boolean   @unique @default(false)
   users     User[]
