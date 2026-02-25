@@ -29,7 +29,12 @@ router.put(
 );
 
 // delete channel
-// router.delete("/delete/:id", authJWT, lastSeen, channelsController.channelDelete);
+router.delete(
+  "/delete/:id",
+  authJWT,
+  lastSeen,
+  channelsController.channelDelete,
+);
 
 // add/remove members from group channels if channel creator
 router.put(

@@ -169,6 +169,31 @@ const channelPut = async (req, res, next) => {
 };
 
 // delete channel
+const channelDelete = async (req, res, next) => {
+  try {
+    const creator = req.user.id;
+    const channel = parseInt(req.params.id);
+
+    // check channel and permissions
+    const selectedChannel = await findChannelAsCreator(channel, creator);
+
+    if (!selectedChannel) {
+      return res.status(404).json({ error: "Channel not found" });
+    } else {
+      // delete messages before deleting channel
+      await prisma.message.deleteMany({
+        where: { channelId: channel },
+      });
+      // delete channel
+      await prisma.channel.delete({
+        where: { id: channel },
+      });
+    }
+    res.status(200).json({ message: "Channel deleted successfully" });
+  } catch (err) {
+    return next(err);
+  }
+};
 
 // add/remove members from group channels if channel creator
 const membersPut = async (req, res, next) => {
@@ -207,6 +232,6 @@ module.exports = {
   channelsGet,
   channelDetailsGet,
   channelPut,
-  // channelDelete,
+  channelDelete,
   membersPut,
 };
