@@ -3,8 +3,6 @@
 // imports
 const { prisma } = require("../lib/prisma.js");
 
-// TO DO: figure out where channel editing (renaming) should go
-
 // create a channel (DM or group)
 const channelPost = async (req, res, next) => {
   try {
@@ -79,12 +77,24 @@ const channelPost = async (req, res, next) => {
   }
 };
 
-// fetch list of channels current user is in
+// fetch list of all channels user is in
 const channelsGet = async (req, res, next) => {
   try {
-    // users can only see channels they're in
-    // plus the default main chat they're added to by default
-    // when registering
+    const user = req.user.id;
+
+    const channels = await prisma.channel.findMany({
+      where: {
+        users: { some: { id: user } },
+      },
+    });
+
+    if (channels.length === 0) {
+      // if no channels found
+      return res.status(400).json({ error: "No channels found" });
+    } else {
+      // display channels
+      res.status(200).json({ channels });
+    }
   } catch (err) {
     return next(err);
   }
@@ -111,5 +121,6 @@ const membersPut = async (req, res, next) => {
 };
 
 module.exports = {
-  channelPost /* , channelsGet, channelDetailsGet, membersPut */,
+  channelPost,
+  channelsGet /* , channelDetailsGet, membersPut */,
 };
