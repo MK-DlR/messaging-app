@@ -21,12 +21,22 @@ router.get(
 );
 
 // update channel name
-// router.put("/manage/:id", authJWT, lastSeen, channelsController.channelPut);
+router.put(
+  "/manage/:id/rename",
+  authJWT,
+  lastSeen,
+  channelsController.channelPut,
+);
 
 // delete channel
-// router.delete("/manage/:id", authJWT, lastSeen, channelsController.channelDelete);
+// router.delete("/delete/:id", authJWT, lastSeen, channelsController.channelDelete);
 
 // add/remove members from group channels if channel creator
-router.put("/manage/:id", authJWT, lastSeen, channelsController.membersPut);
+router.put(
+  "/manage/:id/members",
+  authJWT,
+  lastSeen,
+  channelsController.membersPut,
+);
 
 module.exports = router;

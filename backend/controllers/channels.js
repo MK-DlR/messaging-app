@@ -3,6 +3,20 @@
 // imports
 const { prisma } = require("../lib/prisma.js");
 
+// find specific channel and check permissions
+const findChannelAsCreator = async (channelId, creatorId) => {
+  // check channel and permissions
+  const selectedChannel = await prisma.channel.findFirst({
+    where: {
+      id: channelId,
+      isGroup: true,
+      creatorId: creatorId,
+    },
+  });
+
+  return selectedChannel;
+};
+
 // create a channel (DM or group)
 const channelPost = async (req, res, next) => {
   try {
@@ -130,6 +144,29 @@ const channelDetailsGet = async (req, res, next) => {
 };
 
 // update channel name
+const channelPut = async (req, res, next) => {
+  try {
+    const { name } = req.body;
+    const creator = req.user.id;
+    const channel = parseInt(req.params.id);
+
+    // check channel and permissions
+    const selectedChannel = await findChannelAsCreator(channel, creator);
+
+    if (!selectedChannel) {
+      return res.status(404).json({ error: "Channel not found" });
+    } else {
+      // action logic for editing channel name
+      await prisma.channel.update({
+        where: { id: channel },
+        data: { name: name },
+      });
+      res.status(200).json({ message: "Channel name updated successfully" });
+    }
+  } catch (err) {
+    return next(err);
+  }
+};
 
 // delete channel
 
@@ -141,13 +178,7 @@ const membersPut = async (req, res, next) => {
     const channel = parseInt(req.params.id);
 
     // check channel and permissions
-    const selectedChannel = await prisma.channel.findFirst({
-      where: {
-        id: channel,
-        isGroup: true,
-        creatorId: creator,
-      },
-    });
+    const selectedChannel = await findChannelAsCreator(channel, creator);
 
     if (!selectedChannel) {
       return res.status(404).json({ error: "Channel not found" });
@@ -175,7 +206,7 @@ module.exports = {
   channelPost,
   channelsGet,
   channelDetailsGet,
-  // channelPut,
+  channelPut,
   // channelDelete,
   membersPut,
 };
