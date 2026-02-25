@@ -105,6 +105,7 @@ const channelDetailsGet = async (req, res, next) => {
   try {
     const id = parseInt(req.params.id);
 
+    // find channel details
     const channelDetails = await prisma.channel.findFirst({
       where: {
         id: id,
@@ -128,10 +129,43 @@ const channelDetailsGet = async (req, res, next) => {
   }
 };
 
-// add/remove members from group chats
+// update channel name
+
+// delete channel
+
+// add/remove members from group channels if channel creator
 const membersPut = async (req, res, next) => {
   try {
-    // only group channel creator can add/remove members
+    const { userId, action } = req.body;
+    const creator = req.user.id;
+    const channel = parseInt(req.params.id);
+
+    // check channel and permissions
+    const selectedChannel = await prisma.channel.findFirst({
+      where: {
+        id: channel,
+        isGroup: true,
+        creatorId: creator,
+      },
+    });
+
+    if (!selectedChannel) {
+      return res.status(404).json({ error: "Channel not found" });
+    } else {
+      // action logic for adding or removing member
+      if (action === "add") {
+        await prisma.channel.update({
+          where: { id: channel },
+          data: { users: { connect: { id: userId } } },
+        });
+      } else if (action === "remove") {
+        await prisma.channel.update({
+          where: { id: channel },
+          data: { users: { disconnect: { id: userId } } },
+        });
+      }
+      res.status(200).json({ message: "Member updated successfully" });
+    }
   } catch (err) {
     return next(err);
   }
@@ -140,5 +174,8 @@ const membersPut = async (req, res, next) => {
 module.exports = {
   channelPost,
   channelsGet,
-  channelDetailsGet /*, membersPut */,
+  channelDetailsGet,
+  // channelPut,
+  // channelDelete,
+  membersPut,
 };

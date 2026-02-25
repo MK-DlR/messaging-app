@@ -20,7 +20,13 @@ router.get(
   channelsController.channelDetailsGet,
 );
 
-// add/remove members from group chats
-// router.put("/manage/:id", authJWT, lastSeen, channelsController.membersPut);
+// update channel name
+// router.put("/manage/:id", authJWT, lastSeen, channelsController.channelPut);
+
+// delete channel
+// router.delete("/manage/:id", authJWT, lastSeen, channelsController.channelDelete);
+
+// add/remove members from group channels if channel creator
+router.put("/manage/:id", authJWT, lastSeen, channelsController.membersPut);
 
 module.exports = router;
