@@ -41,7 +41,7 @@ model Channel {
   creatorId Int?
   creator   User?     @relation("ChannelCreator", fields: [creatorId], references: [id])
   isGroup   Boolean   @default(false)
-  isDefault Boolean   @unique @default(false)
+  isDefault Boolean   @default(false)
   users     User[]
   messages  Message[]
 
