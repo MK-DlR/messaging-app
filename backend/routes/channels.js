@@ -13,14 +13,12 @@ router.post("/new-channel", authJWT, lastSeen, channelsController.channelPost);
 router.get("/all-channels", authJWT, lastSeen, channelsController.channelsGet);
 
 // fetch single channel's details (name, type, members, created date, etc)
-/*
 router.get(
   "/details/:id",
   authJWT,
   lastSeen,
   channelsController.channelDetailsGet,
 );
-*/
 
 // add/remove members from group chats
 // router.put("/manage/:id", authJWT, lastSeen, channelsController.membersPut);

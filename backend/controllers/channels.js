@@ -103,9 +103,26 @@ const channelsGet = async (req, res, next) => {
 // fetch single channel's details (name, type, members, created date, etc)
 const channelDetailsGet = async (req, res, next) => {
   try {
-    // users can only get details of channels they're in
-    // which should be the only channels they can see
-    // based on channelsGet
+    const id = parseInt(req.params.id);
+
+    const channelDetails = await prisma.channel.findFirst({
+      where: {
+        id: id,
+        users: { some: { id: req.user.id } },
+      },
+      include: {
+        users: {
+          select: { username: true, displayName: true, icon: true },
+        },
+      },
+    });
+
+    if (!channelDetails) {
+      return res.status(404).json({ error: "Channel not found" });
+    } else {
+      // display channel details
+      res.status(200).json({ channelDetails });
+    }
   } catch (err) {
     return next(err);
   }
@@ -122,5 +139,6 @@ const membersPut = async (req, res, next) => {
 
 module.exports = {
   channelPost,
-  channelsGet /* , channelDetailsGet, membersPut */,
+  channelsGet,
+  channelDetailsGet /*, membersPut */,
 };
