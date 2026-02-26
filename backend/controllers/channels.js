@@ -60,6 +60,7 @@ const channelPost = async (req, res, next) => {
       // create channelData
       channelData = {
         isGroup: false,
+        isCustomName: !!name,
         name: name || channelName,
         creatorId,
         users: { connect: [{ id: creatorId }, { id: userIds[0] }] },
@@ -73,6 +74,7 @@ const channelPost = async (req, res, next) => {
       // create channelData
       channelData = {
         isGroup: true,
+        isCustomName: !!name,
         name: name || channelName,
         creatorId,
         users: {
