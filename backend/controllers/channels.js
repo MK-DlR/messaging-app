@@ -210,6 +210,32 @@ const channelDelete = async (req, res, next) => {
   }
 };
 
+// leave channel
+const channelLeave = async (req, res, next) => {
+  try {
+    const channel = parseInt(req.params.id);
+
+    // check if user is in channel
+    const member = await prisma.channel.findFirst({
+      where: { id: channel, users: { some: { id: req.user.id } } },
+    });
+
+    // if in channel, leave channel
+    if (member) {
+      await prisma.channel.update({
+        where: { id: channel },
+        data: { users: { disconnect: { id: req.user.id } } },
+      });
+      res.status(200).json({ message: "Channel left successfully" });
+    } else {
+      // if not in channel, return 404
+      res.status(404).json({ message: "Channel not found" });
+    }
+  } catch (err) {
+    return next(err);
+  }
+};
+
 // add/remove members from group channels if channel creator
 const membersPut = async (req, res, next) => {
   try {
@@ -273,5 +299,6 @@ module.exports = {
   channelDetailsGet,
   channelPut,
   channelDelete,
+  channelLeave,
   membersPut,
 };

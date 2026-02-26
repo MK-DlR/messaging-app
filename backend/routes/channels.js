@@ -36,6 +36,9 @@ router.delete(
   channelsController.channelDelete,
 );
 
+// leave channel
+router.delete("/leave/:id", authJWT, lastSeen, channelsController.channelLeave);
+
 // add/remove members from group channels if channel creator
 router.put(
   "/manage/:id/members",
