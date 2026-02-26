@@ -18,7 +18,7 @@ router.get(
 );
 
 // editing (own) messages
-// router.put("/edit/:id", authJWT, lastSeen, messagesController.messagePut);
+router.put("/edit/:id", authJWT, lastSeen, messagesController.messagePut);
 
 // deleting (own) messages
 // router.delete("/delete/:id", authJWT, lastSeen, messagesController.messageDelete);

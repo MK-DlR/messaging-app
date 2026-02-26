@@ -55,7 +55,34 @@ const messagesGet = async (req, res, next) => {
 // editing (own) messages
 const messagePut = async (req, res, next) => {
   try {
-    // code
+    const { body } = req.body;
+    const messageId = parseInt(req.params.id);
+    const user = req.user.id;
+
+    // fetch message to get channelId
+    const message = await prisma.message.findUnique({
+      where: { id: messageId },
+    });
+
+    // check if user is in channel
+    const member = await memberCheck(message.channelId, user);
+
+    if (!member) {
+      // if not in channel, return 403
+      return res.status(403).json({ message: "Channel not found" });
+    } else {
+      // if in channel, check if author of message
+      if (message.userId === user) {
+        const editedMessage = await prisma.message.update({
+          where: { id: messageId },
+          data: { body },
+        });
+        res.status(200).json({ message: "Message successfully edited" });
+      } else {
+        // if not message author, return 403
+        return res.status(403).json({ message: "Invalid credentials" });
+      }
+    }
   } catch (err) {
     return next(err);
   }
@@ -73,6 +100,6 @@ const messageDelete = async (req, res, next) => {
 module.exports = {
   messagePost,
   messagesGet,
-  // messagePut,
+  messagePut,
   // messageDelete
 };
