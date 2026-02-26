@@ -35,15 +35,16 @@ model Message {
 }
 
 model Channel {
-  id        Int       @id @default(autoincrement())
-  name      String?
-  createdAt DateTime  @default(now())
-  creatorId Int?
-  creator   User?     @relation("ChannelCreator", fields: [creatorId], references: [id])
-  isGroup   Boolean   @default(false)
-  isDefault Boolean   @default(false)
-  users     User[]
-  messages  Message[]
+  id           Int       @id @default(autoincrement())
+  name         String?
+  isCustomName Boolean   @default(false)
+  createdAt    DateTime  @default(now())
+  creatorId    Int?
+  creator      User?     @relation("ChannelCreator", fields: [creatorId], references: [id])
+  isGroup      Boolean   @default(false)
+  isDefault    Boolean   @default(false)
+  users        User[]
+  messages     Message[]
 
   @@map("channels")
 }
