@@ -3,13 +3,26 @@
 // imports
 const { prisma } = require("../lib/prisma.js");
 
-// find specific channel and check permissions
+// find specific group channel and check permissions
 const findChannelAsCreator = async (channelId, creatorId) => {
   // check channel and permissions
   const selectedChannel = await prisma.channel.findFirst({
     where: {
       id: channelId,
       isGroup: true,
+      creatorId: creatorId,
+    },
+  });
+
+  return selectedChannel;
+};
+
+// find specific dm channel and check permissions
+const findChannelAsCreatorAny = async (channelId, creatorId) => {
+  // check channel and permissions
+  const selectedChannel = await prisma.channel.findFirst({
+    where: {
+      id: channelId,
       creatorId: creatorId,
     },
   });
@@ -205,17 +218,26 @@ const membersPut = async (req, res, next) => {
     const channel = parseInt(req.params.id);
 
     // check channel and permissions
-    const selectedChannel = await findChannelAsCreator(channel, creator);
+    const selectedChannel = await findChannelAsCreatorAny(channel, creator);
 
     if (!selectedChannel) {
       return res.status(404).json({ error: "Channel not found" });
     } else {
       // action logic for adding or removing member
       if (action === "add") {
-        await prisma.channel.update({
-          where: { id: channel },
-          data: { users: { connect: { id: userId } } },
-        });
+        // if channel is dm
+        if (selectedChannel.isGroup === false) {
+          await prisma.channel.update({
+            where: { id: channel },
+            data: { isGroup: true, users: { connect: { id: userId } } },
+          });
+        } else {
+          // if channel is already a group
+          await prisma.channel.update({
+            where: { id: channel },
+            data: { users: { connect: { id: userId } } },
+          });
+        }
       } else if (action === "remove") {
         await prisma.channel.update({
           where: { id: channel },
