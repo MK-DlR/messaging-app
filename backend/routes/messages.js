@@ -10,7 +10,12 @@ const { lastSeen } = require("../middleware/lastSeen.js");
 router.post("/new-message", authJWT, lastSeen, messagesController.messagePost);
 
 // fetch messages within channel
-// router.get("/all-messages/:channelId", authJWT, lastSeen, messagesController.messagesGet);
+router.get(
+  "/all-messages/:channelId",
+  authJWT,
+  lastSeen,
+  messagesController.messagesGet,
+);
 
 // editing (own) messages
 // router.put("/edit/:id", authJWT, lastSeen, messagesController.messagePut);

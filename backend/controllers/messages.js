@@ -31,7 +31,22 @@ const messagePost = async (req, res, next) => {
 // fetch messages within channel
 const messagesGet = async (req, res, next) => {
   try {
-    // code
+    const channelId = parseInt(req.params.channelId);
+    const user = req.user.id;
+
+    // check if user is in channel
+    const member = await memberCheck(channelId, user);
+
+    if (!member) {
+      // if not in channel, return 403
+      return res.status(403).json({ message: "Channel not found" });
+    } else {
+      // if in channel, fetch messages
+      const allMessages = await prisma.message.findMany({
+        where: { channelId: channelId },
+      });
+      res.status(200).json({ messages: allMessages });
+    }
   } catch (err) {
     return next(err);
   }
@@ -57,7 +72,7 @@ const messageDelete = async (req, res, next) => {
 
 module.exports = {
   messagePost,
-  // messagesGet,
+  messagesGet,
   // messagePut,
   // messageDelete
 };
