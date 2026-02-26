@@ -222,6 +222,22 @@ const membersPut = async (req, res, next) => {
           data: { users: { disconnect: { id: userId } } },
         });
       }
+      if (selectedChannel.isCustomName === false) {
+        // fetch channel with users after add/remove action
+        const updatedChannel = await prisma.channel.findUnique({
+          where: { id: channel },
+          include: { users: true },
+        });
+
+        // recalculate name from number of participant users
+        let newName = `Group Chat (${updatedChannel.users.length})`;
+
+        // set new channel name
+        await prisma.channel.update({
+          where: { id: channel },
+          data: { name: newName },
+        });
+      }
       res.status(200).json({ message: "Member updated successfully" });
     }
   } catch (err) {
