@@ -21,6 +21,11 @@ router.get(
 router.put("/edit/:id", authJWT, lastSeen, messagesController.messagePut);
 
 // deleting (own) messages
-// router.delete("/delete/:id", authJWT, lastSeen, messagesController.messageDelete);
+router.delete(
+  "/delete/:id",
+  authJWT,
+  lastSeen,
+  messagesController.messageDelete,
+);
 
 module.exports = router;
