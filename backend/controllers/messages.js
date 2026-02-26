@@ -7,7 +7,8 @@ const { memberCheck } = require("../helpers/memberCheck.js");
 // create a message
 const messagePost = async (req, res, next) => {
   try {
-    const { channelId, body } = req.body;
+    const { body } = req.body;
+    const channelId = parseInt(req.body.channelId);
     const user = req.user.id;
 
     // check if user is in channel
