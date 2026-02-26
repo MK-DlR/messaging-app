@@ -2,15 +2,62 @@
 
 // imports
 const { prisma } = require("../lib/prisma.js");
+const { memberCheck } = require("../helpers/memberCheck.js");
 
-// send messages
+// create a message
+const messagePost = async (req, res, next) => {
+  try {
+    const { channelId, body } = req.body;
+    const user = req.user.id;
+
+    // check if user is in channel
+    const member = await memberCheck(channelId, user);
+
+    if (!member) {
+      // if not in channel, return 403
+      return res.status(403).json({ message: "Channel not found" });
+    } else {
+      // if in channel, send message
+      const message = await prisma.message.create({
+        data: { channelId: channelId, userId: user, body: body },
+      });
+      res.status(200).json({ message: "Message created successfully" });
+    }
+  } catch (err) {
+    return next(err);
+  }
+};
 
 // fetch messages within channel
+const messagesGet = async (req, res, next) => {
+  try {
+    // code
+  } catch (err) {
+    return next(err);
+  }
+};
 
 // editing (own) messages
+const messagePut = async (req, res, next) => {
+  try {
+    // code
+  } catch (err) {
+    return next(err);
+  }
+};
 
 // deleting (own) messages
+const messageDelete = async (req, res, next) => {
+  try {
+    // code
+  } catch (err) {
+    return next(err);
+  }
+};
 
 module.exports = {
-  /* functions */
+  messagePost,
+  // messagesGet,
+  // messagePut,
+  // messageDelete
 };

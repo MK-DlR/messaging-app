@@ -2,6 +2,7 @@
 
 // imports
 const { prisma } = require("../lib/prisma.js");
+const { memberCheck } = require("../helpers/memberCheck.js");
 
 // find specific group channel and check permissions
 const findChannelAsCreator = async (channelId, creatorId) => {
@@ -216,9 +217,7 @@ const channelLeave = async (req, res, next) => {
     const channel = parseInt(req.params.id);
 
     // check if user is in channel
-    const member = await prisma.channel.findFirst({
-      where: { id: channel, users: { some: { id: req.user.id } } },
-    });
+    const member = await memberCheck(channel, req.user.id);
 
     // if in channel, leave channel
     if (member) {

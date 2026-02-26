@@ -7,7 +7,7 @@ const { authJWT } = require("../middleware/auth.js");
 const { lastSeen } = require("../middleware/lastSeen.js");
 
 // create a message
-// router.post("/new-message", authJWT, lastSeen, messagesController.messagePost);
+router.post("/new-message", authJWT, lastSeen, messagesController.messagePost);
 
 // fetch messages within channel
 // router.get("/all-messages/:channelId", authJWT, lastSeen, messagesController.messagesGet);
