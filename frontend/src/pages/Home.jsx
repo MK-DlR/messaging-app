@@ -12,7 +12,21 @@ function Home() {
     const [mainPanelView, setMainPanelView] = useState("");
     const [selectedUser, setSelectedUser] = useState("");
 
-    console.log("Home page")
+    // fetch and store current user's data
+    useEffect(() => {
+        async function getData() {
+        // fetch current user's data
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/users/me`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+        
+        const data = await response.json();
+        setCurrentUser(data.userData);
+        }
+        getData();
+    }, []);
 
     return (
         <div className="panel-container">
