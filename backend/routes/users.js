@@ -12,6 +12,9 @@ router.post("/register", usersController.registerPost);
 // login
 router.post("/login", usersController.loginPost);
 
+// fetch and return current user's data
+router.get("/me", authJWT, lastSeen, usersController.profileGetMe);
+
 // view profiles
 router.get("/:username", usersController.profileGet);
 
