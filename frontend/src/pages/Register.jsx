@@ -37,13 +37,11 @@ function RegisterUser() {
                 // if successful registration, redirect to login
                 navigate("/login");
             }
-            // handle errors from backend:
-            // username already taken
         }
     }
 
     return (
-        <div className="register">
+        <div className="register form">
             <div>{error && <p>{error}</p>}</div>
             <form onSubmit={handleSubmit}>
                 <label>Username:
