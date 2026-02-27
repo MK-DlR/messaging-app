@@ -70,6 +70,7 @@ function RegisterUser() {
                 </label>
                 <button className="submit button" type="submit">Register</button>
             </form>
+            Already have an account? Login <a href="/login">here</a>.
         </div>
     )
 }
