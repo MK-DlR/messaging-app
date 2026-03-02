@@ -12,7 +12,7 @@ model User {
   username        String    @unique
   password        String
   displayName     String?
-  icon            String?
+  icon            String    @default("default-user.png")
   profileInfo     String?
   lastSeen        DateTime? @default(now())
   messages        Message[]
@@ -38,6 +38,7 @@ model Channel {
   id           Int       @id @default(autoincrement())
   name         String?
   isCustomName Boolean   @default(false)
+  icon         String    @default("default-channel.png")
   createdAt    DateTime  @default(now())
   creatorId    Int?
   creator      User?     @relation("ChannelCreator", fields: [creatorId], references: [id])
