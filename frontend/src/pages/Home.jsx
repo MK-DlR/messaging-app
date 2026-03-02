@@ -2,6 +2,7 @@
 
 // imports
 import { useState, useEffect } from "react";
+import apiFetch from "../helpers/apiFetch";
 import LeftPanel from "../components/LeftPanel";
 import MainPanel from "../components/MainPanel";
 import RightPanel from "../components/RightPanel";
@@ -16,11 +17,7 @@ function Home() {
     useEffect(() => {
         async function getData() {
         // fetch current user's data
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/users/me`, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`
-            }
-        })
+        const response = await apiFetch(`${import.meta.env.VITE_API_URL}/users/me`)
         
         const data = await response.json();
         setCurrentUser(data.userData);
