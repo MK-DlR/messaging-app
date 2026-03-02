@@ -25,8 +25,6 @@ function Home() {
         getData();
     }, []);
 
-    console.log(selectedChannel);
-
     return (
         <div className="panel-container">
             <LeftPanel 

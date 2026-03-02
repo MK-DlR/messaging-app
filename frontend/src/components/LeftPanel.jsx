@@ -26,6 +26,7 @@ function LeftPanel( {selectedChannel, setSelectedChannel, mainPanelView, setMain
             onClick={() => {
                 setSelectedChannel(channel);
                 setMainPanelView("messages");
+                console.log(channel.name);
             }}
             className="channel"
         >{channel.name}</div>
