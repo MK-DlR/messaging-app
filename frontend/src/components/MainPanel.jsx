@@ -2,7 +2,7 @@
 
 function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedChannel, mainPanelView, setMainPanelView, selectedUser, setSelectedUser } ) {
     return (
-        <div>main panel</div>
+        <div>(main panel)</div>
     )
 }
 

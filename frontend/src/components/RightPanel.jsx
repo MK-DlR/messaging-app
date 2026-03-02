@@ -2,7 +2,7 @@
 
 function RightPanel( { currentUser, setCurrentUser, mainPanelView, setMainPanelView, selectedUser, setSelectedUser } ) {
     return (
-        <div>right panel</div>
+        <div>(right panel)</div>
     )
 }
 

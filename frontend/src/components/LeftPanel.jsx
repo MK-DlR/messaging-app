@@ -36,7 +36,7 @@ function LeftPanel( {/* selectedChannel, */ setSelectedChannel, /* mainPanelView
     
     return (
         <div>
-            left panel
+            (left panel)
             {displayChannels}
         </div>
     )
