@@ -4,7 +4,7 @@
 import { useState, useEffect } from "react";
 import apiFetch from "../helpers/apiFetch";
 
-function LeftPanel( {selectedChannel, setSelectedChannel, mainPanelView, setMainPanelView } ) {
+function LeftPanel( {/* selectedChannel, */ setSelectedChannel, /* mainPanelView, */ setMainPanelView } ) {
     const [channels, setChannels] = useState([]);
     
     // fetch and store channels list
@@ -29,8 +29,9 @@ function LeftPanel( {selectedChannel, setSelectedChannel, mainPanelView, setMain
                 console.log(channel.name);
             }}
             className="channel"
-        >{channel.name}</div>
-        // TO DO: display channel icon (once schema is updated for icons)
+        >
+            <img className="channel-icon icon" src={`/icons/${channel.icon}`}></img> {channel.name}
+        </div>
     );
     
     return (
