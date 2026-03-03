@@ -91,24 +91,14 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                 {userProfile.username}
                 {userProfile.profileInfo}
                 Last seen: {formatDate(userProfile.lastSeen)}
-                {/* TO DO: add functionality for creating a dm with user */}
-                <button 
-                    className="submit button" 
-                    type="submit" 
-                    onClick={() => {
-                        console.log("TO DO: create new dm with user");
-                    }}
-                >
-                    Send Message
-                </button>
-                <button
-                    className="cancel button"
-                    onClick={() => {
-                        setMainPanelView("messages");
-                    }}
-                >
-                    Close
-                </button>
+                <i 
+                    className="fa-regular fa-envelope message-icon"
+                    onClick={() => {setMainPanelView("createChannel")}}
+                />
+                <i 
+                    className="fa-solid fa-x exit-icon" 
+                    onClick={() => setMainPanelView("messages")}
+                />
             </div>
         }
     } else if (mainPanelView === "createChannel") {

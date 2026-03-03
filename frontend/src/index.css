@@ -5,6 +5,23 @@
   margin: 0;
 }
 
+/* shared icon styles */
 .icon {
   width: 25px;
+}
+
+.exit-icon, .message-icon {
+  cursor: pointer;
+}
+
+.exit-icon:hover, .message-icon:hover {
+  transition-duration: 0.4s;
+}
+
+.exit-icon:hover {
+  color: red !important;
+}
+
+.message-icon:hover {
+  color: green !important;
 }
