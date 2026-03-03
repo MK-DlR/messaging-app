@@ -34,23 +34,31 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                 className="message"
                 // TO DO: if message author
                 // hovering shows edit and delete button
-
-                // TO DO: clicking on user info
-                // (username/display name and/or icon)
-                // opens user's profile
             >
-                <img className="user-icon icon" src={`/icons/${message.users.icon}`}></img> 
-                {message.users.displayName || message.users.username} 
+                <div
+                    // clicking on user's name and/or icon opens user's profile
+                    onClick={() => {
+                        setSelectedUser(message.users);
+                        setMainPanelView("user-profile");
+                        console.log(message.users.username);
+                    }}
+                >
+                    <img className="user-icon icon" src={`/icons/${message.users.icon}`}></img> 
+                    {message.users.displayName || message.users.username} 
+                </div>
                 {formatDate(message.createdAt)}<br />
                 {message.body}
             </div>
         )
+    } else if (mainPanelView === "user-profile") {
+        content = <div>user profile info here</div>
     } else {
         content = <div>Select a channel...</div>;
     }
     
     return (
-        <div>(main panel)
+        <div>
+            (main panel)
             {content}
         </div>
     )
