@@ -125,6 +125,18 @@ const profileGetMe = async (req, res, next) => {
   }
 };
 
+// get all users
+const usersGet = async (req, res, next) => {
+  try {
+    const allUsers = await prisma.user.findMany({
+      select: { username: true, displayName: true, icon: true, lastSeen: true },
+    });
+    res.status(200).json({ users: allUsers });
+  } catch (err) {
+    return next(err);
+  }
+};
+
 // viewing profiles
 const profileGet = async (req, res, next) => {
   try {
@@ -186,6 +198,7 @@ module.exports = {
   registerPost,
   loginPost,
   profileGetMe,
+  usersGet,
   profileGet,
   profilePut,
 };

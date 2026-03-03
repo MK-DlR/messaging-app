@@ -145,7 +145,6 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
     
     return (
         <div>
-            (main panel)
             {title}
             {content}
         </div>

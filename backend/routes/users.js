@@ -15,6 +15,9 @@ router.post("/login", usersController.loginPost);
 // fetch and return current user's data
 router.get("/me", authJWT, lastSeen, usersController.profileGetMe);
 
+// get all users
+router.get("/all-users", usersController.usersGet);
+
 // view profiles
 router.get("/:username", usersController.profileGet);
 
