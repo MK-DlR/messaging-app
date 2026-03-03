@@ -3,6 +3,7 @@
 // imports
 import { useState, useEffect } from "react";
 import apiFetch from "../helpers/apiFetch";
+import formatDate from "../helpers/formatDate";
 
 // conditionally render different content based on mainPanelView
 function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedChannel, mainPanelView, setMainPanelView, selectedUser, setSelectedUser } ) {
@@ -35,7 +36,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                 // hovering shows edit and delete button
             >
                 {message.userId} {/* TO DO: format userId to display name */}
-                {message.createdAt} {/* TO DO: format into H:MM AM/PM */}
+                {formatDate(message.createdAt)} {/* TO DO: format into H:MM AM/PM */}<br />
                 {message.body}
             </div>
         )
