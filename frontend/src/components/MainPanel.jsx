@@ -52,7 +52,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
     switch (mainPanelView) {
         case "messages": // display channel's messages
             title =
-                <div className="channel-header header">
+                <div className="header">
                     <h2>{selectedChannel.name}</h2>
                     <i 
                         className="fa-solid fa-circle-info details-icon"
@@ -75,7 +75,6 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                             clickTimer.current = setTimeout(() => {
                                 setSelectedUser(message.users);
                                 setMainPanelView("userProfile");
-                                console.log(message.users.username);
                             }, 250)
                         }}
                         // double clicking on user's name and/or icon creates DM
@@ -94,7 +93,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
             break;
         case "channelDetails": // display channel's details
             title =
-                <div className="channel-header header">
+                <div className="header">
                     <h2>{selectedChannel.name} Details</h2>
                 </div>
                 
@@ -105,7 +104,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                 content = <div>Loading...</div>
             } else {
                 title =
-                <div className="channel-header header">
+                <div className="header">
                     <h2>{userProfile.displayName} Details</h2>
                 </div>
                 
@@ -129,7 +128,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
             break;
         case "createChannel": // display create new channel
             title =
-                <div className="channel-header header">
+                <div className="header">
                     <h2>Create New Channel</h2>
                 </div>
 
@@ -137,7 +136,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
             break;
         default:
             title =
-                <div className="channel-header header">
+                <div className="header">
                     <h2>Select A Channel</h2>
                 </div>
 

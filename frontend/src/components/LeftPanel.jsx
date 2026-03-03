@@ -13,7 +13,6 @@ function LeftPanel( {selectedChannel, setSelectedChannel, channels, setChannels,
             onClick={() => {
                 setSelectedChannel(channel);
                 setMainPanelView("messages");
-                console.log(channel.name);
             }}
             className="channel"
         >
@@ -23,7 +22,7 @@ function LeftPanel( {selectedChannel, setSelectedChannel, channels, setChannels,
     
     return (
         <div>
-            (left panel)
+            <h2 className="header">All Channels</h2>
             {displayChannels}
         </div>
     )
