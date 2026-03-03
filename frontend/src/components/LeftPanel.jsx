@@ -4,17 +4,18 @@
 import { useState, useEffect } from "react";
 import apiFetch from "../helpers/apiFetch";
 
-function LeftPanel( {/* selectedChannel, */ setSelectedChannel, /* mainPanelView, */ setMainPanelView } ) {
+// display all channels that user is in
+function LeftPanel( {selectedChannel, setSelectedChannel, mainPanelView, setMainPanelView } ) {
     const [channels, setChannels] = useState([]);
     
     // fetch and store channels list
     useEffect(() => {
         async function getData() {
-        // fetch all channels
-        const response = await apiFetch(`${import.meta.env.VITE_API_URL}/channels/all-channels`)
-        
-        const data = await response.json();
-        setChannels(data.channels);
+            // fetch all channels
+            const response = await apiFetch(`${import.meta.env.VITE_API_URL}/channels/all-channels`)
+            
+            const data = await response.json();
+            setChannels(data.channels);
         }
         getData();
     }, []);
