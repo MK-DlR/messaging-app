@@ -36,7 +36,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                 // hovering shows edit and delete button
             >
                 {message.userId} {/* TO DO: format userId to display name */}
-                {formatDate(message.createdAt)} {/* TO DO: format into H:MM AM/PM */}<br />
+                {formatDate(message.createdAt)}<br />
                 {message.body}
             </div>
         )
