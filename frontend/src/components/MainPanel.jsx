@@ -45,9 +45,22 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
         getData();
     }, [selectedUser]);
     
-    // determine if a channel is selected
+    let title;
     let content;
-    if (mainPanelView === "messages") {        
+
+    // determine if a channel is selected
+    if (mainPanelView === "messages") {       
+        // display channel name and details button
+        title =
+            <div className="channel-header header">
+                <h2>{selectedChannel.name}</h2>
+
+                <i 
+                    className="fa-solid fa-circle-info details-icon"
+                    onClick={() => {setMainPanelView("channelDetails")}}
+                />
+            </div>
+
         // map over and display messages
         content = messages.map(message =>
             <div
@@ -80,6 +93,8 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                 {message.body}
             </div>
         )
+    } else if (mainPanelView === "channelDetails") {
+        // thing
     } else if (mainPanelView === "userProfile") {
         if (!userProfile) {
             content = <div>Loading...</div>
@@ -110,6 +125,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
     return (
         <div>
             (main panel)
+            {title}
             {content}
         </div>
     )

@@ -5,16 +5,20 @@
   margin: 0;
 }
 
+.channel-header {
+  display: flex;
+}
+
 /* shared icon styles */
 .icon {
   width: 25px;
 }
 
-.exit-icon, .message-icon {
+.exit-icon, .message-icon, .details-icon {
   cursor: pointer;
 }
 
-.exit-icon:hover, .message-icon:hover {
+.exit-icon:hover, .message-icon:hover, .details-icon:hover {
   transition-duration: 0.4s;
 }
 
@@ -24,4 +28,8 @@
 
 .message-icon:hover {
   color: green !important;
+}
+
+.details-icon:hover {
+  color: gray !important;
 }
