@@ -1,14 +1,19 @@
 // frontend/src/components/MainPanel.jsx
 
 // imports
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import apiFetch from "../helpers/apiFetch";
 import formatDate from "../helpers/formatDate";
 
 // conditionally render different content based on mainPanelView
 function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedChannel, mainPanelView, setMainPanelView, selectedUser, setSelectedUser } ) {
     const [messages, setMessages] = useState([]);
+    const [userProfile, setUserProfile] = useState(null);
+
+    // set up timeout
+    const clickTimer = useRef(null);
     
+    // fetch all messages in selected channel
     useEffect(() => {
         async function getData() {
             if (!selectedChannel) {
@@ -23,10 +28,26 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
         }
         getData();
     }, [selectedChannel]);
+
+    // fetch user profile info
+    useEffect(() => {
+        async function getData() {
+            if (!selectedUser) {
+                return;
+            }
+
+            // fetch user's info
+            const response = await apiFetch(`${import.meta.env.VITE_API_URL}/users/${selectedUser.username}`)
+            
+            const data = await response.json();
+            setUserProfile(data.result);
+        }
+        getData();
+    }, [selectedUser]);
     
     // determine if a channel is selected
     let content;
-    if (mainPanelView === "messages") {
+    if (mainPanelView === "messages") {        
         // map over and display messages
         content = messages.map(message =>
             <div
@@ -38,20 +59,52 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                 <div
                     // clicking on user's name and/or icon opens user's profile
                     onClick={() => {
-                        setSelectedUser(message.users);
-                        setMainPanelView("user-profile");
-                        console.log(message.users.username);
+                        clearTimeout(clickTimer.current);
+                        clickTimer.current = setTimeout(() => {
+                            setSelectedUser(message.users);
+                            setMainPanelView("userProfile");
+                            console.log(message.users.username);
+                        }, 250)
                     }}
+                    // double clicking on user's name and/or icon creates DM
+                    onDoubleClick={() => {
+                        clearTimeout(clickTimer.current);
+                        setMainPanelView("createChannel");
+                        console.log("TO DO: create new dm with user");}
+                    }
                 >
-                    <img className="user-icon icon" src={`/icons/${message.users.icon}`}></img> 
+                    <img className="message-icon icon" src={`/icons/${message.users.icon}`}></img> 
                     {message.users.displayName || message.users.username} 
                 </div>
                 {formatDate(message.createdAt)}<br />
                 {message.body}
             </div>
         )
-    } else if (mainPanelView === "user-profile") {
-        content = <div>user profile info here</div>
+    } else if (mainPanelView === "userProfile") {
+        if (!userProfile) {
+            content = <div>Loading...</div>
+        } else {
+            content = 
+            <div className="user-profile">
+                <img className="profile-icon icon" src={`/icons/${userProfile.icon}`}></img>
+                {userProfile.displayName}
+                {userProfile.username}
+                {userProfile.profileInfo}
+                Last seen: {formatDate(userProfile.lastSeen)}
+                {/* TO DO: add functionality for creating a dm with user */}
+                <button 
+                    className="submit button" 
+                    type="submit" 
+                    onClick={() => {
+                        console.log("TO DO: create new dm with user");
+                    }}
+                >
+                    Send Message
+                </button>
+            </div>
+        }
+    } else if (mainPanelView === "createChannel") {
+        content = <div>New DM...</div>
     } else {
         content = <div>Select a channel...</div>;
     }
