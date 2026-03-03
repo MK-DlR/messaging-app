@@ -132,7 +132,12 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                     <h2>Create New Channel</h2>
                 </div>
 
-            content = <div>Create new DM/channel...</div>
+            content = <div>Create new DM/channel...
+                        <i 
+                            className="fa-solid fa-x exit-icon" 
+                            onClick={() => setMainPanelView("messages")}
+                        />
+            </div>
             break;
         default:
             title =
