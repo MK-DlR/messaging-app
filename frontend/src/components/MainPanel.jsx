@@ -101,6 +101,14 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                 >
                     Send Message
                 </button>
+                <button
+                    className="cancel button"
+                    onClick={() => {
+                        setMainPanelView("messages");
+                    }}
+                >
+                    Close
+                </button>
             </div>
         }
     } else if (mainPanelView === "createChannel") {
