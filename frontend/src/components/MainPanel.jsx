@@ -48,10 +48,9 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
     let title;
     let content;
 
-    // determine if a channel is selected
+    // determine which channel is selected
     switch (mainPanelView) {
-        case "messages":
-            // display channel name and details button
+        case "messages": // display channel's messages
             title =
                 <div className="channel-header header">
                     <h2>{selectedChannel.name}</h2>
@@ -83,7 +82,6 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         onDoubleClick={() => {
                             clearTimeout(clickTimer.current);
                             setMainPanelView("createChannel");
-                            console.log("TO DO: create new dm with user");
                         }}
                     >
                         <img className="message-icon icon" src={`/icons/${message.users.icon}`}></img> 
@@ -94,13 +92,23 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                 </div>
             )
             break;
-        case "channelDetails":
-            // thing
+        case "channelDetails": // display channel's details
+            title =
+                <div className="channel-header header">
+                    <h2>{selectedChannel.name} Details</h2>
+                </div>
+                
+            content = <div>Channel details...</div>
             break;
-        case "userProfile":
+        case "userProfile": // display user profile details
             if (!userProfile) {
                 content = <div>Loading...</div>
             } else {
+                title =
+                <div className="channel-header header">
+                    <h2>{userProfile.displayName} Details</h2>
+                </div>
+                
                 content = 
                 <div className="user-profile">
                     <img className="profile-icon icon" src={`/icons/${userProfile.icon}`}></img>
@@ -119,10 +127,20 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                 </div>
             }
             break;
-        case "createChannel":
-            content = <div>New DM...</div>
+        case "createChannel": // display create new channel
+            title =
+                <div className="channel-header header">
+                    <h2>Create New Channel</h2>
+                </div>
+
+            content = <div>Create new DM/channel...</div>
             break;
         default:
+            title =
+                <div className="channel-header header">
+                    <h2>Select A Channel</h2>
+                </div>
+
             content = <div>Select a channel...</div>;
     }
     

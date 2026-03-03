@@ -10,8 +10,26 @@ import RightPanel from "../components/RightPanel";
 function Home() {
     const [currentUser, setCurrentUser] = useState(null);
     const [selectedChannel, setSelectedChannel] = useState("");
+    const [channels, setChannels] = useState([]);
     const [mainPanelView, setMainPanelView] = useState("");
     const [selectedUser, setSelectedUser] = useState("");
+
+    // fetch and store channels list
+    useEffect(() => {
+        async function getData() {
+            // fetch all channels
+            const response = await apiFetch(`${import.meta.env.VITE_API_URL}/channels/all-channels`)
+            
+            const data = await response.json();
+            setChannels(data.channels);
+
+            // set default channel
+            const defaultChannel = data.channels.find(channel => channel.isDefault === true);
+            setSelectedChannel(defaultChannel);
+            setMainPanelView("messages");
+        }
+        getData();
+    }, []);
 
     // fetch and store current user's data
     useEffect(() => {
@@ -30,6 +48,8 @@ function Home() {
             <LeftPanel 
                 selectedChannel={selectedChannel}
                 setSelectedChannel={setSelectedChannel}
+                channels={channels}
+                setChannels={setChannels}
                 mainPanelView={mainPanelView}
                 setMainPanelView={setMainPanelView}
             />
@@ -54,12 +74,5 @@ function Home() {
         </div>
     )
 }
-
-// selectedChannel
-// which channel is open in the main panel
-// mainPanelView
-// what the main panel is showing (messages, channel details, user profile)
-// selectedUser
-// what user was double clicked (for profile view and/or editing)
 
 export default Home;
