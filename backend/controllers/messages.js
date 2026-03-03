@@ -45,6 +45,11 @@ const messagesGet = async (req, res, next) => {
       // if in channel, fetch messages
       const allMessages = await prisma.message.findMany({
         where: { channelId: channelId },
+        include: {
+          users: {
+            select: { username: true, displayName: true, icon: true },
+          },
+        },
       });
       res.status(200).json({ messages: allMessages });
     }

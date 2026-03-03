@@ -34,8 +34,13 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                 className="message"
                 // TO DO: if message author
                 // hovering shows edit and delete button
+
+                // TO DO: clicking on user info
+                // (username/display name and/or icon)
+                // opens user's profile
             >
-                {message.userId} {/* TO DO: format userId to display name */}
+                <img className="user-icon icon" src={`/icons/${message.users.icon}`}></img> 
+                {message.users.displayName || message.users.username} 
                 {formatDate(message.createdAt)}<br />
                 {message.body}
             </div>
