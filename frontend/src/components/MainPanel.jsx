@@ -97,7 +97,12 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                     <h2>{selectedChannel.name} Details</h2>
                 </div>
                 
-            content = <div>Channel details...</div>
+            content = <div>Channel details...
+                <i 
+                    className="fa-solid fa-x exit-icon" 
+                    onClick={() => setMainPanelView("messages")}
+                />
+            </div>
             break;
         case "userProfile": // display user profile details
             if (!userProfile) {

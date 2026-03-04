@@ -5,7 +5,7 @@
   margin: 0;
 }
 
-.channel-header {
+.header {
   display: flex;
 }
 
@@ -14,6 +14,7 @@
   width: 25px;
 }
 
+/* fontawesome icon styles */
 .exit-icon, .message-icon, .details-icon {
   cursor: pointer;
 }
@@ -32,4 +33,18 @@
 
 .details-icon:hover {
   color: gray !important;
+}
+
+/* online/offline status */
+div .colored-circle {
+  display: inline-block;
+  margin-left: -8px;
+  margin-right: 5px;
+  margin-bottom: -1px;
+  border-radius: 50%;
+  border-style: solid;
+  border-width: 0.5px;
+  border-color: black;
+  height: 7px;
+  width: 7px;
 }

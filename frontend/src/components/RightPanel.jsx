@@ -3,7 +3,8 @@
 // imports
 import { useState, useEffect, useRef } from "react";
 import apiFetch from "../helpers/apiFetch";
-
+import isOnline from "../helpers/isOnline";
+import StatusCircle from "./StatusCircle";
 
 function RightPanel( { currentUser, setCurrentUser, mainPanelView, setMainPanelView, selectedUser, setSelectedUser } ) {
     const [allUsers, setAllUsers] = useState([]);
@@ -42,7 +43,8 @@ function RightPanel( { currentUser, setCurrentUser, mainPanelView, setMainPanelV
             }}
         >
             <img className="user-icon icon" src={`/icons/${user.icon}`}></img> 
-                {user.displayName || user.username} 
+            <StatusCircle color={isOnline(user.lastSeen) ? "green" : "grey"} />
+            {user.displayName || user.username} 
             </div>
     );
     
