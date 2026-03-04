@@ -23,4 +23,7 @@ router.get("/:username", usersController.profileGet);
 // edit own profile
 router.put("/:username", authJWT, usersController.profilePut);
 
+// ping to update lastSeen status
+router.post("/ping", authJWT, usersController.pingServer);
+
 module.exports = router;

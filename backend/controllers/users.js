@@ -198,6 +198,21 @@ const profilePut = async (req, res, next) => {
   }
 };
 
+// ping to update lastSeen status
+const pingServer = async (req, res, next) => {
+  try {
+    // set lastSeen status
+    await prisma.user.update({
+      where: { id: req.user.id },
+      data: { lastSeen: new Date() },
+    });
+
+    res.status(200).json({ message: "pong" });
+  } catch (err) {
+    return next(err);
+  }
+};
+
 module.exports = {
   registerPost,
   loginPost,
@@ -205,4 +220,5 @@ module.exports = {
   usersGet,
   profileGet,
   profilePut,
+  pingServer,
 };
