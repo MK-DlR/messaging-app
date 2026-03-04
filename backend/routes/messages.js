@@ -4,28 +4,17 @@ const express = require("express");
 const router = express.Router();
 const messagesController = require("../controllers/messages.js");
 const { authJWT } = require("../middleware/auth.js");
-const { lastSeen } = require("../middleware/lastSeen.js");
 
 // create a message
-router.post("/new-message", authJWT, lastSeen, messagesController.messagePost);
+router.post("/new-message", authJWT, messagesController.messagePost);
 
 // fetch messages within channel
-router.get(
-  "/all-messages/:channelId",
-  authJWT,
-  lastSeen,
-  messagesController.messagesGet,
-);
+router.get("/all-messages/:channelId", authJWT, messagesController.messagesGet);
 
 // editing (own) messages
-router.put("/edit/:id", authJWT, lastSeen, messagesController.messagePut);
+router.put("/edit/:id", authJWT, messagesController.messagePut);
 
 // deleting (own) messages
-router.delete(
-  "/delete/:id",
-  authJWT,
-  lastSeen,
-  messagesController.messageDelete,
-);
+router.delete("/delete/:id", authJWT, messagesController.messageDelete);
 
 module.exports = router;

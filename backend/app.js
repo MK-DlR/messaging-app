@@ -7,6 +7,7 @@ const express = require("express");
 const path = require("path");
 const { prisma } = require("./lib/prisma");
 const cors = require("cors");
+const { lastSeen } = require("./middleware/lastSeen.js");
 
 // initialize app
 const app = express();
@@ -20,6 +21,7 @@ app.use(
     origin: process.env.FRONTEND_URL || "http://localhost:5173",
   }),
 );
+app.use(lastSeen);
 
 // routes
 // home route (before routers)
