@@ -32,6 +32,12 @@ const registerPost = async (req, res, next) => {
       data: { username, password: hashedPassword },
     });
 
+    // set lastSeen status
+    await prisma.user.update({
+      where: { id: newUser.id },
+      data: { lastSeen: new Date() },
+    });
+
     // find default channel
     const defaultChannel = await prisma.channel.findFirst({
       where: { isDefault: true },
@@ -64,27 +70,25 @@ const loginPost = async (req, res, next) => {
     });
     if (result) {
       // compare password
-      bcrypt.compare(
-        req.body.password,
-        result.password,
-        function (compareErr, isMatch) {
-          if (compareErr) {
-            next(compareErr);
-          }
-          if (isMatch) {
-            // password correct
-            const token = jwt.sign(
-              { id: result.id }, // payload
-              process.env.JWT_SECRET,
-              { expiresIn: process.env.JWT_EXPIRES_IN },
-            );
-            res.status(200).json({ token });
-          } else {
-            // password incorrect
-            return res.status(401).json({ error: "Invalid credentials" });
-          }
-        },
-      );
+      const isMatch = await bcrypt.compare(req.body.password, result.password);
+
+      // password correct
+      if (isMatch) {
+        // set lastSeen status
+        await prisma.user.update({
+          where: { id: result.id },
+          data: { lastSeen: new Date() },
+        });
+
+        const token = jwt.sign(
+          { id: result.id }, // payload
+          process.env.JWT_SECRET,
+          { expiresIn: process.env.JWT_EXPIRES_IN },
+        );
+        res.status(200).json({ token });
+      } else {
+        return res.status(401).json({ error: "Invalid credentials" });
+      }
     } else {
       // user not found
       return res.status(401).json({ error: "Invalid credentials" });
