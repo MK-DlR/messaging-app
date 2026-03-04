@@ -3,6 +3,7 @@
 // imports
 import { useState, useEffect, useRef } from "react";
 import apiFetch from "../helpers/apiFetch";
+import pingServer from "../helpers/pingServer";
 import formatDate from "../helpers/formatDate";
 
 // conditionally render different content based on mainPanelView
@@ -75,12 +76,14 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                             clickTimer.current = setTimeout(() => {
                                 setSelectedUser(message.users);
                                 setMainPanelView("userProfile");
-                            }, 250)
+                            }, 250);
+                            pingServer();
                         }}
                         // double clicking on user's name and/or icon creates DM
                         onDoubleClick={() => {
                             clearTimeout(clickTimer.current);
                             setMainPanelView("createChannel");
+                            pingServer();
                         }}
                     >
                         <img className="message-icon icon" src={`/icons/${message.users.icon}`}></img> 
@@ -100,7 +103,10 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
             content = <div>Channel details...
                 <i 
                     className="fa-solid fa-x exit-icon" 
-                    onClick={() => setMainPanelView("messages")}
+                    onClick={() => {
+                        setMainPanelView("messages");
+                        pingServer();
+                    }}
                 />
             </div>
             break;
@@ -122,11 +128,17 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                     Last seen: {formatDate(userProfile.lastSeen)}
                     <i 
                         className="fa-regular fa-envelope message-icon"
-                        onClick={() => {setMainPanelView("createChannel")}}
+                        onClick={() => {
+                            setMainPanelView("createChannel");
+                            pingServer();
+                        }}
                     />
                     <i 
                         className="fa-solid fa-x exit-icon" 
-                        onClick={() => setMainPanelView("messages")}
+                        onClick={() => {
+                            setMainPanelView("messages");
+                            pingServer();
+                        }}
                     />
                 </div>
             }
@@ -140,7 +152,10 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
             content = <div>Create new DM/channel...
                         <i 
                             className="fa-solid fa-x exit-icon" 
-                            onClick={() => setMainPanelView("messages")}
+                            onClick={() => {
+                                setMainPanelView("messages");
+                                pingServer();
+                            }}
                         />
             </div>
             break;

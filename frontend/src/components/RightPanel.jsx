@@ -3,6 +3,7 @@
 // imports
 import { useState, useEffect, useRef } from "react";
 import apiFetch from "../helpers/apiFetch";
+import pingServer from "../helpers/pingServer";
 import isOnline from "../helpers/isOnline";
 import StatusCircle from "./StatusCircle";
 
@@ -34,12 +35,14 @@ function RightPanel( { currentUser, setCurrentUser, mainPanelView, setMainPanelV
                 clickTimer.current = setTimeout(() => {
                     setSelectedUser(user);
                     setMainPanelView("userProfile");
-                }, 250)
+                }, 250);
+                pingServer();
             }}
             // double clicking on user's name and/or icon creates DM
             onDoubleClick={() => {
                 clearTimeout(clickTimer.current);
                 setMainPanelView("createChannel");
+                pingServer();
             }}
         >
             <img className="user-icon icon" src={`/icons/${user.icon}`}></img> 
