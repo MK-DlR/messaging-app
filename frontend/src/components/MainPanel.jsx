@@ -27,7 +27,8 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
             const data = await response.json();
             setMessages(data.messages);
         }
-        getData();
+
+        getData(); // initial fetch
     }, [selectedChannel]);
 
     // fetch user profile info

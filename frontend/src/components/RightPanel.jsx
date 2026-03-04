@@ -9,20 +9,26 @@ import StatusCircle from "./StatusCircle";
 
 function RightPanel( { currentUser, setCurrentUser, mainPanelView, setMainPanelView, selectedUser, setSelectedUser } ) {
     const [allUsers, setAllUsers] = useState([]);
-
-    // set up timeout
-    const clickTimer = useRef(null);
+    // const interval = useRef(null); // set up interval to useEffect? 
+    const clickTimer = useRef(null); // set up timeout
 
     // fetch all users
     useEffect(() => {
-        async function getData() {
-            // fetch users
-            const response = await apiFetch(`${import.meta.env.VITE_API_URL}/users/all-users`)
-            
-            const data = await response.json();
-            setAllUsers(data.users);
-        }
-        getData();
+        const intervalId = setInterval(() => {
+            async function getData() {
+                // fetch users
+                const response = await apiFetch(`${import.meta.env.VITE_API_URL}/users/all-users`)
+                
+                const data = await response.json();
+                setAllUsers(data.users);
+            }
+
+            getData(); // initial fetch
+            const intervalId = setInterval(getData, 5000);
+            return () => clearInterval(intervalId);
+        }, 5000)
+
+        return () => clearInterval(intervalId);
     }, []);
 
     // map over and display users
