@@ -134,6 +134,7 @@ const usersGet = async (req, res, next) => {
   try {
     const allUsers = await prisma.user.findMany({
       select: { username: true, displayName: true, icon: true, lastSeen: true },
+      orderBy: { username: "asc" },
     });
     res.status(200).json({ users: allUsers });
   } catch (err) {
