@@ -193,7 +193,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         }}
                     >
                         <img className="user-icon icon" src={`/icons/${user.icon}`}></img> 
-                        <StatusCircle color={isOnline(user.lastSeen) ? "green" : "grey"} />
+                        
                         {user.displayName || user.username} 
                     </div>
                 );
