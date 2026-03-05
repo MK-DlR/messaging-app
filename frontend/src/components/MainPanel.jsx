@@ -74,15 +74,17 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
         case "messages": // display channel's messages
             title =
                 <div className="header">
-                    <h2>
-                        {selectedChannel.name}
-                        <i 
-                            className="fa-solid fa-pencil edit-icon"
-                            onClick={() => {
-                                setMainPanelView("editChannel"); 
-                                pingServer();
-                            }}
-                        />
+                    <h2>{selectedChannel.name}
+                        {currentUser.id === selectedChannel.creatorId && selectedChannel.creatorId !== null && (
+                            <i 
+                                className="fa-solid fa-pencil edit-icon"
+                                onClick={() => {
+                                    setMainPanelView("editChannel"); 
+                                    pingServer();
+                                }}
+                            />
+                        )}
+
                         <i 
                             className="fa-solid fa-circle-info details-icon"
                             onClick={() => {
