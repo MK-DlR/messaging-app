@@ -138,24 +138,22 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                                 <i
                                 className="fa-solid fa-door-open leave-icon"
                                 onClick={() => {
+                                    // leave channel
                                     if (window.confirm("Are you sure you want to leave this channel?")) {
-                                        async function getData() {
+                                        async function leaveChannel() {
                                             if (!selectedChannel) {
                                                 return;
                                             }
 
-                                            // fetch channel's messages
-                                            const response = await apiFetch(`${import.meta.env.VITE_API_URL}/channels/leave/${selectedChannel.id}`, { method: "DELETE" });
-
-                                            const data = await response.json();
-                                            setMessages(data.messages);
+                                            // remove user from channel
+                                            await apiFetch(`${import.meta.env.VITE_API_URL}/channels/leave/${selectedChannel.id}`, { method: "DELETE" });
+                                            // update channels list
+                                            setChannels(channels.filter(channel => channel.id !== selectedChannel.id));
+                                            // reset selectedChannel to default
+                                            setSelectedChannel(channels.find(channel => channel.isDefault === true));
+                                            setMainPanelView("messages");
                                         }
-                                        // TO DO:
-                                        // API call
-                                        // remove user from channel
-                                        // remove channel from list in Home.jsx
-                                        // reset selectedChannel back to default
-                                        setMainPanelView("default");
+                                        leaveChannel();
                                         pingServer();
                                     }
                                 }}
