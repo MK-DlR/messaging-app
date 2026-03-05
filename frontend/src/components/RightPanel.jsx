@@ -18,7 +18,7 @@ function RightPanel( { currentUser, setCurrentUser, mainPanelView, setMainPanelV
             const data = await response.json();
             setAllUsers(data.users);
         }
-        
+
         getData(); // initial fetch
         const intervalId = setInterval(getData, 5000);
         return () => clearInterval(intervalId);

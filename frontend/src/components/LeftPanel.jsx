@@ -19,7 +19,7 @@ function LeftPanel( {selectedChannel, setSelectedChannel, channels, setChannels,
             <img className="channel-icon icon" src={`/icons/${channel.icon}`}></img> {channel.name}
         </div>
     );
-    
+
     return (
         <div>
             <h2 className="header">All Channels</h2>

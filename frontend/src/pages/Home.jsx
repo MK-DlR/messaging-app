@@ -19,7 +19,7 @@ function Home() {
         async function getData() {
             // fetch all channels
             const response = await apiFetch(`${import.meta.env.VITE_API_URL}/channels/all-channels`)
-            
+
             const data = await response.json();
             setChannels(data.channels);
 
@@ -36,7 +36,7 @@ function Home() {
         async function getData() {
         // fetch current user's data
         const response = await apiFetch(`${import.meta.env.VITE_API_URL}/users/me`)
-        
+
         const data = await response.json();
         setCurrentUser(data.userData);
         }
@@ -58,6 +58,8 @@ function Home() {
                 setCurrentUser={setCurrentUser} 
                 selectedChannel={selectedChannel}
                 setSelectedChannel={setSelectedChannel}
+                channels={channels}
+                setChannels={setChannels}
                 mainPanelView={mainPanelView}
                 setMainPanelView={setMainPanelView}
                 selectedUser={selectedUser}

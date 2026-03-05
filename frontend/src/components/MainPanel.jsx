@@ -9,14 +9,14 @@ import StatusCircle from "./StatusCircle";
 import formatDate from "../helpers/formatDate";
 
 // conditionally render different content based on mainPanelView
-function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedChannel, mainPanelView, setMainPanelView, selectedUser, setSelectedUser } ) {
+function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedChannel, channels, setChannels, mainPanelView, setMainPanelView, selectedUser, setSelectedUser } ) {
     const [messages, setMessages] = useState([]);
     const [userProfile, setUserProfile] = useState(null);
     const [channelDetails, setChannelDetails] = useState([]);
 
     // set up timeout
     const clickTimer = useRef(null);
-    
+
     // fetch all messages in selected channel
     useEffect(() => {
         async function getData() {
@@ -26,7 +26,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
 
             // fetch channel's messages
             const response = await apiFetch(`${import.meta.env.VITE_API_URL}/messages/all-messages/${selectedChannel.id}`);
-            
+
             const data = await response.json();
             setMessages(data.messages);
         }
@@ -59,13 +59,13 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
 
             // fetch user's info
             const response = await apiFetch(`${import.meta.env.VITE_API_URL}/users/${selectedUser.username}`);
-            
+
             const data = await response.json();
             setUserProfile(data.result);
         }
         getData(); // initial fetch
     }, [selectedUser]);
-    
+
     let title;
     let content;
 
@@ -92,7 +92,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         />
                     </h2>
                 </div>
-    
+
             // map over and display messages
             content = messages.map(message =>
                 <div
@@ -139,6 +139,17 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                                 className="fa-solid fa-door-open leave-icon"
                                 onClick={() => {
                                     if (window.confirm("Are you sure you want to leave this channel?")) {
+                                        async function getData() {
+                                            if (!selectedChannel) {
+                                                return;
+                                            }
+
+                                            // fetch channel's messages
+                                            const response = await apiFetch(`${import.meta.env.VITE_API_URL}/channels/leave/${selectedChannel.id}`, { method: "DELETE" });
+
+                                            const data = await response.json();
+                                            setMessages(data.messages);
+                                        }
                                         // TO DO:
                                         // API call
                                         // remove user from channel
@@ -186,12 +197,12 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         {user.displayName || user.username} 
                     </div>
                 );
-                    
+
                 content = 
-                <div className="channel-details">
-                    {channelDetails.channelInfo}
-                    {displayUsers}
-                </div>
+                    <div className="channel-details">
+                        {channelDetails.channelInfo}
+                        {displayUsers}
+                    </div>
             }
             break;
         case "editChannel": // channel owner can edit and/or delete channel
@@ -211,15 +222,16 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         </h2>
                     </div>
 
-                content = <div>
-                    {/* TO DO: list below */}
-                    <li>channel icon edit</li>
-                    <li>channel name edit</li>
-                    <li>channel description edit</li>
-                    <li>adding users</li>
-                    <li>removing users (with confirmation)</li>
-                    <li>channel deletion (with confirmation)</li>
-                </div>
+                content = 
+                    <div>
+                        {/* TO DO: list below */}
+                        <li>channel icon edit</li>
+                        <li>channel name edit</li>
+                        <li>channel description edit</li>
+                        <li>adding users</li>
+                        <li>removing users (with confirmation)</li>
+                        <li>channel deletion (with confirmation)</li>
+                    </div>
             } else {
                 title =
                     <div className="header">
@@ -244,34 +256,34 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                 content = <div>Loading...</div>
             } else {
                 title =
-                <div className="header">
-                    <h2>
-                    <img className="profile-icon lg-icon" src={`/icons/${userProfile.icon}`}></img>
-                        {userProfile.displayName} Details
-                        <i 
-                            className="fa-regular fa-envelope message-icon"
-                            onClick={() => {
-                                setMainPanelView("createChannel");
-                                pingServer();
-                            }}
-                        />
-                        <i 
-                            className="fa-solid fa-x exit-icon" 
-                            onClick={() => {
-                                setMainPanelView("messages");
-                                pingServer();
-                            }}
-                        />
-                    </h2>
-                </div>
-                
+                    <div className="header">
+                        <h2>
+                        <img className="profile-icon lg-icon" src={`/icons/${userProfile.icon}`}></img>
+                            {userProfile.displayName} Details
+                            <i 
+                                className="fa-regular fa-envelope message-icon"
+                                onClick={() => {
+                                    setMainPanelView("createChannel");
+                                    pingServer();
+                                }}
+                            />
+                            <i 
+                                className="fa-solid fa-x exit-icon" 
+                                onClick={() => {
+                                    setMainPanelView("messages");
+                                    pingServer();
+                                }}
+                            />
+                        </h2>
+                    </div>
+
                 content = 
-                <div className="user-profile">
-                    {userProfile.displayName}
-                    {userProfile.username}
-                    {userProfile.profileInfo}
-                    Last seen: {formatDate(userProfile.lastSeen)}
-                </div>
+                    <div className="user-profile">
+                        {userProfile.displayName}
+                        {userProfile.username}
+                        {userProfile.profileInfo}
+                        Last seen: {formatDate(userProfile.lastSeen)}
+                    </div>
             }
             break;
         case "createChannel": // display create new channel
@@ -280,15 +292,16 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                     <h2>Create New Channel</h2>
                 </div>
 
-            content = <div>Create new DM/channel...
-                        <i 
-                            className="fa-solid fa-x exit-icon" 
-                            onClick={() => {
-                                setMainPanelView("messages");
-                                pingServer();
-                            }}
-                        />
-            </div>
+            content = 
+                <div>Create new DM/channel...
+                    <i 
+                        className="fa-solid fa-x exit-icon" 
+                        onClick={() => {
+                            setMainPanelView("messages");
+                            pingServer();
+                        }}
+                    />
+                </div>
             break;
         default:
             title =
