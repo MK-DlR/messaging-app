@@ -14,7 +14,7 @@ function RightPanel( { currentUser, setCurrentUser, mainPanelView, setMainPanelV
     // fetch all users
     useEffect(() => {
         async function getData() {
-            const response = await apiFetch(`${import.meta.env.VITE_API_URL}/users/all-users`)
+            const response = await apiFetch(`${import.meta.env.VITE_API_URL}/users/all-users`);
             const data = await response.json();
             setAllUsers(data.users);
         }

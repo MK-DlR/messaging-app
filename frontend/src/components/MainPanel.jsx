@@ -10,6 +10,7 @@ import formatDate from "../helpers/formatDate";
 function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedChannel, mainPanelView, setMainPanelView, selectedUser, setSelectedUser } ) {
     const [messages, setMessages] = useState([]);
     const [userProfile, setUserProfile] = useState(null);
+    const [channelDetails, setChannelDetails] = useState([]);
 
     // set up timeout
     const clickTimer = useRef(null);
@@ -22,12 +23,28 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
             }
 
             // fetch channel's messages
-            const response = await apiFetch(`${import.meta.env.VITE_API_URL}/messages/all-messages/${selectedChannel.id}`)
+            const response = await apiFetch(`${import.meta.env.VITE_API_URL}/messages/all-messages/${selectedChannel.id}`);
             
             const data = await response.json();
             setMessages(data.messages);
         }
 
+        getData(); // initial fetch
+    }, [selectedChannel]);
+
+    // fetch channel details
+    useEffect(() => {
+        async function getData() {
+            if (!selectedChannel) {
+                return;
+            }
+
+            // fetch channel's details
+            const response = await apiFetch(`${import.meta.env.VITE_API_URL}/channels/details/${selectedChannel.id}`);
+
+            const data = await response.json();
+            setChannelDetails(data.channelDetails);
+        }
         getData(); // initial fetch
     }, [selectedChannel]);
 
@@ -39,12 +56,12 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
             }
 
             // fetch user's info
-            const response = await apiFetch(`${import.meta.env.VITE_API_URL}/users/${selectedUser.username}`)
+            const response = await apiFetch(`${import.meta.env.VITE_API_URL}/users/${selectedUser.username}`);
             
             const data = await response.json();
             setUserProfile(data.result);
         }
-        getData();
+        getData(); // initial fetch
     }, [selectedUser]);
     
     let title;
@@ -98,10 +115,12 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
         case "channelDetails": // display channel's details
             title =
                 <div className="header">
-                    <h2>{selectedChannel.name} Details</h2>
+                    <h2><img className="channel-icon lg-icon" src={`/icons/${selectedChannel.icon}`}></img> {selectedChannel.name} Details</h2>
                 </div>
                 
-            content = <div>Channel details...
+            content = 
+            <div className="channel-details">
+                {channelDetails.channelInfo}
                 <i 
                     className="fa-solid fa-x exit-icon" 
                     onClick={() => {
@@ -122,7 +141,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                 
                 content = 
                 <div className="user-profile">
-                    <img className="profile-icon icon" src={`/icons/${userProfile.icon}`}></img>
+                    <img className="profile-icon lg-icon" src={`/icons/${userProfile.icon}`}></img>
                     {userProfile.displayName}
                     {userProfile.username}
                     {userProfile.profileInfo}

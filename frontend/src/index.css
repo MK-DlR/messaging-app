@@ -14,6 +14,10 @@
   width: 25px;
 }
 
+.lg-icon {
+  width: 50px;
+}
+
 /* fontawesome icon styles */
 .exit-icon, .message-icon, .details-icon {
   cursor: pointer;

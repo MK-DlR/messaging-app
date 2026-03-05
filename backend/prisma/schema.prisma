@@ -39,6 +39,7 @@ model Channel {
   name         String?
   isCustomName Boolean   @default(false)
   icon         String    @default("default-channel.png")
+  channelInfo  String?
   createdAt    DateTime  @default(now())
   creatorId    Int?
   creator      User?     @relation("ChannelCreator", fields: [creatorId], references: [id])
