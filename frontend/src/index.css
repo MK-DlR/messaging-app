@@ -19,11 +19,11 @@
 }
 
 /* fontawesome icon styles */
-.exit-icon, .message-icon, .details-icon {
+.exit-icon, .message-icon, .details-icon, .edit-icon, .leave-icon {
   cursor: pointer;
 }
 
-.exit-icon:hover, .message-icon:hover, .details-icon:hover {
+.exit-icon:hover, .message-icon:hover, .details-icon:hover, .edit-icon:hover, .leave-icon:hover {
   transition-duration: 0.4s;
 }
 
@@ -37,6 +37,14 @@
 
 .details-icon:hover {
   color: gray !important;
+}
+
+.edit-icon:hover {
+  color: blue !important;
+}
+
+.leave-icon:hover {
+  color: orange !important;
 }
 
 /* online/offline status */

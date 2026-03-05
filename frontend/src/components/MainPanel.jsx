@@ -77,6 +77,15 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                     <h2>
                         {selectedChannel.name}
                         <i 
+                            className="fa-solid fa-pencil edit-icon"
+                            onClick={() => {
+                                setMainPanelView("channelDetails"); // TO DO: change
+                                pingServer();
+                                // TO DO: edit channel
+                                // conditionally only shows for channel owner
+                            }}
+                        />
+                        <i 
                             className="fa-solid fa-circle-info details-icon"
                             onClick={() => {
                                 setMainPanelView("channelDetails");
@@ -127,12 +136,22 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                             <img className="channel-icon lg-icon" src={`/icons/${selectedChannel.icon}`}></img> 
                             {selectedChannel.name} Details
                             <i 
-                            className="fa-solid fa-x exit-icon" 
-                            onClick={() => {
-                                setMainPanelView("messages");
-                                pingServer();
-                            }}
-                        />
+                                className="fa-solid fa-door-open leave-icon" 
+                                onClick={() => {
+                                    setMainPanelView("messages"); // TO DO: change
+                                    pingServer();
+                                    // TO DO: conditionally leave channel
+                                    // (NOT for main chat)
+                                    // make sure to add confirmation alert
+                                }}
+                            />
+                            <i 
+                                className="fa-solid fa-x exit-icon" 
+                                onClick={() => {
+                                    setMainPanelView("messages");
+                                    pingServer();
+                                }}
+                            />
                         </h2>
                     </div>
 
@@ -179,6 +198,13 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                     <img className="profile-icon lg-icon" src={`/icons/${userProfile.icon}`}></img>
                         {userProfile.displayName} Details
                         <i 
+                            className="fa-regular fa-envelope message-icon"
+                            onClick={() => {
+                                setMainPanelView("createChannel");
+                                pingServer();
+                            }}
+                        />
+                        <i 
                             className="fa-solid fa-x exit-icon" 
                             onClick={() => {
                                 setMainPanelView("messages");
@@ -194,13 +220,6 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                     {userProfile.username}
                     {userProfile.profileInfo}
                     Last seen: {formatDate(userProfile.lastSeen)}
-                    <i 
-                        className="fa-regular fa-envelope message-icon"
-                        onClick={() => {
-                            setMainPanelView("createChannel");
-                            pingServer();
-                        }}
-                    />
                 </div>
             }
             break;
