@@ -206,7 +206,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
             }
             break;
         case "editChannel": // channel owner can edit and/or delete channel
-            if (currentUser.id != selectedChannel.creatorId && selectedChannel.creatorId !== null) {
+            if (currentUser.id === selectedChannel.creatorId && selectedChannel.creatorId !== null) {
                 title =
                     <div className="header">
                         <h2>
