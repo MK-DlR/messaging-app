@@ -4,6 +4,8 @@
 import { useState, useEffect, useRef } from "react";
 import apiFetch from "../helpers/apiFetch";
 import pingServer from "../helpers/pingServer";
+import isOnline from "../helpers/isOnline";
+import StatusCircle from "./StatusCircle";
 import formatDate from "../helpers/formatDate";
 
 // conditionally render different content based on mainPanelView
@@ -75,7 +77,10 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                     <h2>{selectedChannel.name}</h2>
                     <i 
                         className="fa-solid fa-circle-info details-icon"
-                        onClick={() => {setMainPanelView("channelDetails")}}
+                        onClick={() => {
+                            setMainPanelView("channelDetails");
+                            pingServer();
+                        }}
                     />
                 </div>
     
@@ -113,22 +118,52 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
             )
             break;
         case "channelDetails": // display channel's details
-            title =
-                <div className="header">
-                    <h2><img className="channel-icon lg-icon" src={`/icons/${selectedChannel.icon}`}></img> {selectedChannel.name} Details</h2>
+            {
+                title =
+                    <div className="header">
+                        <h2><img className="channel-icon lg-icon" src={`/icons/${selectedChannel.icon}`}></img> {selectedChannel.name} Details</h2>
+                    </div>
+
+                // map over and display users
+                const displayUsers = channelDetails.users.map(user => 
+                    <div
+                        key={user.username}
+                        // clicking on user's name and/or icon opens user's profile
+                        onClick={() => {
+                            clearTimeout(clickTimer.current);
+                            clickTimer.current = setTimeout(() => {
+                                setSelectedUser(user);
+                                setMainPanelView("userProfile");
+                            }, 250);
+                            pingServer();
+                        }}
+                        // double clicking on user's name and/or icon creates DM
+                        onDoubleClick={() => {
+                            clearTimeout(clickTimer.current);
+                            setMainPanelView("createChannel");
+                            pingServer();
+                        }}
+                    >
+                        <img className="user-icon icon" src={`/icons/${user.icon}`}></img> 
+                        <StatusCircle color={isOnline(user.lastSeen) ? "green" : "grey"} />
+                        {user.displayName || user.username} 
+                    </div>
+                );
+                    
+                content = 
+                <div className="channel-details">
+                    {channelDetails.channelInfo}
+                    {displayUsers}
+
+                    <i 
+                        className="fa-solid fa-x exit-icon" 
+                        onClick={() => {
+                            setMainPanelView("messages");
+                            pingServer();
+                        }}
+                    />
                 </div>
-                
-            content = 
-            <div className="channel-details">
-                {channelDetails.channelInfo}
-                <i 
-                    className="fa-solid fa-x exit-icon" 
-                    onClick={() => {
-                        setMainPanelView("messages");
-                        pingServer();
-                    }}
-                />
-            </div>
+            }
             break;
         case "userProfile": // display user profile details
             if (!userProfile) {
