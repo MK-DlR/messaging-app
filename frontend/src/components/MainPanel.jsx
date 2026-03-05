@@ -131,20 +131,28 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                 title =
                     <div className="header">
                         <h2>
-                            <img className="channel-icon lg-icon" src={`/icons/${selectedChannel.icon}`}></img> 
+                            <img className="channel-icon lg-icon" src={`/icons/${selectedChannel.icon}`} />
                             {selectedChannel.name} Details
-                            <i 
-                                className="fa-solid fa-door-open leave-icon" 
+
+                            {!selectedChannel.isDefault && currentUser.id !== selectedChannel.creatorId && (
+                                <i
+                                className="fa-solid fa-door-open leave-icon"
                                 onClick={() => {
-                                    setMainPanelView("messages"); // TO DO: change
-                                    pingServer();
-                                    // TO DO: conditionally leave channel
-                                    // (NOT for main chat)
-                                    // make sure to add confirmation alert
+                                    if (window.confirm("Are you sure you want to leave this channel?")) {
+                                        // TO DO:
+                                        // API call
+                                        // remove user from channel
+                                        // remove channel from list in Home.jsx
+                                        // reset selectedChannel back to default
+                                        setMainPanelView("default");
+                                        pingServer();
+                                    }
                                 }}
-                            />
-                            <i 
-                                className="fa-solid fa-x exit-icon" 
+                                />
+                            )}
+
+                            <i
+                                className="fa-solid fa-x exit-icon"
                                 onClick={() => {
                                     setMainPanelView("messages");
                                     pingServer();
