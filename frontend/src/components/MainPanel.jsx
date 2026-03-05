@@ -204,12 +204,12 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
             }
             break;
         case "editChannel": // channel owner can edit and/or delete channel
-            if (currentUser.id != selectedChannel.creatorId) {
+            if (currentUser.id != selectedChannel.creatorId && selectedChannel.creatorId !== null) {
                 title =
                     <div className="header">
                         <h2>
                             <img className="channel-icon lg-icon" src={`/icons/${selectedChannel.icon}`}></img> 
-                            {selectedChannel.name} Details
+                            Edit {selectedChannel.name}
                             <i 
                                 className="fa-solid fa-x exit-icon" 
                                 onClick={() => {
