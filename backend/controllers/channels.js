@@ -143,7 +143,13 @@ const channelDetailsGet = async (req, res, next) => {
       },
       include: {
         users: {
-          select: { username: true, displayName: true, icon: true },
+          select: {
+            username: true,
+            displayName: true,
+            icon: true,
+            lastSeen: true,
+          },
+          orderBy: { username: "asc" },
         },
       },
     });
