@@ -112,6 +112,7 @@ const profileGetMe = async (req, res, next) => {
       select: {
         username: true,
         displayName: true,
+        id: true,
         icon: true,
         profileInfo: true,
         lastSeen: true,

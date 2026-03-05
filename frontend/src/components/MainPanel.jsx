@@ -79,10 +79,8 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         <i 
                             className="fa-solid fa-pencil edit-icon"
                             onClick={() => {
-                                setMainPanelView("channelDetails"); // TO DO: change
+                                setMainPanelView("editChannel"); 
                                 pingServer();
-                                // TO DO: edit channel
-                                // conditionally only shows for channel owner
                             }}
                         />
                         <i 
@@ -186,6 +184,51 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                     {channelDetails.channelInfo}
                     {displayUsers}
                 </div>
+            }
+            break;
+        case "editChannel": // channel owner can edit and/or delete channel
+            if (currentUser.id != selectedChannel.creatorId) {
+                title =
+                    <div className="header">
+                        <h2>
+                            <img className="channel-icon lg-icon" src={`/icons/${selectedChannel.icon}`}></img> 
+                            {selectedChannel.name} Details
+                            <i 
+                                className="fa-solid fa-x exit-icon" 
+                                onClick={() => {
+                                    setMainPanelView("messages");
+                                    pingServer();
+                                }}
+                            />
+                        </h2>
+                    </div>
+
+                content = <div>
+                    {/* TO DO: list below */}
+                    <li>channel icon edit</li>
+                    <li>channel name edit</li>
+                    <li>channel description edit</li>
+                    <li>adding users</li>
+                    <li>removing users (with confirmation)</li>
+                    <li>channel deletion (with confirmation)</li>
+                </div>
+            } else {
+                title =
+                    <div className="header">
+                        <h2>
+                            <img className="channel-icon lg-icon" src={`/icons/${selectedChannel.icon}`}></img> 
+                            {selectedChannel.name} Details
+                            <i 
+                                className="fa-solid fa-x exit-icon" 
+                                onClick={() => {
+                                    setMainPanelView("messages");
+                                    pingServer();
+                                }}
+                            />
+                        </h2>
+                    </div>
+
+                content = <div>Permissions unavailable</div>
             }
             break;
         case "userProfile": // display user profile details
