@@ -74,14 +74,16 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
         case "messages": // display channel's messages
             title =
                 <div className="header">
-                    <h2>{selectedChannel.name}</h2>
-                    <i 
-                        className="fa-solid fa-circle-info details-icon"
-                        onClick={() => {
-                            setMainPanelView("channelDetails");
-                            pingServer();
-                        }}
-                    />
+                    <h2>
+                        {selectedChannel.name}
+                        <i 
+                            className="fa-solid fa-circle-info details-icon"
+                            onClick={() => {
+                                setMainPanelView("channelDetails");
+                                pingServer();
+                            }}
+                        />
+                    </h2>
                 </div>
     
             // map over and display messages
@@ -121,7 +123,17 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
             {
                 title =
                     <div className="header">
-                        <h2><img className="channel-icon lg-icon" src={`/icons/${selectedChannel.icon}`}></img> {selectedChannel.name} Details</h2>
+                        <h2>
+                            <img className="channel-icon lg-icon" src={`/icons/${selectedChannel.icon}`}></img> 
+                            {selectedChannel.name} Details
+                            <i 
+                            className="fa-solid fa-x exit-icon" 
+                            onClick={() => {
+                                setMainPanelView("messages");
+                                pingServer();
+                            }}
+                        />
+                        </h2>
                     </div>
 
                 // map over and display users
@@ -154,14 +166,6 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                 <div className="channel-details">
                     {channelDetails.channelInfo}
                     {displayUsers}
-
-                    <i 
-                        className="fa-solid fa-x exit-icon" 
-                        onClick={() => {
-                            setMainPanelView("messages");
-                            pingServer();
-                        }}
-                    />
                 </div>
             }
             break;
@@ -171,12 +175,21 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
             } else {
                 title =
                 <div className="header">
-                    <h2>{userProfile.displayName} Details</h2>
+                    <h2>
+                    <img className="profile-icon lg-icon" src={`/icons/${userProfile.icon}`}></img>
+                        {userProfile.displayName} Details
+                        <i 
+                            className="fa-solid fa-x exit-icon" 
+                            onClick={() => {
+                                setMainPanelView("messages");
+                                pingServer();
+                            }}
+                        />
+                    </h2>
                 </div>
                 
                 content = 
                 <div className="user-profile">
-                    <img className="profile-icon lg-icon" src={`/icons/${userProfile.icon}`}></img>
                     {userProfile.displayName}
                     {userProfile.username}
                     {userProfile.profileInfo}
@@ -185,13 +198,6 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         className="fa-regular fa-envelope message-icon"
                         onClick={() => {
                             setMainPanelView("createChannel");
-                            pingServer();
-                        }}
-                    />
-                    <i 
-                        className="fa-solid fa-x exit-icon" 
-                        onClick={() => {
-                            setMainPanelView("messages");
                             pingServer();
                         }}
                     />
