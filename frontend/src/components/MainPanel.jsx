@@ -84,6 +84,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                             <i 
                                 className="fa-solid fa-pencil edit-icon"
                                 onClick={() => {
+                                    setEditingChannel({ ...selectedChannel, channelInfo: channelDetails.channelInfo });
                                     setMainPanelView("editChannel"); 
                                     pingServer();
                                 }}
@@ -299,17 +300,14 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         e.preventDefault();
 
                         async function getData() {
-                            await apiFetch(`${import.meta.env.VITE_API_URL}/messages/edit/${editingMessage.id}`, { method: "PUT", body: JSON.stringify({ body: editingMessage.body }) });
-                            setMessages(messages.map(msg =>
-                                msg.id === editingMessage.id
-                                ? { ...msg, body: editingMessage.body }
-                                : msg
-                            ));
+                            await apiFetch(`${import.meta.env.VITE_API_URL}/channels/manage/${selectedChannel.id}/edit`, { method: "PUT", body: JSON.stringify({ icon: editingChannel.icon, name: editingChannel.name, channelInfo: editingChannel.channelInfo }) });
+                            setSelectedChannel({ ...selectedChannel, ...editingChannel });
+                            setChannels(channels.map(ch => ch.id === selectedChannel.id ? { ...ch, ...editingChannel } : ch))
                             setMainPanelView("messages");
                         }
                         getData(); // initial fetch
                     }}>
-                        <label>Icon:
+                        <label>Icon URL:
                             <input 
                                 type="text"
                                 value={editingChannel.icon}

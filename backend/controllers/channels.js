@@ -165,7 +165,7 @@ const channelDetailsGet = async (req, res, next) => {
   }
 };
 
-// update channel name
+// update channel details
 const channelPut = async (req, res, next) => {
   try {
     const { icon, name, channelInfo } = req.body;

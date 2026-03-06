@@ -14,8 +14,8 @@ router.get("/all-channels", authJWT, channelsController.channelsGet);
 // fetch single channel's details (name, type, members, created date, etc)
 router.get("/details/:id", authJWT, channelsController.channelDetailsGet);
 
-// update channel name
-router.put("/manage/:id/rename", authJWT, channelsController.channelPut);
+// update channel details
+router.put("/manage/:id/edit", authJWT, channelsController.channelPut);
 
 // delete channel
 router.delete("/delete/:id", authJWT, channelsController.channelDelete);
