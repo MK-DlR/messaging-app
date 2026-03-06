@@ -129,14 +129,18 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         <div className="on-hover">
                             <i 
                                 className="fa-solid fa-pencil edit-icon edit-hover"
-                                onClick={() => {
+                                onClick={(e) => {
+                                    // prevent triggering parent click
+                                    e.stopPropagation();
                                     setMainPanelView("editMessage"); 
                                     pingServer();
                                 }}
                             />
                             <i 
                                 className="fa-solid fa-trash delete-icon"
-                                onClick={() => {
+                                onClick={(e) => {
+                                    // prevent triggering parent click
+                                    e.stopPropagation();
                                     // delete message
                                     if (window.confirm("Are you sure you want to delete this message?")) {
                                         async function deleteMessage() {
@@ -147,12 +151,11 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                                             // remove message from channel
                                             await apiFetch(`${import.meta.env.VITE_API_URL}/messages/delete/${message.id}`, { method: "DELETE" });
                                             // update message list
-                                            // setChannels(channels.filter(channel => channel.id !== selectedChannel.id));
+                                            setMessages(messages.filter(msg => msg.id !== message.id));
                                         }
                                         deleteMessage();
                                         pingServer();
                                     }
-
                                     pingServer();
                                 }}
                             />
@@ -314,6 +317,9 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
 
                 content = <div>Permissions unavailable</div>
             }
+            break;
+        case "editMessage": // edit own message
+            // TO DO: display edit message form
             break;
         case "userProfile": // display user profile details
             if (!userProfile) {
