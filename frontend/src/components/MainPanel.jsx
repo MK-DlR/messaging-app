@@ -13,6 +13,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
     const [messages, setMessages] = useState([]);
     const [userProfile, setUserProfile] = useState(null);
     const [channelDetails, setChannelDetails] = useState([]);
+    const [editingMessage, setEditingMessage] = useState(null);
 
     // set up timeout
     const clickTimer = useRef(null);
@@ -132,6 +133,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                                 onClick={(e) => {
                                     // prevent triggering parent click
                                     e.stopPropagation();
+                                    setEditingMessage(message);
                                     setMainPanelView("editMessage"); 
                                     pingServer();
                                 }}
@@ -273,6 +275,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
             }
             break;
         case "editChannel": // channel owner can edit and/or delete channel
+            // TO DO: display edit channel form
             if (currentUser.id === selectedChannel.creatorId && selectedChannel.creatorId !== null) {
                 title =
                     <div className="header">
@@ -298,6 +301,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         <li>adding users</li>
                         <li>removing users (with confirmation)</li>
                         <li>channel deletion (with confirmation)</li>
+                        <li>save button</li>
                     </div>
             } else {
                 title =
@@ -318,8 +322,46 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                 content = <div>Permissions unavailable</div>
             }
             break;
-        case "editMessage": // edit own message
+        case "editMessage": // user can edit own message
             // TO DO: display edit message form
+            title =
+                    <div className="header">
+                        <h2>
+                            Edit Message
+                            <i 
+                                className="fa-solid fa-x exit-icon" 
+                                onClick={() => {
+                                    setMainPanelView("messages");
+                                    pingServer();
+                                }}
+                            />
+                        </h2>
+                    </div>
+
+                content = 
+                    <div className="editing form">
+                        <form onSubmit={(e) => {
+                            e.preventDefault();
+
+                            async function getData() {
+                                await apiFetch(`${import.meta.env.VITE_API_URL}/messages/edit/${editingMessage.id}`, { method: "PUT", body: JSON.stringify({ body: editingMessage.body }) });
+                                setMessages(messages.map(msg =>
+                                    msg.id === editingMessage.id
+                                    ? { ...msg, body: editingMessage.body }
+                                    : msg
+                                ));
+                                setMainPanelView("messages");
+                            }
+                            getData(); // initial fetch
+                        }}>
+                            <input 
+                                type="text"
+                                value={editingMessage.body}
+                                onChange={(e) => setEditingMessage({ ...editingMessage, body: e.target.value })}
+                            />
+                            <button className="submit button" type="submit">Save</button>
+                        </form>
+                    </div>
             break;
         case "userProfile": // display user profile details
             if (!userProfile) {
