@@ -228,7 +228,7 @@ const channelLeave = async (req, res, next) => {
 
     if (channelData.isDefault === true) {
       // if trying to leave main channel, return 403
-      res.status(403).json({ message: "Channel cannot be left" });
+      return res.status(403).json({ message: "Channel cannot be left" });
     }
 
     // check if user is in channel
