@@ -12,7 +12,7 @@ import formatDate from "../helpers/formatDate";
 function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedChannel, channels, setChannels, mainPanelView, setMainPanelView, selectedUser, setSelectedUser } ) {
     const [messages, setMessages] = useState([]);
     const [userProfile, setUserProfile] = useState(null);
-    const [channelDetails, setChannelDetails] = useState([]);
+    const [channelDetails, setChannelDetails] = useState(null);
     const [editingChannel, setEditingChannel] = useState(null);
     const [editingMessage, setEditingMessage] = useState(null);
 
@@ -84,6 +84,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                             <i 
                                 className="fa-solid fa-pencil edit-icon"
                                 onClick={() => {
+                                    if (!channelDetails) return;
                                     setEditingChannel({ ...selectedChannel, channelInfo: channelDetails.channelInfo });
                                     setMainPanelView("editChannel"); 
                                     pingServer();
@@ -324,7 +325,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         <label>Description:
                             <input 
                                 type="text"
-                                value={editingChannel.channelInfo}
+                                value={editingChannel.channelInfo || ""}
                                 onChange={(e) => setEditingChannel({ ...editingChannel, channelInfo: e.target.value })}
                             />
                         </label>
