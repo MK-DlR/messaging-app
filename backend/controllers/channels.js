@@ -219,6 +219,10 @@ const channelDelete = async (req, res, next) => {
 
 // leave channel
 const channelLeave = async (req, res, next) => {
+  if (isDefault === true) {
+    // if trying to leave main channel, return 403
+    res.status(403).json({ message: "Channel cannot be left" });
+  }
   try {
     const channel = parseInt(req.params.id);
 

@@ -9,8 +9,8 @@ function formatDate(dateString) {
 
   // check if date is today, yesterday, or other
   if (date.toDateString() === today.toDateString()) {
-    // date is today, display "today"
-    return `Today, ${date.toLocaleTimeString()}`;
+    // date is today, display time
+    return `${date.toLocaleTimeString()}`;
   } else if (date.toDateString() === yesterday.toDateString()) {
     // date is yesterday, display "yesterday"
     return `Yesterday, ${date.toLocaleTimeString()}`;

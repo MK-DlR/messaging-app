@@ -21,9 +21,6 @@
 /* fontawesome icon styles */
 .exit-icon, .delete-icon, .message-icon, .details-icon, .edit-icon, .leave-icon {
   cursor: pointer;
-}
-
-.exit-icon:hover, .delete-icon:hover, .message-icon:hover, .details-icon:hover, .edit-icon:hover, .leave-icon:hover {
   transition-duration: 0.4s;
 }
 
@@ -49,7 +46,7 @@
 
 .edit-hover, .delete-icon {
   opacity: 0;
-  transition: opacity 0.4s;
+  transition: opacity 0.4s, color 0.4s;
 }
 
 .author-message:hover .edit-hover,

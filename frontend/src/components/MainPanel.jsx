@@ -69,6 +69,9 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
     let title;
     let content;
 
+    // if no user, return a loading state early
+    if (!currentUser) return <div>Loading...</div>;
+
     // determine which channel is selected
     switch (mainPanelView) {
         case "messages": // display channel's messages
@@ -122,6 +125,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                     >
                         <img className="message-icon icon" src={`/icons/${message.users.icon}`}></img> 
                         {message.users.displayName || message.users.username}
+                        {formatDate(message.createdAt)}
                         <div className="on-hover">
                             <i 
                                 className="fa-solid fa-pencil edit-icon edit-hover"
@@ -133,14 +137,27 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                             <i 
                                 className="fa-solid fa-trash delete-icon"
                                 onClick={() => {
-                                    setMainPanelView("deleteMessage"); 
-                                    // TO DO: delete confirmation
+                                    // delete message
+                                    if (window.confirm("Are you sure you want to delete this message?")) {
+                                        async function deleteMessage() {
+                                            if (!selectedChannel) {
+                                                return;
+                                            }
+
+                                            // remove message from channel
+                                            await apiFetch(`${import.meta.env.VITE_API_URL}/messages/delete/${message.id}`, { method: "DELETE" });
+                                            // update message list
+                                            // setChannels(channels.filter(channel => channel.id !== selectedChannel.id));
+                                        }
+                                        deleteMessage();
+                                        pingServer();
+                                    }
+
                                     pingServer();
                                 }}
                             />
                         </div> 
                     </div>
-                    {formatDate(message.createdAt)}<br />
                     {message.body}
                 </div>
                 } else {
@@ -168,8 +185,8 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         >
                             <img className="message-icon icon" src={`/icons/${message.users.icon}`}></img> 
                             {message.users.displayName || message.users.username} 
+                            {formatDate(message.createdAt)}
                         </div>
-                        {formatDate(message.createdAt)}<br />
                         {message.body}
                     </div>
                 }
