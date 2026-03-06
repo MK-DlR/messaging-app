@@ -96,14 +96,14 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                 </div>
 
             // map over and display messages
-            content = messages.map(message =>
-                <div
-                    key={message.id}
-                    className="message"
-                    // TO DO: if message author
-                    // hovering shows edit and delete button
-                >
+            content = messages.map(message => {
+                if (currentUser.id === message.userId) {
+                    return <div
+                        key={message.id}
+                        className="author-message message"
+                    >
                     <div
+                        className="message-header"
                         // clicking on user's name and/or icon opens user's profile
                         onClick={() => {
                             clearTimeout(clickTimer.current);
@@ -121,12 +121,60 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         }}
                     >
                         <img className="message-icon icon" src={`/icons/${message.users.icon}`}></img> 
-                        {message.users.displayName || message.users.username} 
+                        {message.users.displayName || message.users.username}
+                        <div className="on-hover">
+                            <i 
+                                className="fa-solid fa-pencil edit-icon edit-hover"
+                                onClick={() => {
+                                    setMainPanelView("editMessage"); 
+                                    pingServer();
+                                }}
+                            />
+                            <i 
+                                className="fa-solid fa-trash delete-icon"
+                                onClick={() => {
+                                    setMainPanelView("deleteMessage"); 
+                                    // TO DO: delete confirmation
+                                    pingServer();
+                                }}
+                            />
+                        </div> 
                     </div>
                     {formatDate(message.createdAt)}<br />
                     {message.body}
                 </div>
-            )
+                } else {
+                    return <div
+                        key={message.id}
+                        className="user-message message"
+                    >
+                        <div
+                            className="message-header"
+                            // clicking on user's name and/or icon opens user's profile
+                            onClick={() => {
+                                clearTimeout(clickTimer.current);
+                                clickTimer.current = setTimeout(() => {
+                                    setSelectedUser(message.users);
+                                    setMainPanelView("userProfile");
+                                }, 250);
+                                pingServer();
+                            }}
+                            // double clicking on user's name and/or icon creates DM
+                            onDoubleClick={() => {
+                                clearTimeout(clickTimer.current);
+                                setMainPanelView("createChannel");
+                                pingServer();
+                            }}
+                        >
+                            <img className="message-icon icon" src={`/icons/${message.users.icon}`}></img> 
+                            {message.users.displayName || message.users.username} 
+                        </div>
+                        {formatDate(message.createdAt)}<br />
+                        {message.body}
+                    </div>
+                }
+            })
+
             break;
         case "channelDetails": // display channel's details
             {
@@ -193,7 +241,6 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         }}
                     >
                         <img className="user-icon icon" src={`/icons/${user.icon}`}></img> 
-                        
                         {user.displayName || user.username} 
                     </div>
                 );
@@ -311,7 +358,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
 
             content = <div>Select a channel...</div>;
     }
-    
+
     return (
         <div>
             {title}
