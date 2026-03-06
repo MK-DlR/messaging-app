@@ -13,6 +13,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
     const [messages, setMessages] = useState([]);
     const [userProfile, setUserProfile] = useState(null);
     const [channelDetails, setChannelDetails] = useState([]);
+    const [editingChannel, setEditingChannel] = useState(null);
     const [editingMessage, setEditingMessage] = useState(null);
 
     // set up timeout
@@ -293,16 +294,48 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                     </div>
 
                 content = 
-                    <div>
-                        {/* TO DO: list below */}
-                        <li>channel icon edit</li>
-                        <li>channel name edit</li>
-                        <li>channel description edit</li>
-                        <li>adding users</li>
-                        <li>removing users (with confirmation)</li>
-                        <li>channel deletion (with confirmation)</li>
-                        <li>save button</li>
-                    </div>
+                <div className="editing-channel form">
+                    <form onSubmit={(e) => {
+                        e.preventDefault();
+
+                        async function getData() {
+                            await apiFetch(`${import.meta.env.VITE_API_URL}/messages/edit/${editingMessage.id}`, { method: "PUT", body: JSON.stringify({ body: editingMessage.body }) });
+                            setMessages(messages.map(msg =>
+                                msg.id === editingMessage.id
+                                ? { ...msg, body: editingMessage.body }
+                                : msg
+                            ));
+                            setMainPanelView("messages");
+                        }
+                        getData(); // initial fetch
+                    }}>
+                        <label>Icon:
+                            <input 
+                                type="text"
+                                value={editingChannel.icon}
+                                onChange={(e) => setEditingChannel({ ...editingChannel, icon: e.target.value })}
+                            />
+                        </label>
+                        <label>Name:
+                            <input 
+                                type="text"
+                                value={editingChannel.name}
+                                onChange={(e) => setEditingChannel({ ...editingChannel, name: e.target.value })}
+                            />
+                        </label>
+                        <label>Description:
+                            <input 
+                                type="text"
+                                value={editingChannel.channelInfo}
+                                onChange={(e) => setEditingChannel({ ...editingChannel, channelInfo: e.target.value })}
+                            />
+                        </label>
+                        <li>add users</li>
+                        <li>remove users (w confirmation)</li>
+                        <li>channel deletion (w confirmation)</li>
+                        <button className="submit button" type="submit">Save</button>
+                    </form>
+                </div>
             } else {
                 title =
                     <div className="header">
@@ -323,7 +356,6 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
             }
             break;
         case "editMessage": // user can edit own message
-            // TO DO: display edit message form
             title =
                     <div className="header">
                         <h2>
@@ -339,7 +371,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                     </div>
 
                 content = 
-                    <div className="editing form">
+                    <div className="editing-message form">
                         <form onSubmit={(e) => {
                             e.preventDefault();
 

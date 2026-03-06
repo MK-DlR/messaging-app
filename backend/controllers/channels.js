@@ -168,7 +168,7 @@ const channelDetailsGet = async (req, res, next) => {
 // update channel name
 const channelPut = async (req, res, next) => {
   try {
-    const { name } = req.body;
+    const { icon, name, channelInfo } = req.body;
     const creator = req.user.id;
     const channel = parseInt(req.params.id);
 
@@ -181,7 +181,7 @@ const channelPut = async (req, res, next) => {
       // action logic for editing channel name
       await prisma.channel.update({
         where: { id: channel },
-        data: { name: name },
+        data: { icon: icon, name: name, channelInfo: channelInfo },
       });
       res.status(200).json({ message: "Channel name updated successfully" });
     }
@@ -219,12 +219,17 @@ const channelDelete = async (req, res, next) => {
 
 // leave channel
 const channelLeave = async (req, res, next) => {
-  if (isDefault === true) {
-    // if trying to leave main channel, return 403
-    res.status(403).json({ message: "Channel cannot be left" });
-  }
   try {
     const channel = parseInt(req.params.id);
+
+    const channelData = await prisma.channel.findUnique({
+      where: { id: channel },
+    });
+
+    if (channelData.isDefault === true) {
+      // if trying to leave main channel, return 403
+      res.status(403).json({ message: "Channel cannot be left" });
+    }
 
     // check if user is in channel
     const member = await memberCheck(channel, req.user.id);
