@@ -49,7 +49,7 @@ function RightPanel( { currentUser, setCurrentUser, mainPanelView, setMainPanelV
                     pingServer();
                 }}
             >
-                <img className="user-icon icon" src={`/icons/${user.icon}`}></img> 
+                <img className="user-icon icon" src={user.icon?.startsWith("http") ? user.icon : `/icons/${user.icon}`} />
                 <StatusCircle color={isOnline(user.lastSeen) ? "green" : "grey"} />
                 {user.displayName || user.username} 
             </div>

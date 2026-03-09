@@ -128,7 +128,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                             pingServer();
                         }}
                     >
-                        <img className="message-icon icon" src={`/icons/${message.users.icon}`}></img> 
+                        <img className="message-icon icon" src={message.users.icon?.startsWith("http") ? message.users.icon : `/icons/${message.users.icon}`} />
                         {message.users.displayName || message.users.username}
                         {formatDate(message.createdAt)}
                         <div className="on-hover">
@@ -192,7 +192,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                                 pingServer();
                             }}
                         >
-                            <img className="message-icon icon" src={`/icons/${message.users.icon}`}></img> 
+                            <img className="message-icon icon" src={message.users.icon?.startsWith("http") ? message.users.icon : `/icons/${message.users.icon}`} />
                             {message.users.displayName || message.users.username} 
                             {formatDate(message.createdAt)}
                         </div>
@@ -266,7 +266,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                             pingServer();
                         }}
                     >
-                        <img className="user-icon icon" src={`/icons/${user.icon}`}></img> 
+                        <img className="user-icon icon" src={user.icon?.startsWith("http") ? user.icon : `/icons/${user.icon}`} />
                         {user.displayName || user.username} 
                     </div>
                 );
@@ -402,7 +402,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                 title =
                     <div className="header">
                         <h2>
-                        <img className="profile-icon lg-icon" src={`/icons/${userProfile.icon}`}></img>
+                        <img className="profile-icon lg-icon" src={userProfile.icon?.startsWith("http") ? userProfile.icon : `/icons/${userProfile.icon}`} />
                             {userProfile.displayName} Details
                             <i 
                                 className="fa-regular fa-envelope message-icon"
