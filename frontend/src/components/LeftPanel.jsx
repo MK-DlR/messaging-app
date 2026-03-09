@@ -16,7 +16,7 @@ function LeftPanel( {selectedChannel, setSelectedChannel, channels, setChannels,
             }}
             className="channel"
         >
-            <img className="channel-icon icon" src={`/icons/${channel.icon}`}></img> {channel.name}
+            <img className="channel-icon icon" src={channel.icon?.startsWith("http") ? channel.icon : `/icons/${channel.icon}`} /> {channel.name}
         </div>
     );
 

@@ -79,6 +79,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
         case "messages": // display channel's messages
             title =
                 <div className="header">
+                    <img className="channel-icon lg-icon" src={selectedChannel.icon?.startsWith("http") ? selectedChannel.icon : `/icons/${selectedChannel.icon}`} />
                     <h2>{selectedChannel.name}
                         {currentUser.id === selectedChannel.creatorId && selectedChannel.creatorId !== null && (
                             <i 
@@ -206,7 +207,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                 title =
                     <div className="header">
                         <h2>
-                            <img className="channel-icon lg-icon" src={`/icons/${selectedChannel.icon}`} />
+                            <img className="channel-icon lg-icon" src={selectedChannel.icon?.startsWith("http") ? selectedChannel.icon : `/icons/${selectedChannel.icon}`} />
                             {selectedChannel.name} Details
 
                             {!selectedChannel.isDefault && currentUser.id !== selectedChannel.creatorId && (
@@ -283,7 +284,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                 title =
                     <div className="header">
                         <h2>
-                            <img className="channel-icon lg-icon" src={`/icons/${selectedChannel.icon}`}></img> 
+                            <img className="channel-icon lg-icon" src={selectedChannel.icon?.startsWith("http") ? selectedChannel.icon : `/icons/${selectedChannel.icon}`} /> 
                             Edit {selectedChannel.name}
                             <i 
                                 className="fa-solid fa-x exit-icon" 
@@ -339,7 +340,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                 title =
                     <div className="header">
                         <h2>
-                            <img className="channel-icon lg-icon" src={`/icons/${selectedChannel.icon}`}></img> 
+                            <img className="channel-icon lg-icon" src={selectedChannel.icon?.startsWith("http") ? selectedChannel.icon : `/icons/${selectedChannel.icon}`} />
                             {selectedChannel.name} Details
                             <i 
                                 className="fa-solid fa-x exit-icon" 
