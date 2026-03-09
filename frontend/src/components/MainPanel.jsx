@@ -418,13 +418,15 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                             />
                             )}
 
-                            <i 
-                                className="fa-regular fa-envelope message-icon"
-                                onClick={() => {
-                                    setMainPanelView("createChannel");
-                                    pingServer();
-                                }}
-                            />
+                            {currentUser.id !== userProfile.id && (
+                                <i 
+                                    className="fa-regular fa-envelope message-icon"
+                                    onClick={() => {
+                                        setMainPanelView("createChannel");
+                                        pingServer();
+                                    }}
+                                />
+                            )}
                             <i 
                                 className="fa-solid fa-x exit-icon" 
                                 onClick={() => {
