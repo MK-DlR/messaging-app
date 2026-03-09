@@ -12,10 +12,12 @@
 /* shared icon styles */
 .icon {
   width: 25px;
+  border-radius: 50%;
 }
 
 .lg-icon {
   width: 50px;
+  border-radius: 50%;
 }
 
 /* fontawesome icon styles */
