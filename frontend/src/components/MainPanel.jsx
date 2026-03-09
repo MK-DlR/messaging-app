@@ -15,6 +15,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
     const [channelDetails, setChannelDetails] = useState(null);
     const [editingChannel, setEditingChannel] = useState(null);
     const [editingMessage, setEditingMessage] = useState(null);
+    const [editingProfile, setEditingProfile] = useState(null);
 
     // set up timeout
     const clickTimer = useRef(null);
@@ -404,6 +405,19 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         <h2>
                         <img className="profile-icon lg-icon" src={userProfile.icon?.startsWith("http") ? userProfile.icon : `/icons/${userProfile.icon}`} />
                             {userProfile.displayName} Details
+
+                            {currentUser.id === userProfile.id && (
+                            <i 
+                                className="fa-solid fa-pencil edit-icon"
+                                onClick={() => {
+                                    if (!userProfile) return;
+                                    setEditingProfile({ ...selectedUser, profileInfo: userProfile.profileInfo });
+                                    setMainPanelView("editProfile"); 
+                                    pingServer();
+                                }}
+                            />
+                            )}
+
                             <i 
                                 className="fa-regular fa-envelope message-icon"
                                 onClick={() => {
@@ -429,6 +443,13 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         Last seen: {formatDate(userProfile.lastSeen)}
                     </div>
             }
+            break;
+        case "editProfile": // user can edit own profile
+            // TO DO: edit profile form
+            title =
+            <div className="header">
+                <h2>Edit Profile</h2>
+            </div>
             break;
         case "createChannel": // display create new channel
             title =
