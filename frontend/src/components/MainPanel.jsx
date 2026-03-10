@@ -307,7 +307,8 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                     !channelDetails.users.some(member => member.username === user.username)
                 );
 
-                // TO DO: map over and display nonMembers for addable users list
+                // TO DO: add search bar for addUsers list
+                // map over and display nonMembers for addable users list
                 const addUsers = nonMembers.map(user =>
                     <div
                         key={user.username}

@@ -181,7 +181,12 @@ const channelPut = async (req, res, next) => {
       // action logic for editing channel name
       await prisma.channel.update({
         where: { id: channel },
-        data: { icon: icon, name: name, channelInfo: channelInfo },
+        data: {
+          icon: icon,
+          name: name,
+          channelInfo: channelInfo,
+          isCustomName: true,
+        },
       });
       res.status(200).json({ message: "Channel name updated successfully" });
     }
