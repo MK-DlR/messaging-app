@@ -21,12 +21,12 @@
 }
 
 /* fontawesome icon styles */
-.exit-icon, .delete-icon, .message-icon, .details-icon, .edit-icon, .leave-icon {
+.ui-icon {
   cursor: pointer;
   transition-duration: 0.4s;
 }
 
-.exit-icon:hover, .delete-icon:hover {
+.exit-icon:hover, .delete-icon:hover, .delete-channel-icon:hover {
   color: red !important;
 }
 

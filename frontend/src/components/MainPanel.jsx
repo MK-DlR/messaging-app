@@ -84,7 +84,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                     <h2>{selectedChannel.name}
                         {currentUser.id === selectedChannel.creatorId && selectedChannel.creatorId !== null && (
                             <i 
-                                className="fa-solid fa-pencil edit-icon"
+                                className="fa-solid fa-pencil edit-icon ui-icon"
                                 onClick={() => {
                                     if (!channelDetails) return;
                                     setEditingChannel({ ...selectedChannel, channelInfo: channelDetails.channelInfo });
@@ -95,7 +95,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         )}
 
                         <i 
-                            className="fa-solid fa-circle-info details-icon"
+                            className="fa-solid fa-circle-info details-icon ui-icon"
                             onClick={() => {
                                 setMainPanelView("channelDetails");
                                 pingServer();
@@ -134,7 +134,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         {formatDate(message.createdAt)}
                         <div className="on-hover">
                             <i 
-                                className="fa-solid fa-pencil edit-icon edit-hover"
+                                className="fa-solid fa-pencil edit-icon ui-icon edit-hover"
                                 onClick={(e) => {
                                     // prevent triggering parent click
                                     e.stopPropagation();
@@ -144,7 +144,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                                 }}
                             />
                             <i 
-                                className="fa-solid fa-trash delete-icon"
+                                className="fa-solid fa-trash delete-icon ui-icon"
                                 onClick={(e) => {
                                     // prevent triggering parent click
                                     e.stopPropagation();
@@ -213,7 +213,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
 
                             {!selectedChannel.isDefault && currentUser.id !== selectedChannel.creatorId && (
                                 <i
-                                className="fa-solid fa-door-open leave-icon"
+                                className="fa-solid fa-door-open leave-icon ui-icon"
                                 onClick={() => {
                                     // leave channel
                                     if (window.confirm("Are you sure you want to leave this channel?")) {
@@ -238,7 +238,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                             )}
 
                             <i
-                                className="fa-solid fa-x exit-icon"
+                                className="fa-solid fa-x exit-icon ui-icon"
                                 onClick={() => {
                                     setMainPanelView("messages");
                                     pingServer();
@@ -280,7 +280,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
             }
             break;
         case "editChannel": // channel owner can edit and/or delete channel
-            // TO DO: display edit channel form
+            // TO DO: finish edit channel form (add/remove users, channel deletion)
             if (currentUser.id === selectedChannel.creatorId && selectedChannel.creatorId !== null) {
                 title =
                     <div className="header">
@@ -288,7 +288,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                             <img className="channel-icon lg-icon" src={selectedChannel.icon?.startsWith("http") ? selectedChannel.icon : `/icons/${selectedChannel.icon}`} /> 
                             Edit {selectedChannel.name}
                             <i 
-                                className="fa-solid fa-x exit-icon" 
+                                className="fa-solid fa-x exit-icon ui-icon" 
                                 onClick={() => {
                                     setMainPanelView("messages");
                                     pingServer();
@@ -336,6 +336,29 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         <li>channel deletion (w confirmation)</li>
                         <button className="submit button" type="submit">Save</button>
                     </form>
+                    <i 
+                                className="fa-solid fa-trash delete-channel-icon ui-icon"
+                                onClick={(e) => {
+                                    // prevent triggering parent click
+                                    e.stopPropagation();
+                                    // delete message
+                                    if (window.confirm("Are you sure you want to delete this message?")) {
+                                        async function deleteMessage() {
+                                            if (!selectedChannel) {
+                                                return;
+                                            }
+
+                                            // remove message from channel
+                                            await apiFetch(`${import.meta.env.VITE_API_URL}/messages/delete/${message.id}`, { method: "DELETE" });
+                                            // update message list
+                                            setMessages(messages.filter(msg => msg.id !== message.id));
+                                        }
+                                        deleteMessage();
+                                        pingServer();
+                                    }
+                                    pingServer();
+                                }}
+                            />
                 </div>
             } else {
                 title =
@@ -344,7 +367,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                             <img className="channel-icon lg-icon" src={selectedChannel.icon?.startsWith("http") ? selectedChannel.icon : `/icons/${selectedChannel.icon}`} />
                             {selectedChannel.name} Details
                             <i 
-                                className="fa-solid fa-x exit-icon" 
+                                className="fa-solid fa-x exit-icon ui-icon" 
                                 onClick={() => {
                                     setMainPanelView("messages");
                                     pingServer();
@@ -362,7 +385,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         <h2>
                             Edit Message
                             <i 
-                                className="fa-solid fa-x exit-icon" 
+                                className="fa-solid fa-x exit-icon ui-icon" 
                                 onClick={() => {
                                     setMainPanelView("messages");
                                     pingServer();
@@ -408,7 +431,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
 
                             {currentUser.id === userProfile.id && (
                             <i 
-                                className="fa-solid fa-pencil edit-icon"
+                                className="fa-solid fa-pencil edit-icon ui-icon"
                                 onClick={() => {
                                     if (!userProfile) return;
                                     setEditingProfile({ ...selectedUser, profileInfo: userProfile.profileInfo });
@@ -428,7 +451,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                                 />
                             )}
                             <i 
-                                className="fa-solid fa-x exit-icon" 
+                                className="fa-solid fa-x exit-icon ui-icon" 
                                 onClick={() => {
                                     setMainPanelView("messages");
                                     pingServer();
@@ -450,7 +473,15 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
             // TO DO: edit profile form
             title =
             <div className="header">
-                <h2>Edit Profile</h2>
+                <h2>Edit Profile 
+                    <i 
+                        className="fa-solid fa-x exit-icon ui-icon" 
+                        onClick={() => {
+                                setMainPanelView("userProfile");
+                                pingServer();
+                        }}
+                    />
+                </h2>
             </div>
             break;
         case "createChannel": // display create new channel
@@ -462,7 +493,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
             content = 
                 <div>Create new DM/channel...
                     <i 
-                        className="fa-solid fa-x exit-icon" 
+                        className="fa-solid fa-x exit-icon ui-icon" 
                         onClick={() => {
                             setMainPanelView("messages");
                             pingServer();
