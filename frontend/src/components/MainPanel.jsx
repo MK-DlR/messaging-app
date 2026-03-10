@@ -303,7 +303,11 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         e.preventDefault();
 
                         async function getData() {
-                            await apiFetch(`${import.meta.env.VITE_API_URL}/channels/manage/${selectedChannel.id}/edit`, { method: "PUT", body: JSON.stringify({ icon: editingChannel.icon, name: editingChannel.name, channelInfo: editingChannel.channelInfo }) });
+                            await apiFetch(`${import.meta.env.VITE_API_URL}/channels/manage/${selectedChannel.id}/edit`, { method: "PUT", body: JSON.stringify({ 
+                                icon: editingChannel.icon, 
+                                name: editingChannel.name, 
+                                channelInfo: editingChannel.channelInfo 
+                            }) });
                             setSelectedChannel({ ...selectedChannel, ...editingChannel });
                             setChannels(channels.map(ch => ch.id === selectedChannel.id ? { ...ch, ...editingChannel } : ch))
                             setMainPanelView("messages");
@@ -333,7 +337,6 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         </label>
                         <li>add users</li>
                         <li>remove users (w confirmation)</li>
-                        <li>channel deletion (w confirmation)</li>
                         <button className="submit button" type="submit">Save</button>
                     </form>
                     <i 
@@ -403,7 +406,9 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                             e.preventDefault();
 
                             async function getData() {
-                                await apiFetch(`${import.meta.env.VITE_API_URL}/messages/edit/${editingMessage.id}`, { method: "PUT", body: JSON.stringify({ body: editingMessage.body }) });
+                                await apiFetch(`${import.meta.env.VITE_API_URL}/messages/edit/${editingMessage.id}`, { method: "PUT", body: JSON.stringify({ 
+                                    body: editingMessage.body 
+                                }) });
                                 setMessages(messages.map(msg =>
                                     msg.id === editingMessage.id
                                     ? { ...msg, body: editingMessage.body }
@@ -437,7 +442,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                                 className="fa-solid fa-pencil edit-icon ui-icon"
                                 onClick={() => {
                                     if (!userProfile) return;
-                                    setEditingProfile({ ...selectedUser, profileInfo: userProfile.profileInfo });
+                                    setEditingProfile({ ...userProfile, profileInfo: userProfile.profileInfo });
                                     setMainPanelView("editProfile"); 
                                     pingServer();
                                 }}
@@ -473,18 +478,59 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
             }
             break;
         case "editProfile": // user can edit own profile
-            // TO DO: edit profile form
             title =
             <div className="header">
                 <h2>Edit Profile 
                     <i 
                         className="fa-solid fa-x exit-icon ui-icon" 
                         onClick={() => {
-                                setMainPanelView("userProfile");
-                                pingServer();
+                            setMainPanelView("userProfile");
+                            pingServer();
                         }}
                     />
                 </h2>
+            </div>
+            content = 
+            <div className="editing-profile form">
+                <form onSubmit={(e) => {
+                    e.preventDefault();
+
+                    async function getData() {
+                        await apiFetch(`${import.meta.env.VITE_API_URL}/users/${currentUser.username}`, { method: "PUT", body: JSON.stringify({
+                            icon: editingProfile.icon,
+                            displayName: editingProfile.displayName,
+                            profileInfo: editingProfile.profileInfo
+                        }) });
+                        setSelectedUser({ ...selectedUser, ...editingProfile });
+                        setCurrentUser({ ...currentUser, ...editingProfile });
+                        setUserProfile({ ...userProfile, ...editingProfile });
+                        setMainPanelView("userProfile");
+                    }
+                    getData(); // initial fetch
+                }}>
+                    <label>Icon URL:
+                        <input
+                            type="text"
+                            value={editingProfile.icon}
+                            onChange={(e) => setEditingProfile({ ...editingProfile, icon: e.target.value })}
+                        />
+                    </label>
+                    <label>Display Name:
+                        <input
+                            type="text"
+                            value={editingProfile.displayName}
+                            onChange={(e) => setEditingProfile({ ...editingProfile, displayName: e.target.value })}
+                        />
+                    </label>
+                    <label>Profile Info:
+                        <input
+                            type="textarea"
+                            value={editingProfile.profileInfo}
+                            onChange={(e) => setEditingProfile({ ...editingProfile, profileInfo: e.target.value })}
+                        />
+                    </label>
+                    <button className="submit button" type="submit">Save</button>
+                </form>
             </div>
             break;
         case "createChannel": // display create new channel
