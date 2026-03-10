@@ -30,7 +30,7 @@
   color: red !important;
 }
 
-.message-icon:hover, .save-icon:hover {
+.message-icon:hover, .save-icon:hover, .add-icon:hover {
   color: green !important;
 }
 

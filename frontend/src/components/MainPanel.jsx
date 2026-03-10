@@ -9,10 +9,11 @@ import StatusCircle from "./StatusCircle";
 import formatDate from "../helpers/formatDate";
 
 // conditionally render different content based on mainPanelView
-function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedChannel, channels, setChannels, mainPanelView, setMainPanelView, selectedUser, setSelectedUser } ) {
+function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedChannel, channels, setChannels, mainPanelView, setMainPanelView, selectedUser, setSelectedUser, allUsers, setAllUsers } ) {
     const [messages, setMessages] = useState([]);
     const [userProfile, setUserProfile] = useState(null);
     const [channelDetails, setChannelDetails] = useState(null);
+    const [previousView, setPreviousView] = useState("messages");
     const [editingChannel, setEditingChannel] = useState(null);
     const [editingMessage, setEditingMessage] = useState(null);
     const [editingProfile, setEditingProfile] = useState(null);
@@ -106,6 +107,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
 
             // map over and display messages
             content = messages.map(message => {
+                // if current user is message author, display edit and delete icons
                 if (currentUser.id === message.userId) {
                     return <div
                         key={message.id}
@@ -211,6 +213,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                             <img className="channel-icon lg-icon" src={selectedChannel.icon?.startsWith("http") ? selectedChannel.icon : `/icons/${selectedChannel.icon}`} />
                             {selectedChannel.name} Details
 
+                            {/* if current user is not channel owner, display leave icon */}
                             {!selectedChannel.isDefault && currentUser.id !== selectedChannel.creatorId && (
                                 <i
                                 className="fa-solid fa-door-open leave-icon ui-icon"
@@ -281,6 +284,8 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
             break;
         case "editChannel": // channel owner can edit and/or delete channel
             // TO DO: finish edit channel form (add/remove users, channel deletion)
+
+            // if channel owner, display edit button
             if (currentUser.id === selectedChannel.creatorId && selectedChannel.creatorId !== null) {
                 title =
                     <div className="header">
@@ -296,6 +301,60 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                             />
                         </h2>
                     </div>
+
+                // filter for users not in channel
+                const nonMembers = allUsers.filter(user => 
+                    !channelDetails.users.some(member => member.username === user.username)
+                );
+
+                // TO DO: map over and display nonMembers for addable users list
+                const addUsers = nonMembers.map(user =>
+                    <div
+                        key={user.username}
+                        // clicking on user's name and/or icon opens user's profile
+                        onClick={() => {
+                            clearTimeout(clickTimer.current);
+                            clickTimer.current = setTimeout(() => {
+                                setSelectedUser(user);
+                                setPreviousView("editChannel");
+                                setMainPanelView("userProfile");
+                            }, 250);
+                            pingServer();
+                        }}
+                        // double clicking on user's name and/or icon creates DM
+                        onDoubleClick={() => {
+                            clearTimeout(clickTimer.current);
+                            setMainPanelView("createChannel");
+                            pingServer();
+                        }}
+                    >
+                        <img className="user-icon icon" src={user.icon?.startsWith("http") ? user.icon : `/icons/${user.icon}`} />
+                        {user.displayName || user.username} 
+                        {/* clicking plus adds to channel, with confirmation */}
+                        <i 
+                            className="fa-solid fa-plus add-icon ui-icon"
+                            onClick={(e) => {
+                                // prevent triggering parent click
+                                e.stopPropagation();
+                                // add user to channel 
+                                if (window.confirm("Are you sure you want to add this user?")) {
+                                    async function addUserToChannel() {
+                                        // add user
+                                        await apiFetch(`${import.meta.env.VITE_API_URL}/channels/manage/${selectedChannel.id}/members`, { method: "PUT", body: JSON.stringify({ action: "add", userId: user.id }) });
+                                        // update channel details to display new member
+                                        setChannelDetails({ ...channelDetails, users: [...channelDetails.users, user] });
+                                    }
+                                    addUserToChannel();
+                                    pingServer();
+                                }
+                                pingServer();
+                            }}
+                        />
+                    </div>
+                );
+
+                // TO DO: map over and display channelDetails.users for removable users list
+                // (minus creator)
 
                 content = 
                 <div className="editing-channel form">
@@ -335,7 +394,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                                 onChange={(e) => setEditingChannel({ ...editingChannel, channelInfo: e.target.value })}
                             />
                         </label>
-                        <li>add users</li>
+                        {addUsers}
                         <li>remove users (w confirmation)</li>
                         <button type="submit" className="save-icon ui-icon">
                             <i className="fa-solid fa-floppy-disk" />
@@ -465,7 +524,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                             <i 
                                 className="fa-solid fa-x exit-icon ui-icon" 
                                 onClick={() => {
-                                    setMainPanelView("messages");
+                                    setMainPanelView(previousView);
                                     pingServer();
                                 }}
                             />
