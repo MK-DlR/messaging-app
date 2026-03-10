@@ -7,22 +7,8 @@ import pingServer from "../helpers/pingServer";
 import isOnline from "../helpers/isOnline";
 import StatusCircle from "./StatusCircle";
 
-function RightPanel( { currentUser, setCurrentUser, mainPanelView, setMainPanelView, selectedUser, setSelectedUser } ) {
-    const [allUsers, setAllUsers] = useState([]);
+function RightPanel( { currentUser, setCurrentUser, mainPanelView, setMainPanelView, selectedUser, setSelectedUser, allUsers, setAllUsers } ) {
     const clickTimer = useRef(null); // set up timeout
-
-    // fetch all users
-    useEffect(() => {
-        async function getData() {
-            const response = await apiFetch(`${import.meta.env.VITE_API_URL}/users/all-users`);
-            const data = await response.json();
-            setAllUsers(data.users);
-        }
-
-        getData(); // initial fetch
-        const intervalId = setInterval(getData, 5000);
-        return () => clearInterval(intervalId);
-    }, []);
 
     let displayUsers;
 

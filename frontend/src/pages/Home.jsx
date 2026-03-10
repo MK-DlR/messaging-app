@@ -13,6 +13,7 @@ function Home() {
     const [channels, setChannels] = useState([]);
     const [mainPanelView, setMainPanelView] = useState("");
     const [selectedUser, setSelectedUser] = useState("");
+    const [allUsers, setAllUsers] = useState([]);
 
     // fetch and store channels list
     useEffect(() => {
@@ -43,6 +44,19 @@ function Home() {
         getData();
     }, []);
 
+    // fetch all users
+    useEffect(() => {
+        async function getData() {
+            const response = await apiFetch(`${import.meta.env.VITE_API_URL}/users/all-users`);
+            const data = await response.json();
+            setAllUsers(data.users);
+        }
+
+        getData(); // initial fetch
+        const intervalId = setInterval(getData, 5000);
+        return () => clearInterval(intervalId);
+    }, []);
+
     return (
         <div className="panel-container">
             <LeftPanel 
@@ -64,6 +78,8 @@ function Home() {
                 setMainPanelView={setMainPanelView}
                 selectedUser={selectedUser}
                 setSelectedUser={setSelectedUser}
+                allUsers={allUsers}
+                setAllUsers={setAllUsers}
             />
             <RightPanel 
                 currentUser={currentUser} 
@@ -72,6 +88,8 @@ function Home() {
                 setMainPanelView={setMainPanelView}
                 selectedUser={selectedUser}
                 setSelectedUser={setSelectedUser}
+                allUsers={allUsers}
+                setAllUsers={setAllUsers}
             />
         </div>
     )
