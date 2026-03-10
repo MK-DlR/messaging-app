@@ -197,7 +197,7 @@ const channelDelete = async (req, res, next) => {
     const channel = parseInt(req.params.id);
 
     // check channel and permissions
-    const selectedChannel = await findChannelAsCreator(channel, creator);
+    const selectedChannel = await findChannelAsCreatorAny(channel, creator);
 
     if (!selectedChannel) {
       return res.status(404).json({ error: "Channel not found" });

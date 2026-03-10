@@ -337,28 +337,31 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         <button className="submit button" type="submit">Save</button>
                     </form>
                     <i 
-                                className="fa-solid fa-trash delete-channel-icon ui-icon"
-                                onClick={(e) => {
-                                    // prevent triggering parent click
-                                    e.stopPropagation();
-                                    // delete message
-                                    if (window.confirm("Are you sure you want to delete this message?")) {
-                                        async function deleteMessage() {
-                                            if (!selectedChannel) {
-                                                return;
-                                            }
-
-                                            // remove message from channel
-                                            await apiFetch(`${import.meta.env.VITE_API_URL}/messages/delete/${message.id}`, { method: "DELETE" });
-                                            // update message list
-                                            setMessages(messages.filter(msg => msg.id !== message.id));
-                                        }
-                                        deleteMessage();
-                                        pingServer();
+                        className="fa-solid fa-trash delete-channel-icon ui-icon"
+                        onClick={(e) => {
+                            // prevent triggering parent click
+                            e.stopPropagation();
+                            // delete channel
+                            if (window.confirm("Are you sure you want to delete this channel?")) {
+                                async function deleteChannel() {
+                                    if (!selectedChannel) {
+                                        return;
                                     }
-                                    pingServer();
-                                }}
-                            />
+
+                                    // remove channel
+                                    await apiFetch(`${import.meta.env.VITE_API_URL}/channels/delete/${selectedChannel.id}`, { method: "DELETE" });
+                                    // update channels list
+                                    setChannels(channels.filter(channel => channel.id !== selectedChannel.id));
+                                    // reset selectedChannel to default
+                                    setSelectedChannel(channels.find(channel => channel.isDefault === true));
+                                    setMainPanelView("messages");
+                                }
+                                deleteChannel();
+                                pingServer();
+                            }
+                            pingServer();
+                        }}
+                    />
                 </div>
             } else {
                 title =
