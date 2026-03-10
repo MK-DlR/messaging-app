@@ -337,7 +337,9 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         </label>
                         <li>add users</li>
                         <li>remove users (w confirmation)</li>
-                        <button className="submit button" type="submit">Save</button>
+                        <button type="submit" className="save-icon ui-icon">
+                            <i className="fa-solid fa-floppy-disk" />
+                        </button>
                     </form>
                     <i 
                         className="fa-solid fa-trash delete-channel-icon ui-icon"
@@ -423,7 +425,9 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                                 value={editingMessage.body}
                                 onChange={(e) => setEditingMessage({ ...editingMessage, body: e.target.value })}
                             />
-                            <button className="submit button" type="submit">Save</button>
+                            <button type="submit" className="save-icon ui-icon">
+                                <i className="fa-solid fa-floppy-disk" />
+                            </button>
                         </form>
                     </div>
             break;
@@ -529,7 +533,9 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                             onChange={(e) => setEditingProfile({ ...editingProfile, profileInfo: e.target.value })}
                         />
                     </label>
-                    <button className="submit button" type="submit">Save</button>
+                    <button type="submit" className="save-icon ui-icon ui-icon">
+                        <i className="fa-solid fa-floppy-disk" />
+                    </button>
                 </form>
             </div>
             break;

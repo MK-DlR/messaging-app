@@ -30,7 +30,7 @@
   color: red !important;
 }
 
-.message-icon:hover {
+.message-icon:hover, .save-icon:hover {
   color: green !important;
 }
 
@@ -49,6 +49,13 @@
 .edit-hover, .delete-icon {
   opacity: 0;
   transition: opacity 0.4s, color 0.4s;
+}
+
+.save-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
 }
 
 .author-message:hover .edit-hover,
