@@ -144,6 +144,7 @@ const channelDetailsGet = async (req, res, next) => {
       include: {
         users: {
           select: {
+            id: true,
             username: true,
             displayName: true,
             icon: true,
