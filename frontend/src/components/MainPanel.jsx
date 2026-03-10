@@ -14,6 +14,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
     const [userProfile, setUserProfile] = useState(null);
     const [channelDetails, setChannelDetails] = useState(null);
     const [previousView, setPreviousView] = useState("messages");
+    const [addUserSearch, setAddUserSearch] = useState("");
     const [editingChannel, setEditingChannel] = useState(null);
     const [editingMessage, setEditingMessage] = useState(null);
     const [editingProfile, setEditingProfile] = useState(null);
@@ -89,6 +90,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                                 onClick={() => {
                                     if (!channelDetails) return;
                                     setEditingChannel({ ...selectedChannel, channelInfo: channelDetails.channelInfo });
+                                    setAddUserSearch("");
                                     setMainPanelView("editChannel"); 
                                     pingServer();
                                 }}
@@ -283,8 +285,6 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
             }
             break;
         case "editChannel": // channel owner can edit and/or delete channel
-            // TO DO: finish edit channel form (add/remove users, channel deletion)
-
             // if channel owner, display edit button
             if (currentUser.id === selectedChannel.creatorId && selectedChannel.creatorId !== null) {
                 title =
@@ -307,16 +307,26 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                     !channelDetails.users.some(member => member.username === user.username)
                 );
 
+                // filter users not in channel for search
+                const filteredNonMembers = nonMembers.filter(user =>
+                    (user.displayName || user.username).toLowerCase().includes(addUserSearch.toLowerCase())
+                );
+
                 // filter for users in channel (excluding owner)
                 const removableUsers = channelDetails.users.filter(u => u.id !== selectedChannel.creatorId);
 
-                // TO DO: add search bar for addUsers list
-                // map over and display nonMembers for addable users list
+                // map over and display users who can be added
                 const addUsers = (
                     <>
                         <h3>Add Users</h3>
-                        {nonMembers.length === 0 ? 
-                            <p>No users to add</p> : nonMembers.sort((a, b) => 
+                        <input
+                            type="text"
+                            placeholder="Search users..."
+                            value={addUserSearch}
+                            onChange={(e) => setAddUserSearch(e.target.value)}
+                        />
+                        {filteredNonMembers.length === 0 ? 
+                            <p>No users to add</p> : filteredNonMembers.sort((a, b) => 
                                 (a.displayName || a.username).localeCompare(b.displayName || b.username)).map(user =>
                                 <div
                                     key={user.username}
@@ -363,9 +373,6 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         )}
                     </>
                 )
-
-                // TO DO: map over and display channelDetails.users for removable users list
-                // (minus creator)
 
                 // map over and display nonMembers for removable users list
                 const removeUsers = (
