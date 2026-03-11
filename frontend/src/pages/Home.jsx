@@ -61,6 +61,7 @@ function Home() {
     return (
         <div className="panel-container">
             <LeftPanel 
+                setCurrentUser={setCurrentUser}
                 selectedChannel={selectedChannel}
                 setSelectedChannel={setSelectedChannel}
                 channels={channels}

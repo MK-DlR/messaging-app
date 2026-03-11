@@ -3,9 +3,11 @@
 // imports
 import { useState, useEffect } from "react";
 import apiFetch from "../helpers/apiFetch";
+import { useNavigate } from "react-router-dom";
 
 // display all channels that user is in
-function LeftPanel( {selectedChannel, setSelectedChannel, channels, setChannels, mainPanelView, setMainPanelView } ) {
+function LeftPanel( {setCurrentUser, selectedChannel, setSelectedChannel, channels, setChannels, mainPanelView, setMainPanelView } ) {
+    const navigate = useNavigate()
     // map over and display channels
     const displayChannels = channels.map(channel => 
         <div 
@@ -24,6 +26,28 @@ function LeftPanel( {selectedChannel, setSelectedChannel, channels, setChannels,
         <div>
             <h2 className="header">All Channels</h2>
             {displayChannels}
+            <div className="button-panel">
+                <button 
+                    type="button" 
+                    className="submit button"
+                    onClick={() => {
+                        setMainPanelView("createChannel");
+                    }}
+                >
+                    New Channel
+                </button>
+                <button 
+                    type="button" 
+                    className="logout button"
+                    onClick={() => {
+                        localStorage.removeItem("token");
+                        setCurrentUser(null);
+                        navigate("/login");
+                    }}
+                    >
+                        Logout
+                </button>
+            </div>
         </div>
     )
 }

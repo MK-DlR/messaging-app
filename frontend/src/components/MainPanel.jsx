@@ -494,6 +494,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         <label>Icon URL:
                             <input 
                                 type="text"
+                                placeholder="optional"
                                 value={editingChannel.icon}
                                 onChange={(e) => setEditingChannel({ ...editingChannel, icon: e.target.value })}
                             />
@@ -501,6 +502,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         <label>Name:
                             <input 
                                 type="text"
+                                placeholder="optional"
                                 value={editingChannel.name}
                                 onChange={(e) => setEditingChannel({ ...editingChannel, name: e.target.value })}
                             />
@@ -508,6 +510,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         <label>Description:
                             <input 
                                 type="text"
+                                placeholder="optional"
                                 value={editingChannel.channelInfo || ""}
                                 onChange={(e) => setEditingChannel({ ...editingChannel, channelInfo: e.target.value })}
                             />
@@ -700,6 +703,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                     <label>Icon URL:
                         <input
                             type="text"
+                            placeholder="optional"
                             value={editingProfile.icon}
                             onChange={(e) => setEditingProfile({ ...editingProfile, icon: e.target.value })}
                         />
@@ -707,6 +711,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                     <label>Display Name:
                         <input
                             type="text"
+                            placeholder="optional"
                             value={editingProfile.displayName}
                             onChange={(e) => setEditingProfile({ ...editingProfile, displayName: e.target.value })}
                         />
@@ -714,6 +719,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                     <label>Profile Info:
                         <input
                             type="textarea"
+                            placeholder="optional"
                             value={editingProfile.profileInfo}
                             onChange={(e) => setEditingProfile({ ...editingProfile, profileInfo: e.target.value })}
                         />
