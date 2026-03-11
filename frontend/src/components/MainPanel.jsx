@@ -18,6 +18,8 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
     const [editingChannel, setEditingChannel] = useState(null);
     const [editingMessage, setEditingMessage] = useState(null);
     const [editingProfile, setEditingProfile] = useState(null);
+    const [newChannelUsers, setNewChannelUsers] = useState([]);
+    const [newChannel, setNewChannel] = useState({ icon: "", name: "", channelInfo: "" });
 
     // set up timeout
     const clickTimer = useRef(null);
@@ -129,6 +131,8 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         // double clicking on user's name and/or icon creates DM
                         onDoubleClick={() => {
                             clearTimeout(clickTimer.current);
+                            setNewChannel({ icon: "", name: "", channelInfo: "" })
+                            setNewChannelUsers([]);
                             setMainPanelView("createChannel");
                             pingServer();
                         }}
@@ -193,6 +197,8 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                             // double clicking on user's name and/or icon creates DM
                             onDoubleClick={() => {
                                 clearTimeout(clickTimer.current);
+                                setNewChannel({ icon: "", name: "", channelInfo: "" })
+                                setNewChannelUsers([]);
                                 setMainPanelView("createChannel");
                                 pingServer();
                             }}
@@ -268,6 +274,8 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         // double clicking on user's name and/or icon creates DM
                         onDoubleClick={() => {
                             clearTimeout(clickTimer.current);
+                            setNewChannel({ icon: "", name: "", channelInfo: "" })
+                            setNewChannelUsers([]);
                             setMainPanelView("createChannel");
                             pingServer();
                         }}
@@ -343,6 +351,8 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                                     // double clicking on user's name and/or icon creates DM
                                     onDoubleClick={() => {
                                         clearTimeout(clickTimer.current);
+                                        setNewChannel({ icon: "", name: "", channelInfo: "" })
+                                        setNewChannelUsers([]);
                                         setMainPanelView("createChannel");
                                         pingServer();
                                     }}
@@ -370,7 +380,8 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                                         }}
                                     />
                                 </div>
-                        )}
+                            )
+                        }
                     </>
                 )
 
@@ -378,51 +389,55 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                 const removeUsers = (
                     <>
                         <h3>Remove Users</h3>
-                        {removableUsers.length === 0 ? <p>No users to add</p> : removableUsers.sort((a, b) => 
-                            (a.displayName || a.username).localeCompare(b.displayName || b.username)).map(user => 
-                            <div
-                                key={user.username}
-                                // clicking on user's name and/or icon opens user's profile
-                                onClick={() => {
-                                    clearTimeout(clickTimer.current);
-                                    clickTimer.current = setTimeout(() => {
-                                        setSelectedUser(user);
-                                        setPreviousView("editChannel");
-                                        setMainPanelView("userProfile");
-                                    }, 250);
-                                    pingServer();
-                                }}
-                                // double clicking on user's name and/or icon creates DM
-                                onDoubleClick={() => {
-                                    clearTimeout(clickTimer.current);
-                                    setMainPanelView("createChannel");
-                                    pingServer();
-                                }}
-                            >
-                            <img className="user-icon icon" src={user.icon?.startsWith("http") ? user.icon : `/icons/${user.icon}`} />
-                            {user.displayName || user.username} 
-                            {/* clicking minus removes channel, with confirmation */}
-                            <i 
-                                className="fa-solid fa-minus remove-icon ui-icon"
-                                onClick={(e) => {
-                                    // prevent triggering parent click
-                                    e.stopPropagation();
-                                    // remove user from channel 
-                                    if (window.confirm("Are you sure you want to remove this user?")) {
-                                        async function removeUserFromChannel() {
-                                            // remove user
-                                            await apiFetch(`${import.meta.env.VITE_API_URL}/channels/manage/${selectedChannel.id}/members`, { method: "PUT", body: JSON.stringify({ action: "remove", userId: user.id }) });
-                                            // update channel details to display remaining members
-                                            setChannelDetails({ ...channelDetails, users: channelDetails.users.filter(u => u.username !== user.username) });
-                                        }
-                                        removeUserFromChannel();
+                        {removableUsers.length === 0 ? 
+                            <p>No users to add</p> : removableUsers.sort((a, b) => 
+                                (a.displayName || a.username).localeCompare(b.displayName || b.username)).map(user => 
+                                <div
+                                    key={user.username}
+                                    // clicking on user's name and/or icon opens user's profile
+                                    onClick={() => {
+                                        clearTimeout(clickTimer.current);
+                                        clickTimer.current = setTimeout(() => {
+                                            setSelectedUser(user);
+                                            setPreviousView("editChannel");
+                                            setMainPanelView("userProfile");
+                                        }, 250);
                                         pingServer();
-                                    }
-                                    pingServer();
-                                }}
-                            />
-                        </div>
-                        )}
+                                    }}
+                                    // double clicking on user's name and/or icon creates DM
+                                    onDoubleClick={() => {
+                                        clearTimeout(clickTimer.current);
+                                        setNewChannel({ icon: "", name: "", channelInfo: "" })
+                                        setNewChannelUsers([]);
+                                        setMainPanelView("createChannel");
+                                        pingServer();
+                                    }}
+                                >
+                                    <img className="user-icon icon" src={user.icon?.startsWith("http") ? user.icon : `/icons/${user.icon}`} />
+                                    {user.displayName || user.username} 
+                                    {/* clicking minus removes channel, with confirmation */}
+                                    <i 
+                                        className="fa-solid fa-minus remove-icon ui-icon"
+                                        onClick={(e) => {
+                                            // prevent triggering parent click
+                                            e.stopPropagation();
+                                            // remove user from channel 
+                                            if (window.confirm("Are you sure you want to remove this user?")) {
+                                                async function removeUserFromChannel() {
+                                                    // remove user
+                                                    await apiFetch(`${import.meta.env.VITE_API_URL}/channels/manage/${selectedChannel.id}/members`, { method: "PUT", body: JSON.stringify({ action: "remove", userId: user.id }) });
+                                                    // update channel details to display remaining members
+                                                    setChannelDetails({ ...channelDetails, users: channelDetails.users.filter(u => u.username !== user.username) });
+                                                }
+                                                removeUserFromChannel();
+                                                pingServer();
+                                            }
+                                            pingServer();
+                                        }}
+                                    />
+                                </div>
+                            )
+                        }
                     </>
                 )
 
@@ -586,7 +601,15 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                                 <i 
                                     className="fa-regular fa-envelope message-icon"
                                     onClick={() => {
-                                        setMainPanelView("createChannel");
+                                        async function getData() {
+                                            const response = await apiFetch(`${import.meta.env.VITE_API_URL}/channels/new-channel/`, { method: "POST", body: JSON.stringify({ userIds: [userProfile.id]}) });
+                                            const data = await response.json();
+                                            const createdChannel = data.channel || data.existingChannel;
+                                            if (data.channel) setChannels([...channels, createdChannel]);
+                                            setSelectedChannel(createdChannel);
+                                            setMainPanelView("messages");
+                                        }
+                                        getData();
                                         pingServer();
                                     }}
                                 />
@@ -671,18 +694,62 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
         case "createChannel": // display create new channel
             title =
                 <div className="header">
-                    <h2>Create New Channel</h2>
+                    <h2>Create New Channel
+                        <i 
+                            className="fa-solid fa-x exit-icon ui-icon" 
+                            onClick={() => {
+                                setMainPanelView("messages");
+                                pingServer();
+                            }}
+                        />
+                    </h2>
                 </div>
 
-            content = 
-                <div>Create new DM/channel...
-                    <i 
-                        className="fa-solid fa-x exit-icon ui-icon" 
-                        onClick={() => {
+                content = 
+                <div className="creating-channel form">
+                    <form onSubmit={(e) => {
+                        e.preventDefault();
+
+                        async function getData() {
+                            const response = await apiFetch(`${import.meta.env.VITE_API_URL}/channels/new-channel/`, { method: "POST", body: JSON.stringify({
+                                userIds: newChannelUsers.map(u => u.id), name: newChannel.name
+                            }) });
+                            const data = await response.json();
+                            const createdChannel = data.channel;
+                            setChannels([...channels, createdChannel]);
+                            setSelectedChannel(createdChannel);
                             setMainPanelView("messages");
-                            pingServer();
-                        }}
-                    />
+                        }
+                        getData();
+                    }}>
+                        <label>Icon URL:
+                            <input 
+                                type="text"
+                                placeholder="optional"
+                                value={newChannel.icon}
+                                onChange={(e) => setNewChannel({ ...newChannel, icon: e.target.value })}
+                            />
+                        </label>
+                        <label>Name:
+                            <input 
+                                type="text"
+                                placeholder="optional"
+                                value={newChannel.name}
+                                onChange={(e) => setNewChannel({ ...newChannel, name: e.target.value })}
+                            />
+                        </label>
+                        <label>Description:
+                            <input 
+                                type="text"
+                                placeholder="optional"
+                                value={newChannel.channelInfo || ""}
+                                onChange={(e) => setNewChannel({ ...newChannel, channelInfo: e.target.value })}
+                            />
+                        </label>
+                        <button type="submit" className="save-icon ui-icon">
+                            <i className="fa-solid fa-floppy-disk" />
+                        </button>
+                    </form>
                 </div>
             break;
         default:

@@ -43,21 +43,26 @@ const channelPost = async (req, res, next) => {
     // determine if DM or group channel
     if (userIds.length === 1) {
       // DM channel
-      // before creating DM channel, check if it already exists
-      const existingChannel = await prisma.channel.findFirst({
+      // check for channels including selected users
+      const channels = await prisma.channel.findMany({
         where: {
-          isGroup: false,
           AND: [
             { users: { some: { id: creatorId } } },
             { users: { some: { id: userIds[0] } } },
           ],
         },
+        include: {
+          users: { select: { id: true } },
+        },
       });
+      // filter results to channels where selected users are the only 2 members
+      const existingChannel = channels.find((ch) => ch.users.length === 2);
+
       // if channel exists, return to it
       if (existingChannel) {
         return res.status(200).json({ existingChannel });
       } else {
-        // if channel doesn't exist, create new dm channel
+        // if channel doesn't exist, create new DM channel
         if (!name) {
           // generate name from participant users
           const users = await prisma.user.findMany({
