@@ -47,7 +47,7 @@ const messagesGet = async (req, res, next) => {
         where: { channelId: channelId },
         include: {
           users: {
-            select: { username: true, displayName: true, icon: true },
+            select: { id: true, username: true, displayName: true, icon: true },
           },
         },
       });

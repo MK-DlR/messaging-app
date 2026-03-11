@@ -7,7 +7,7 @@ import pingServer from "../helpers/pingServer";
 import isOnline from "../helpers/isOnline";
 import StatusCircle from "./StatusCircle";
 
-function RightPanel( { currentUser, setCurrentUser, mainPanelView, setMainPanelView, selectedUser, setSelectedUser, allUsers, setAllUsers } ) {
+function RightPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedChannel, channels, setChannels, mainPanelView, setMainPanelView, selectedUser, setSelectedUser, allUsers, setAllUsers, editingProfile, setEditingProfile } ) {
     const clickTimer = useRef(null); // set up timeout
 
     let displayUsers;
@@ -31,7 +31,19 @@ function RightPanel( { currentUser, setCurrentUser, mainPanelView, setMainPanelV
                 // double clicking on user's name and/or icon creates DM
                 onDoubleClick={() => {
                     clearTimeout(clickTimer.current);
-                    setMainPanelView("createChannel");
+                    async function getData() {
+                        if (user.id === currentUser.id) {
+                            setEditingProfile({ ...currentUser })
+                            return setMainPanelView("editProfile");
+                        }
+                        const response = await apiFetch(`${import.meta.env.VITE_API_URL}/channels/new-channel/`, { method: "POST", body: JSON.stringify({ userIds: [user.id]}) });
+                        const data = await response.json();
+                        const createdChannel = data.channel || data.existingChannel;
+                        if (data.channel) setChannels([...channels, createdChannel]);
+                        setSelectedChannel(createdChannel);
+                        setMainPanelView("messages");
+                    }
+                    getData();
                     pingServer();
                 }}
             >

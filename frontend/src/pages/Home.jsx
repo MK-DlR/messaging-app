@@ -14,6 +14,7 @@ function Home() {
     const [mainPanelView, setMainPanelView] = useState("");
     const [selectedUser, setSelectedUser] = useState("");
     const [allUsers, setAllUsers] = useState([]);
+    const [editingProfile, setEditingProfile] = useState(null);
 
     // fetch and store channels list
     useEffect(() => {
@@ -80,16 +81,24 @@ function Home() {
                 setSelectedUser={setSelectedUser}
                 allUsers={allUsers}
                 setAllUsers={setAllUsers}
+                editingProfile={editingProfile}
+                setEditingProfile={setEditingProfile}
             />
             <RightPanel 
                 currentUser={currentUser} 
                 setCurrentUser={setCurrentUser}
+                selectedChannel={selectedChannel}
+                setSelectedChannel={setSelectedChannel}
+                channels={channels}
+                setChannels={setChannels}
                 mainPanelView={mainPanelView}
                 setMainPanelView={setMainPanelView}
                 selectedUser={selectedUser}
                 setSelectedUser={setSelectedUser}
                 allUsers={allUsers}
                 setAllUsers={setAllUsers}
+                editingProfile={editingProfile}
+                setEditingProfile={setEditingProfile}
             />
         </div>
     )

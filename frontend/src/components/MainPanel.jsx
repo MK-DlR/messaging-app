@@ -9,7 +9,7 @@ import StatusCircle from "./StatusCircle";
 import formatDate from "../helpers/formatDate";
 
 // conditionally render different content based on mainPanelView
-function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedChannel, channels, setChannels, mainPanelView, setMainPanelView, selectedUser, setSelectedUser, allUsers, setAllUsers } ) {
+function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedChannel, channels, setChannels, mainPanelView, setMainPanelView, selectedUser, setSelectedUser, allUsers, setAllUsers, editingProfile, setEditingProfile } ) {
     const [messages, setMessages] = useState([]);
     const [userProfile, setUserProfile] = useState(null);
     const [channelDetails, setChannelDetails] = useState(null);
@@ -17,7 +17,6 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
     const [addUserSearch, setAddUserSearch] = useState("");
     const [editingChannel, setEditingChannel] = useState(null);
     const [editingMessage, setEditingMessage] = useState(null);
-    const [editingProfile, setEditingProfile] = useState(null);
     const [newChannelUsers, setNewChannelUsers] = useState([]);
     const [newChannel, setNewChannel] = useState({ icon: "", name: "", channelInfo: "" });
 
@@ -131,9 +130,19 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         // double clicking on user's name and/or icon creates DM
                         onDoubleClick={() => {
                             clearTimeout(clickTimer.current);
-                            setNewChannel({ icon: "", name: "", channelInfo: "" })
-                            setNewChannelUsers([]);
-                            setMainPanelView("createChannel");
+                            async function getData() {
+                                if (message.users.id === currentUser.id) {
+                                    setEditingProfile({ ...currentUser });
+                                    return setMainPanelView("editProfile");
+                                }
+                                const response = await apiFetch(`${import.meta.env.VITE_API_URL}/channels/new-channel/`, { method: "POST", body: JSON.stringify({ userIds: [message.users.id]}) });
+                                const data = await response.json();
+                                const createdChannel = data.channel || data.existingChannel;
+                                if (data.channel) setChannels([...channels, createdChannel]);
+                                setSelectedChannel(createdChannel);
+                                setMainPanelView("messages");
+                            }
+                            getData();
                             pingServer();
                         }}
                     >
@@ -197,9 +206,15 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                             // double clicking on user's name and/or icon creates DM
                             onDoubleClick={() => {
                                 clearTimeout(clickTimer.current);
-                                setNewChannel({ icon: "", name: "", channelInfo: "" })
-                                setNewChannelUsers([]);
-                                setMainPanelView("createChannel");
+                                async function getData() {
+                                    const response = await apiFetch(`${import.meta.env.VITE_API_URL}/channels/new-channel/`, { method: "POST", body: JSON.stringify({ userIds: [message.users.id]}) });
+                                    const data = await response.json();
+                                    const createdChannel = data.channel || data.existingChannel;
+                                    if (data.channel) setChannels([...channels, createdChannel]);
+                                    setSelectedChannel(createdChannel);
+                                    setMainPanelView("messages");
+                                }
+                                getData();
                                 pingServer();
                             }}
                         >
@@ -274,9 +289,15 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         // double clicking on user's name and/or icon creates DM
                         onDoubleClick={() => {
                             clearTimeout(clickTimer.current);
-                            setNewChannel({ icon: "", name: "", channelInfo: "" })
-                            setNewChannelUsers([]);
-                            setMainPanelView("createChannel");
+                            async function getData() {
+                                const response = await apiFetch(`${import.meta.env.VITE_API_URL}/channels/new-channel/`, { method: "POST", body: JSON.stringify({ userIds: [user.id]}) });
+                                const data = await response.json();
+                                const createdChannel = data.channel || data.existingChannel;
+                                if (data.channel) setChannels([...channels, createdChannel]);
+                                setSelectedChannel(createdChannel);
+                                setMainPanelView("messages");
+                            }
+                            getData();
                             pingServer();
                         }}
                     >
@@ -351,9 +372,15 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                                     // double clicking on user's name and/or icon creates DM
                                     onDoubleClick={() => {
                                         clearTimeout(clickTimer.current);
-                                        setNewChannel({ icon: "", name: "", channelInfo: "" })
-                                        setNewChannelUsers([]);
-                                        setMainPanelView("createChannel");
+                                        async function getData() {
+                                            const response = await apiFetch(`${import.meta.env.VITE_API_URL}/channels/new-channel/`, { method: "POST", body: JSON.stringify({ userIds: [user.id]}) });
+                                            const data = await response.json();
+                                            const createdChannel = data.channel || data.existingChannel;
+                                            if (data.channel) setChannels([...channels, createdChannel]);
+                                            setSelectedChannel(createdChannel);
+                                            setMainPanelView("messages");
+                                        }
+                                        getData();
                                         pingServer();
                                     }}
                                 >
@@ -407,9 +434,15 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                                     // double clicking on user's name and/or icon creates DM
                                     onDoubleClick={() => {
                                         clearTimeout(clickTimer.current);
-                                        setNewChannel({ icon: "", name: "", channelInfo: "" })
-                                        setNewChannelUsers([]);
-                                        setMainPanelView("createChannel");
+                                        async function getData() {
+                                            const response = await apiFetch(`${import.meta.env.VITE_API_URL}/channels/new-channel/`, { method: "POST", body: JSON.stringify({ userIds: [user.id]}) });
+                                            const data = await response.json();
+                                            const createdChannel = data.channel || data.existingChannel;
+                                            if (data.channel) setChannels([...channels, createdChannel]);
+                                            setSelectedChannel(createdChannel);
+                                            setMainPanelView("messages");
+                                        }
+                                        getData();
                                         pingServer();
                                     }}
                                 >
