@@ -445,7 +445,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                                 >
                                     <img className="user-icon icon" src={user.icon?.startsWith("http") ? user.icon : `/icons/${user.icon}`} />
                                     {user.displayName || user.username} 
-                                    {/* clicking minus removes channel, with confirmation */}
+                                    {/* clicking minus removes user from channel, with confirmation */}
                                     <i 
                                         className="fa-solid fa-minus remove-icon ui-icon"
                                         onClick={(e) => {
@@ -728,7 +728,8 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
             </div>
             break;
         case "createChannel": // display create new channel
-            title =
+            {
+                title =
                 <div className="header">
                     <h2>Create New Channel
                         <i 
@@ -740,12 +741,136 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         />
                     </h2>
                 </div>
-
+    
+                // filter for users not in channel
+                const nonMembers = allUsers.filter(user => 
+                    user.id !== currentUser.id &&
+                    !newChannelUsers.some(member => member.id === user.id)
+                );
+    
+                // filter users not in channel for search
+                const filteredNonMembers = nonMembers.filter(user =>
+                    (user.displayName || user.username).toLowerCase().includes(addUserSearch.toLowerCase())
+                );
+    
+                // map over already selected users
+                const selectedUsers = (
+                    <>
+                        <h3>Selected Users</h3>
+                        {newChannelUsers.length === 0 ? 
+                            <p>No users to add</p> : newChannelUsers.sort((a, b) => 
+                                (a.displayName || a.username).localeCompare(b.displayName || b.username)).map(user =>
+                                <div
+                                    key={user.username}
+                                    // clicking on user's name and/or icon opens user's profile
+                                    onClick={() => {
+                                        clearTimeout(clickTimer.current);
+                                        clickTimer.current = setTimeout(() => {
+                                            setSelectedUser(user);
+                                            setPreviousView("createChannel");
+                                            setMainPanelView("userProfile");
+                                        }, 250);
+                                        pingServer();
+                                    }}
+                                    // double clicking on user's name and/or icon creates DM
+                                    onDoubleClick={() => {
+                                        clearTimeout(clickTimer.current);
+                                        async function getData() {
+                                            const response = await apiFetch(`${import.meta.env.VITE_API_URL}/channels/new-channel/`, { method: "POST", body: JSON.stringify({ userIds: [user.id]}) });
+                                            const data = await response.json();
+                                            const createdChannel = data.channel || data.existingChannel;
+                                            if (data.channel) setChannels([...channels, createdChannel]);
+                                            setSelectedChannel(createdChannel);
+                                            setMainPanelView("messages");
+                                        }
+                                        getData();
+                                        pingServer();
+                                    }}
+                                >
+                                    <img className="user-icon icon" src={user.icon?.startsWith("http") ? user.icon : `/icons/${user.icon}`} />
+                                        {user.displayName || user.username} 
+                                        <i 
+                                            className="fa-solid fa-minus remove-icon ui-icon"
+                                            onClick={(e) => {
+                                                // prevent triggering parent click
+                                                e.stopPropagation();
+                                                // remove user from channel 
+                                                setNewChannelUsers(newChannelUsers.filter(u => u.id !== user.id))
+                                                pingServer();
+                                            }}
+                                        />
+                                </div>
+                            )
+                        }
+                    </>
+                )
+    
+                // map over and display users who can be added
+                const addUsers = (
+                    <>
+                        <h3>Add Users</h3>
+                        <input
+                            type="text"
+                            placeholder="Search users..."
+                            value={addUserSearch}
+                            onChange={(e) => setAddUserSearch(e.target.value)}
+                        />
+                        {filteredNonMembers.length === 0 ? 
+                            <p>No users to add</p> : filteredNonMembers.sort((a, b) => 
+                                (a.displayName || a.username).localeCompare(b.displayName || b.username)).map(user =>
+                                <div
+                                    key={user.username}
+                                    // clicking on user's name and/or icon opens user's profile
+                                    onClick={() => {
+                                        clearTimeout(clickTimer.current);
+                                        clickTimer.current = setTimeout(() => {
+                                            setSelectedUser(user);
+                                            setPreviousView("createChannel");
+                                            setMainPanelView("userProfile");
+                                        }, 250);
+                                        pingServer();
+                                    }}
+                                    // double clicking on user's name and/or icon creates DM
+                                    onDoubleClick={() => {
+                                        clearTimeout(clickTimer.current);
+                                        async function getData() {
+                                            const response = await apiFetch(`${import.meta.env.VITE_API_URL}/channels/new-channel/`, { method: "POST", body: JSON.stringify({ userIds: [user.id]}) });
+                                            const data = await response.json();
+                                            const createdChannel = data.channel || data.existingChannel;
+                                            if (data.channel) setChannels([...channels, createdChannel]);
+                                            setSelectedChannel(createdChannel);
+                                            setMainPanelView("messages");
+                                        }
+                                        getData();
+                                        pingServer();
+                                    }}
+                                >
+                                    <img className="user-icon icon" src={user.icon?.startsWith("http") ? user.icon : `/icons/${user.icon}`} />
+                                    {user.displayName || user.username}                                 <i 
+                                        className="fa-solid fa-plus add-icon ui-icon"
+                                        onClick={(e) => {
+                                            // prevent triggering parent click
+                                            e.stopPropagation();
+                                            // add user to channel 
+                                            async function addUserToChannel() {
+                                                // add user
+                                                setNewChannelUsers([...newChannelUsers, user]);
+                                            }
+                                            addUserToChannel();
+                                            pingServer();
+                                        }}
+                                    />
+                                </div>
+                            )
+                        }
+                    </>
+                )
+    
                 content = 
                 <div className="creating-channel form">
                     <form onSubmit={(e) => {
                         e.preventDefault();
-
+    
                         async function getData() {
                             const response = await apiFetch(`${import.meta.env.VITE_API_URL}/channels/new-channel/`, { method: "POST", body: JSON.stringify({
                                 userIds: newChannelUsers.map(u => u.id), name: newChannel.name
@@ -782,11 +907,14 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                                 onChange={(e) => setNewChannel({ ...newChannel, channelInfo: e.target.value })}
                             />
                         </label>
+                        {selectedUsers}
+                        {addUsers}
                         <button type="submit" className="save-icon ui-icon">
                             <i className="fa-solid fa-floppy-disk" />
                         </button>
                     </form>
                 </div>
+            }
             break;
         default:
             title =
