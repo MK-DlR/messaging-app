@@ -74,6 +74,10 @@
 }
 
 /* message styles */
+.message {
+  white-space: pre-wrap;
+}
+
 .author-message {
   /* align right */
 }
