@@ -17,6 +17,8 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
     const [editingChannel, setEditingChannel] = useState(null);
     const [editingMessage, setEditingMessage] = useState(null);
     const [messageBody, setMessageBody] = useState("");
+    const [showImageInput, setShowImageInput] = useState(false);
+    const [imageUrl, setImageUrl] = useState("");
     
     // set up timeout
     const clickTimer = useRef(null);
@@ -76,6 +78,9 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
         const data = await newMessage.json();
         setMessages([...messages, data.messages]);
         setMessageBody("");
+        setImageUrl("");
+        setShowImageInput(false);
+        pingServer();
     }
 
     let title;
@@ -524,9 +529,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         </label>
                         {addUsers}
                         {removeUsers}
-                        <button type="submit" className="save-icon ui-icon">
-                            <i className="fa-solid fa-floppy-disk" />
-                        </button>
+                        <button type="submit" className="fa-solid fa-floppy-disk save-icon ui-icon" />
                     </form>
                     <i 
                         className="fa-solid fa-trash delete-channel-icon ui-icon"
@@ -612,9 +615,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                                 value={editingMessage.body}
                                 onChange={(e) => setEditingMessage({ ...editingMessage, body: e.target.value })}
                             />
-                            <button type="submit" className="save-icon ui-icon">
-                                <i className="fa-solid fa-floppy-disk" />
-                            </button>
+                            <button type="submit" className="fa-solid fa-floppy-disk save-icon ui-icon" />
                         </form>
                     </div>
             break;
@@ -731,9 +732,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                             onChange={(e) => setEditingProfile({ ...editingProfile, profileInfo: e.target.value })}
                         />
                     </label>
-                    <button type="submit" className="save-icon ui-icon ui-icon">
-                        <i className="fa-solid fa-floppy-disk" />
-                    </button>
+                    <button type="submit" className="fa-solid fa-floppy-disk save-icon ui-icon ui-icon" />
                 </form>
             </div>
             break;
@@ -919,9 +918,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         </label>
                         {selectedUsers}
                         {addUsers}
-                        <button type="submit" className="save-icon ui-icon">
-                            <i className="fa-solid fa-floppy-disk" />
-                        </button>
+                        <button type="submit" className="fa-solid fa-floppy-disk save-icon ui-icon" />
                     </form>
                 </div>
             }
@@ -943,16 +940,42 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                 <div className="text-input">
                     <i 
                         className="fa-solid fa-plus add-icon ui-icon"
-                        onClick={(e) => {
-                            // TO DO: upload png, gif, etc
+                        onClick={() => {
+                            setShowImageInput(!showImageInput);
                             pingServer();
                         }}
                     />
+                    {/* conditionally render file "upload" dropdown */}
+                    {showImageInput === true && (
+                        <div className="file-uploader">
+                            <input
+                                type="text"
+                                placeholder="Image url..."
+                                value={imageUrl}
+                            />
+                            <button 
+                                type="submit" 
+                                className="fa-solid fa-floppy-disk save-icon ui-icon send-icon ui-icon"
+                                onClick={() => {
+                                    // TO DO: append url to message body
+                                    setImageUrl("");
+                                    setShowImageInput(false);
+                                    pingServer();
+                                }}
+                            />
+                            <i
+                                className="fa-solid fa-x exit-icon ui-icon"
+                                onClick={() => {
+                                    setShowImageInput(false);
+                                    pingServer();
+                                }}
+                            />
+                        </div>
+                    )}
                     <div className="send-message form">
                         <form onSubmit={(e) => {
                             e.preventDefault();
                             submitHandler();
-                            pingServer();
                         }}>
                             <textarea
                                 value={messageBody}
@@ -965,9 +988,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                                     }
                                 }}
                             />
-                            <button type="submit" className="send-icon ui-icon">
-                                <i className="fa-solid fa-share" />
-                            </button>
+                            <button type="submit" className="fa-solid fa-share send-icon ui-icon" />
                         </form>
                     </div>
                 </div>
