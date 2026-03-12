@@ -30,7 +30,7 @@
   color: red !important;
 }
 
-.message-icon:hover, .save-icon:hover, .add-icon:hover {
+.message-icon:hover, .save-icon:hover, .add-icon:hover, .send-icon:hover {
   color: green !important;
 }
 
@@ -51,7 +51,7 @@
   transition: opacity 0.4s, color 0.4s;
 }
 
-.save-icon {
+.save-icon, .send-icon {
   background: none;
   border: none;
   cursor: pointer;
@@ -61,6 +61,11 @@
 .author-message:hover .edit-hover,
 .author-message:hover .delete-icon {
   opacity: 1;
+}
+
+/* button styles */
+.button {
+  cursor: pointer;
 }
 
 /* shared message styles */

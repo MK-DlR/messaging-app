@@ -16,6 +16,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
     const [previousView, setPreviousView] = useState("messages");
     const [editingChannel, setEditingChannel] = useState(null);
     const [editingMessage, setEditingMessage] = useState(null);
+    const [messageBody, setMessageBody] = useState("");
     
     // set up timeout
     const clickTimer = useRef(null);
@@ -69,6 +70,14 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
         getData(); // initial fetch
     }, [selectedUser]);
 
+    // message submit handler
+    async function submitHandler() {
+        const newMessage = await apiFetch(`${import.meta.env.VITE_API_URL}/messages/new-message/`, { method: "POST", body: JSON.stringify({ body: messageBody, channelId: selectedChannel.id }) });
+        const data = await newMessage.json();
+        setMessages([...messages, data.messages]);
+        setMessageBody("");
+    }
+
     let title;
     let content;
 
@@ -78,7 +87,8 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
     // determine which channel is selected
     switch (mainPanelView) {
         case "messages": // display channel's messages
-            title =
+            {
+                title =
                 <div className="header">
                     <img className="channel-icon lg-icon" src={selectedChannel.icon?.startsWith("http") ? selectedChannel.icon : `/icons/${selectedChannel.icon}`} />
                     <h2>{selectedChannel.name}
@@ -105,90 +115,14 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                     </h2>
                 </div>
 
-            // map over and display messages
-            content = messages.map(message => {
-                // if current user is message author, display edit and delete icons
-                if (currentUser.id === message.userId) {
-                    return <div
-                        key={message.id}
-                        className="author-message message"
-                    >
-                    <div
-                        className="message-header"
-                        // clicking on user's name and/or icon opens user's profile
-                        onClick={() => {
-                            clearTimeout(clickTimer.current);
-                            clickTimer.current = setTimeout(() => {
-                                setSelectedUser(message.users);
-                                setMainPanelView("userProfile");
-                            }, 250);
-                            pingServer();
-                        }}
-                        // double clicking on user's name and/or icon creates DM
-                        onDoubleClick={() => {
-                            clearTimeout(clickTimer.current);
-                            async function getData() {
-                                if (message.users.id === currentUser.id) {
-                                    setEditingProfile({ ...currentUser });
-                                    return setMainPanelView("editProfile");
-                                }
-                                const response = await apiFetch(`${import.meta.env.VITE_API_URL}/channels/new-channel/`, { method: "POST", body: JSON.stringify({ userIds: [message.users.id]}) });
-                                const data = await response.json();
-                                const createdChannel = data.channel || data.existingChannel;
-                                if (data.channel) setChannels([...channels, createdChannel]);
-                                setSelectedChannel(createdChannel);
-                                setMainPanelView("messages");
-                            }
-                            getData();
-                            pingServer();
-                        }}
-                    >
-                        <img className="message-icon icon" src={message.users.icon?.startsWith("http") ? message.users.icon : `/icons/${message.users.icon}`} />
-                        {message.users.displayName || message.users.username}
-                        {formatDate(message.createdAt)}
-                        <div className="on-hover">
-                            <i 
-                                className="fa-solid fa-pencil edit-icon ui-icon edit-hover"
-                                onClick={(e) => {
-                                    // prevent triggering parent click
-                                    e.stopPropagation();
-                                    setEditingMessage(message);
-                                    setMainPanelView("editMessage"); 
-                                    pingServer();
-                                }}
-                            />
-                            <i 
-                                className="fa-solid fa-trash delete-icon ui-icon"
-                                onClick={(e) => {
-                                    // prevent triggering parent click
-                                    e.stopPropagation();
-                                    // delete message
-                                    if (window.confirm("Are you sure you want to delete this message?")) {
-                                        async function deleteMessage() {
-                                            if (!selectedChannel) {
-                                                return;
-                                            }
-
-                                            // remove message from channel
-                                            await apiFetch(`${import.meta.env.VITE_API_URL}/messages/delete/${message.id}`, { method: "DELETE" });
-                                            // update message list
-                                            setMessages(messages.filter(msg => msg.id !== message.id));
-                                        }
-                                        deleteMessage();
-                                        pingServer();
-                                    }
-                                    pingServer();
-                                }}
-                            />
-                        </div> 
-                    </div>
-                    {message.body}
-                </div>
-                } else {
-                    return <div
-                        key={message.id}
-                        className="user-message message"
-                    >
+                // map over and display messages
+                content = messages.map(message => {
+                    // if current user is message author, display edit and delete icons
+                    if (currentUser.id === message.userId) {
+                        return <div
+                            key={message.id}
+                            className="author-message message"
+                        >
                         <div
                             className="message-header"
                             // clicking on user's name and/or icon opens user's profile
@@ -204,6 +138,10 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                             onDoubleClick={() => {
                                 clearTimeout(clickTimer.current);
                                 async function getData() {
+                                    if (message.users.id === currentUser.id) {
+                                        setEditingProfile({ ...currentUser });
+                                        return setMainPanelView("editProfile");
+                                    }
                                     const response = await apiFetch(`${import.meta.env.VITE_API_URL}/channels/new-channel/`, { method: "POST", body: JSON.stringify({ userIds: [message.users.id]}) });
                                     const data = await response.json();
                                     const createdChannel = data.channel || data.existingChannel;
@@ -216,14 +154,86 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                             }}
                         >
                             <img className="message-icon icon" src={message.users.icon?.startsWith("http") ? message.users.icon : `/icons/${message.users.icon}`} />
-                            {message.users.displayName || message.users.username} 
+                            {message.users.displayName || message.users.username}
                             {formatDate(message.createdAt)}
+                            <div className="on-hover">
+                                <i 
+                                    className="fa-solid fa-pencil edit-icon ui-icon edit-hover"
+                                    onClick={(e) => {
+                                        // prevent triggering parent click
+                                        e.stopPropagation();
+                                        setEditingMessage(message);
+                                        setMainPanelView("editMessage"); 
+                                        pingServer();
+                                    }}
+                                />
+                                <i 
+                                    className="fa-solid fa-trash delete-icon ui-icon"
+                                    onClick={(e) => {
+                                        // prevent triggering parent click
+                                        e.stopPropagation();
+                                        // delete message
+                                        if (window.confirm("Are you sure you want to delete this message?")) {
+                                            async function deleteMessage() {
+                                                if (!selectedChannel) {
+                                                    return;
+                                                }
+
+                                                // remove message from channel
+                                                await apiFetch(`${import.meta.env.VITE_API_URL}/messages/delete/${message.id}`, { method: "DELETE" });
+                                                // update message list
+                                                setMessages(messages.filter(msg => msg.id !== message.id));
+                                            }
+                                            deleteMessage();
+                                            pingServer();
+                                        }
+                                        pingServer();
+                                    }}
+                                />
+                            </div> 
                         </div>
                         {message.body}
                     </div>
-                }
-            })
-
+                    } else {
+                        return <div
+                            key={message.id}
+                            className="user-message message"
+                        >
+                            <div
+                                className="message-header"
+                                // clicking on user's name and/or icon opens user's profile
+                                onClick={() => {
+                                    clearTimeout(clickTimer.current);
+                                    clickTimer.current = setTimeout(() => {
+                                        setSelectedUser(message.users);
+                                        setMainPanelView("userProfile");
+                                    }, 250);
+                                    pingServer();
+                                }}
+                                // double clicking on user's name and/or icon creates DM
+                                onDoubleClick={() => {
+                                    clearTimeout(clickTimer.current);
+                                    async function getData() {
+                                        const response = await apiFetch(`${import.meta.env.VITE_API_URL}/channels/new-channel/`, { method: "POST", body: JSON.stringify({ userIds: [message.users.id]}) });
+                                        const data = await response.json();
+                                        const createdChannel = data.channel || data.existingChannel;
+                                        if (data.channel) setChannels([...channels, createdChannel]);
+                                        setSelectedChannel(createdChannel);
+                                        setMainPanelView("messages");
+                                    }
+                                    getData();
+                                    pingServer();
+                                }}
+                            >
+                                <img className="message-icon icon" src={message.users.icon?.startsWith("http") ? message.users.icon : `/icons/${message.users.icon}`} />
+                                {message.users.displayName || message.users.username} 
+                                {formatDate(message.createdAt)}
+                            </div>
+                            {message.body}
+                        </div>
+                    }
+                })
+            }
             break;
         case "channelDetails": // display channel's details
             {
@@ -929,6 +939,39 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
         <div>
             {title}
             {content}
+            {mainPanelView === "messages" && (
+                <div className="text-input">
+                    <i 
+                        className="fa-solid fa-plus add-icon ui-icon"
+                        onClick={(e) => {
+                            // TO DO: upload png, gif, etc
+                            pingServer();
+                        }}
+                    />
+                    <div className="send-message form">
+                        <form onSubmit={(e) => {
+                            e.preventDefault();
+                            submitHandler();
+                            pingServer();
+                        }}>
+                            <textarea
+                                value={messageBody}
+                                onChange={(e) => setMessageBody(e.target.value)}
+                                placeholder="Reply..."
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter" && !e.shiftKey) {
+                                        e.preventDefault();
+                                        submitHandler();
+                                    }
+                                }}
+                            />
+                            <button type="submit" className="send-icon ui-icon">
+                                <i className="fa-solid fa-share" />
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

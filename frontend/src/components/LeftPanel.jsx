@@ -36,7 +36,7 @@ function LeftPanel( {setCurrentUser, selectedChannel, setSelectedChannel, channe
                         setNewChannelUsers([]);
                     }}
                 >
-                    New Channel
+                    + Channel
                 </button>
                 <button 
                     type="button" 
