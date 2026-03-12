@@ -6,7 +6,7 @@ import apiFetch from "../helpers/apiFetch";
 import { useNavigate } from "react-router-dom";
 
 // display all channels that user is in
-function LeftPanel( {setCurrentUser, selectedChannel, setSelectedChannel, channels, setChannels, mainPanelView, setMainPanelView } ) {
+function LeftPanel( {setCurrentUser, selectedChannel, setSelectedChannel, channels, setChannels, mainPanelView, setMainPanelView, newChannelUsers, setNewChannelUsers, newChannel, setNewChannel, addUserSearch, setAddUserSearch } ) {
     const navigate = useNavigate()
     // map over and display channels
     const displayChannels = channels.map(channel => 
@@ -32,6 +32,8 @@ function LeftPanel( {setCurrentUser, selectedChannel, setSelectedChannel, channe
                     className="submit button"
                     onClick={() => {
                         setMainPanelView("createChannel");
+                        setNewChannel({ icon: "", name: "", channelInfo: "" });
+                        setNewChannelUsers([]);
                     }}
                 >
                     New Channel

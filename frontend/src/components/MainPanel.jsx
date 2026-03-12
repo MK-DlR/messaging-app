@@ -9,17 +9,14 @@ import StatusCircle from "./StatusCircle";
 import formatDate from "../helpers/formatDate";
 
 // conditionally render different content based on mainPanelView
-function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedChannel, channels, setChannels, mainPanelView, setMainPanelView, selectedUser, setSelectedUser, allUsers, setAllUsers, editingProfile, setEditingProfile } ) {
+function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedChannel, channels, setChannels, mainPanelView, setMainPanelView, selectedUser, setSelectedUser, allUsers, setAllUsers, editingProfile, setEditingProfile, newChannelUsers, setNewChannelUsers, newChannel, setNewChannel, addUserSearch, setAddUserSearch } ) {
     const [messages, setMessages] = useState([]);
     const [userProfile, setUserProfile] = useState(null);
     const [channelDetails, setChannelDetails] = useState(null);
     const [previousView, setPreviousView] = useState("messages");
-    const [addUserSearch, setAddUserSearch] = useState("");
     const [editingChannel, setEditingChannel] = useState(null);
     const [editingMessage, setEditingMessage] = useState(null);
-    const [newChannelUsers, setNewChannelUsers] = useState([]);
-    const [newChannel, setNewChannel] = useState({ icon: "", name: "", channelInfo: "" });
-
+    
     // set up timeout
     const clickTimer = useRef(null);
 

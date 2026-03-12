@@ -15,6 +15,9 @@ function Home() {
     const [selectedUser, setSelectedUser] = useState("");
     const [allUsers, setAllUsers] = useState([]);
     const [editingProfile, setEditingProfile] = useState(null);
+    const [newChannelUsers, setNewChannelUsers] = useState([]);
+    const [newChannel, setNewChannel] = useState({ icon: "", name: "", channelInfo: "" });
+    const [addUserSearch, setAddUserSearch] = useState("");
 
     // fetch and store channels list
     useEffect(() => {
@@ -68,6 +71,12 @@ function Home() {
                 setChannels={setChannels}
                 mainPanelView={mainPanelView}
                 setMainPanelView={setMainPanelView}
+                newChannelUsers={newChannelUsers}
+                setNewChannelUsers={setNewChannelUsers}
+                newChannel={newChannel}
+                setNewChannel={setNewChannel}
+                addUserSearch={addUserSearch}
+                setAddUserSearch={setAddUserSearch}
             />
             <MainPanel
                 currentUser={currentUser} 
@@ -84,6 +93,12 @@ function Home() {
                 setAllUsers={setAllUsers}
                 editingProfile={editingProfile}
                 setEditingProfile={setEditingProfile}
+                newChannelUsers={newChannelUsers}
+                setNewChannelUsers={setNewChannelUsers}
+                newChannel={newChannel}
+                setNewChannel={setNewChannel}
+                addUserSearch={addUserSearch}
+                setAddUserSearch={setAddUserSearch}
             />
             <RightPanel 
                 currentUser={currentUser} 
