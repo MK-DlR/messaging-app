@@ -11,6 +11,9 @@ function RightPanel( { currentUser, setCurrentUser, selectedChannel, setSelected
     const clickTimer = useRef(null); // set up timeout
 
     let displayUsers;
+    let activeUser;
+
+    if (!currentUser) return <div>Loading...</div>
 
     if (!allUsers) {
         displayUsers = <div>Loading...</div>
@@ -53,11 +56,41 @@ function RightPanel( { currentUser, setCurrentUser, selectedChannel, setSelected
             </div>
         );
     }
+
+    // display logged in user
+    activeUser = 
+        <div
+            key={currentUser.username}
+            // clicking on user's name and/or icon opens user's profile
+            onClick={() => {
+                clearTimeout(clickTimer.current);
+                clickTimer.current = setTimeout(() => {
+                    setSelectedUser(currentUser);
+                    setMainPanelView("userProfile");
+                }, 250);
+                pingServer();
+            }}
+            // double clicking on user's name and/or icon creates DM
+            onDoubleClick={() => {
+                clearTimeout(clickTimer.current);
+                async function getData() {
+                    setEditingProfile({ ...currentUser })
+                    return setMainPanelView("editProfile");
+                }
+                getData();
+                pingServer();
+            }}
+        >
+            <img className="user-icon icon" src={currentUser.icon?.startsWith("http") ? currentUser.icon : `/icons/${currentUser.icon}`} />
+            <StatusCircle color={isOnline(currentUser.lastSeen) ? "green" : "grey"} />
+            {currentUser.displayName || currentUser.username} 
+        </div>
     
     return (
         <div>
             <h2 className="header">All Users</h2>
             {displayUsers}
+            {activeUser}
         </div>
     )
 }
