@@ -72,6 +72,7 @@ const channelPost = async (req, res, next) => {
               },
             },
             select: { username: true },
+            orderBy: { username: "asc" },
           });
           channelName = users.map((user) => user.username).join(", ");
         }

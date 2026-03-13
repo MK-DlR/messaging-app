@@ -82,7 +82,6 @@ function RightPanel( { currentUser, setCurrentUser, selectedChannel, setSelected
             }}
         >
             <img className="user-icon icon" src={currentUser.icon?.startsWith("http") ? currentUser.icon : `/icons/${currentUser.icon}`} />
-            <StatusCircle color={isOnline(currentUser.lastSeen) ? "green" : "grey"} />
             {currentUser.displayName || currentUser.username} 
         </div>
     
