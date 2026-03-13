@@ -125,6 +125,9 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                 content = messages.map(message => {
                     // if current user is message author, display edit and delete icons
                     if (currentUser.id === message.userId) {
+                        const imageTokens = message.body.split(" ").filter(token => imageCheck(token));
+                        const textTokens = message.body.split(" ").filter(token => !imageCheck(token));
+
                         return <div
                             key={message.id}
                             className="author-message message"
@@ -199,9 +202,13 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                             </div> 
                         </div>
                         {/* handle image/gifs and text messages */}
-                        {message.body.split(" ").map((token, i) => imageCheck(token) || <span key={i}>{token} </span>)}
+                        <div>{imageTokens.map((token, i) => <img key={i} src={token} className="message-image" />)}</div>
+                        <div>{textTokens.join(" ")}</div>
                     </div>
                     } else {
+                        const imageTokens = message.body.split(" ").filter(token => imageCheck(token));
+                        const textTokens = message.body.split(" ").filter(token => !imageCheck(token));
+
                         return <div
                             key={message.id}
                             className="user-message message"
@@ -237,7 +244,8 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                                 {formatDate(message.createdAt)}
                             </div>
                             {/* handle image/gifs and text messages */}
-                            {message.body.split(" ").map((token, i) => imageCheck(token) || <span key={i}>{token} </span>)}
+                            <div>{imageTokens.map((token, i) => <img key={i} src={token} className="message-image" />)}</div>
+                            <div>{textTokens.join(" ")}</div>
                         </div>
                     }
                 })
