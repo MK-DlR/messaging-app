@@ -197,7 +197,8 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                                 />
                             </div> 
                         </div>
-                        {message.body}
+                        {/* check if body starts with http and ends with image extension */}
+                        {message.body?.startsWith("http") && [".jpeg", ".jpg", ".png", ".gif", ".webp"].some(ext => message.body?.endsWith(ext)) ? <img src={message.body} className="message-image" /> : message.body}
                     </div>
                     } else {
                         return <div
@@ -234,7 +235,8 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                                 {message.users.displayName || message.users.username} 
                                 {formatDate(message.createdAt)}
                             </div>
-                            {message.body}
+                            {/* check if body starts with http and ends with image extension */}
+                        {message.body?.startsWith("http") && [".jpeg", ".jpg", ".png", ".gif", ".webp"].some(ext => message.body?.endsWith(ext)) ? <img src={message.body} className="message-image" /> : message.body}
                         </div>
                     }
                 })
@@ -952,12 +954,13 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                                 type="text"
                                 placeholder="Image url..."
                                 value={imageUrl}
+                                onChange={(e) => setImageUrl(e.target.value)}
                             />
                             <button 
                                 type="submit" 
                                 className="fa-solid fa-floppy-disk save-icon ui-icon send-icon ui-icon"
                                 onClick={() => {
-                                    // TO DO: append url to message body
+                                    setMessageBody(messageBody ? `${messageBody} ${imageUrl}` : imageUrl)
                                     setImageUrl("");
                                     setShowImageInput(false);
                                     pingServer();
