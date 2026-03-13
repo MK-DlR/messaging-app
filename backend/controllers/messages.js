@@ -23,7 +23,12 @@ const messagePost = async (req, res, next) => {
         data: { channelId: channelId, userId: user, body: body },
         include: {
           users: {
-            select: { id: true, username: true, displayName: true, icon: true },
+            select: {
+              id: true,
+              username: true,
+              displayName: true,
+              icon: true,
+            },
           },
         },
       });
@@ -52,9 +57,15 @@ const messagesGet = async (req, res, next) => {
         where: { channelId: channelId },
         include: {
           users: {
-            select: { id: true, username: true, displayName: true, icon: true },
+            select: {
+              id: true,
+              username: true,
+              displayName: true,
+              icon: true,
+            },
           },
         },
+        orderBy: { createdAt: "asc" },
       });
       res.status(200).json({ messages: allMessages });
     }
@@ -89,7 +100,7 @@ const messagePut = async (req, res, next) => {
           where: { id: messageId },
           data: { body },
         });
-        res.status(200).json({ message: "Message successfully edited" });
+        return res.status(200).json({ messages: editedMessage });
       } else {
         // if not message author, return 403
         return res.status(403).json({ message: "Invalid credentials" });

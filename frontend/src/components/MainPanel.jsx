@@ -122,6 +122,9 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                             }}
                         />
                     </h2>
+                    <div className="channel-description">
+                        {selectedChannel.channelInfo}
+                    </div>
                 </div>
 
                 // map over and display messages
@@ -168,6 +171,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                             <img className="message-icon icon" src={message.users.icon?.startsWith("http") ? message.users.icon : `/icons/${message.users.icon}`} />
                             {message.users.displayName || message.users.username}
                             {formatDate(message.createdAt)}
+                            {Math.abs(new Date(message.updatedAt) - new Date(message.createdAt)) > 1000 && <span className="edited-message">edited</span>}
                             <div className="on-hover">
                                 <i 
                                     className="fa-solid fa-pencil edit-icon ui-icon edit-hover"
@@ -245,6 +249,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                                 <img className="message-icon icon" src={message.users.icon?.startsWith("http") ? message.users.icon : `/icons/${message.users.icon}`} />
                                 {message.users.displayName || message.users.username} 
                                 {formatDate(message.createdAt)}
+                                {Math.abs(new Date(message.updatedAt) - new Date(message.createdAt)) > 1000 && <span className="edited-message">edited</span>}
                             </div>
                             {/* handle image/gifs and text messages */}
                             <div>{imageTokens.map((token, i) => <img key={i} src={token} className="message-image" />)}</div>

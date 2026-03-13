@@ -91,6 +91,10 @@
   max-height: 400px;
 }
 
+.edited-message {
+  font-style: italic;
+}
+
 /* online/offline status */
 div .colored-circle {
   display: inline-block;
