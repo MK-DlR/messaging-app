@@ -7,6 +7,7 @@ import pingServer from "../helpers/pingServer";
 import isOnline from "../helpers/isOnline";
 import StatusCircle from "./StatusCircle";
 import formatDate from "../helpers/formatDate";
+import imageCheck from "../helpers/imageCheck";
 
 // conditionally render different content based on mainPanelView
 function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedChannel, channels, setChannels, mainPanelView, setMainPanelView, selectedUser, setSelectedUser, allUsers, setAllUsers, editingProfile, setEditingProfile, newChannelUsers, setNewChannelUsers, newChannel, setNewChannel, addUserSearch, setAddUserSearch } ) {
@@ -197,8 +198,8 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                                 />
                             </div> 
                         </div>
-                        {/* check if body starts with http and ends with image extension */}
-                        {message.body?.startsWith("http") && [".jpeg", ".jpg", ".png", ".gif", ".webp"].some(ext => message.body?.endsWith(ext)) ? <img src={message.body} className="message-image" /> : message.body}
+                        {/* handle image/gifs and text messages */}
+                        {message.body.split(" ").map((token, i) => imageCheck(token) || <span key={i}>{token} </span>)}
                     </div>
                     } else {
                         return <div
@@ -235,8 +236,8 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                                 {message.users.displayName || message.users.username} 
                                 {formatDate(message.createdAt)}
                             </div>
-                            {/* check if body starts with http and ends with image extension */}
-                        {message.body?.startsWith("http") && [".jpeg", ".jpg", ".png", ".gif", ".webp"].some(ext => message.body?.endsWith(ext)) ? <img src={message.body} className="message-image" /> : message.body}
+                            {/* handle image/gifs and text messages */}
+                            {message.body.split(" ").map((token, i) => imageCheck(token) || <span key={i}>{token} </span>)}
                         </div>
                     }
                 })
