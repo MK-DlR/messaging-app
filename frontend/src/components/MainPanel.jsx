@@ -75,6 +75,9 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
 
     // message submit handler
     async function submitHandler() {
+        if (!messageBody.trim()) {
+            return;
+        }
         const newMessage = await apiFetch(`${import.meta.env.VITE_API_URL}/messages/new-message/`, { method: "POST", body: JSON.stringify({ body: messageBody, channelId: selectedChannel.id }) });
         const data = await newMessage.json();
         setMessages([...messages, data.messages]);
