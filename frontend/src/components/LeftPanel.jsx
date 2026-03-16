@@ -9,18 +9,24 @@ import { useNavigate } from "react-router-dom";
 function LeftPanel( {setCurrentUser, selectedChannel, setSelectedChannel, channels, setChannels, mainPanelView, setMainPanelView, newChannelUsers, setNewChannelUsers, newChannel, setNewChannel, addUserSearch, setAddUserSearch } ) {
     const navigate = useNavigate()
     // map over and display channels
-    const displayChannels = channels.map(channel => 
-        <div 
-            key={channel.id} 
-            onClick={() => {
-                setSelectedChannel(channel);
-                setMainPanelView("messages");
-            }}
-            className="channel"
-        >
-            <img className="channel-icon icon" src={channel.icon?.startsWith("http") ? channel.icon : `/icons/${channel.icon}`} /> {channel.name}
-        </div>
-    );
+    const displayChannels = [...channels]
+        .sort((a, b) => {
+            if (a.isDefault) return -1;
+            if (b.isDefault) return 1;
+            return a.name.localeCompare(b.name);
+        })
+        .map(channel => 
+            <div 
+                key={channel.id} 
+                onClick={() => {
+                    setSelectedChannel(channel);
+                    setMainPanelView("messages");
+                }}
+                className="channel"
+            >
+                <img className="channel-icon icon" src={channel.icon?.startsWith("http") ? channel.icon : `/icons/${channel.icon}`} /> {channel.name}
+            </div>
+        );
 
     return (
         <div>
