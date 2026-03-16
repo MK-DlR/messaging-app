@@ -617,12 +617,13 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                             e.preventDefault();
 
                             async function getData() {
-                                await apiFetch(`${import.meta.env.VITE_API_URL}/messages/edit/${editingMessage.id}`, { method: "PUT", body: JSON.stringify({ 
+                                const response = await apiFetch(`${import.meta.env.VITE_API_URL}/messages/edit/${editingMessage.id}`, { method: "PUT", body: JSON.stringify({ 
                                     body: editingMessage.body 
                                 }) });
+                                const data = await response.json();
                                 setMessages(messages.map(msg =>
                                     msg.id === editingMessage.id
-                                    ? { ...msg, body: editingMessage.body }
+                                    ? { ...msg, body: data.messages.body, updatedAt: data.messages.updatedAt }
                                     : msg
                                 ));
                                 setMainPanelView("messages");
