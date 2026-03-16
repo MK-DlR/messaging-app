@@ -37,7 +37,7 @@ model Message {
 
 model Channel {
   id           Int       @id @default(autoincrement())
-  name         String?
+  name         String?   @db.VarChar(100)
   isCustomName Boolean   @default(false)
   icon         String    @default("default-channel.png")
   channelInfo  String?   @db.VarChar(200)

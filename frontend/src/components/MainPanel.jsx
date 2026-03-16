@@ -534,9 +534,13 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                             <input 
                                 type="text"
                                 placeholder="optional"
+                                maxLength={100}
                                 value={editingChannel.name}
                                 onChange={(e) => setEditingChannel({ ...editingChannel, name: e.target.value })}
                             />
+                            {(100 - (editingChannel.name?.length || 0)) < 50 && (
+                                <span>{100 - (editingChannel.name?.length || 0)} characters remaining</span>
+                            )}
                         </label>
                         <label>Description:
                             <textarea 
@@ -545,6 +549,9 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                                 value={editingChannel.channelInfo || ""}
                                 onChange={(e) => setEditingChannel({ ...editingChannel, channelInfo: e.target.value })}
                             />
+                            {(200 - (editingChannel.channelInfo?.length || 0)) < 50 && (
+                                <span>{200 - (editingChannel.channelInfo?.length || 0)} characters remaining</span>
+                            )}
                         </label>
                         {addUsers}
                         {removeUsers}
@@ -635,6 +642,9 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                                 value={editingMessage.body}
                                 onChange={(e) => setEditingMessage({ ...editingMessage, body: e.target.value })}
                             />
+                            {(2000 - (editingMessage.body?.length || 0)) < 50 && (
+                                <span>{2000 - (editingMessage.body?.length || 0)} characters remaining</span>
+                            )}
                             <button type="submit" className="fa-solid fa-floppy-disk save-icon ui-icon" />
                         </form>
                     </div>
@@ -744,6 +754,9 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                             value={editingProfile.displayName}
                             onChange={(e) => setEditingProfile({ ...editingProfile, displayName: e.target.value })}
                         />
+                        {(64 - (editingProfile.displayName?.length || 0)) < 50 && (
+                            <span>{64 - (editingProfile.displayName?.length || 0)} characters remaining</span>
+                        )}
                     </label>
                     <label>Profile Info:
                         <textarea
@@ -752,6 +765,9 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                             value={editingProfile.profileInfo}
                             onChange={(e) => setEditingProfile({ ...editingProfile, profileInfo: e.target.value })}
                         />
+                        {(200 - (editingProfile.profileInfo?.length || 0)) < 50 && (
+                            <span>{200 - (editingProfile.profileInfo?.length || 0)} characters remaining</span>
+                        )}
                     </label>
                     <button type="submit" className="fa-solid fa-floppy-disk save-icon ui-icon ui-icon" />
                 </form>
@@ -925,9 +941,13 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                             <input 
                                 type="text"
                                 placeholder="optional"
+                                maxLength={100}
                                 value={newChannel.name}
                                 onChange={(e) => setNewChannel({ ...newChannel, name: e.target.value })}
                             />
+                            {(100 - (newChannel.name?.length || 0)) < 50 && (
+                                <span>{100 - (newChannel.name?.length || 0)} characters remaining</span>
+                            )}
                         </label>
                         <label>Description:
                             <textarea 
@@ -936,6 +956,9 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                                 value={newChannel.channelInfo || ""}
                                 onChange={(e) => setNewChannel({ ...newChannel, channelInfo: e.target.value })}
                             />
+                            {(200 - (newChannel.channelInfo?.length || 0)) < 50 && (
+                                <span>{200 - (newChannel.channelInfo?.length || 0)} characters remaining</span>
+                            )}
                         </label>
                         {selectedUsers}
                         {addUsers}
@@ -1011,6 +1034,9 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                                     }
                                 }}
                             />
+                            {(2000 - (messageBody?.length || 0)) < 50 && (
+                                <span>{2000 - (messageBody?.length || 0)} characters remaining</span>
+                            )}
                             <button type="submit" className="fa-solid fa-share send-icon ui-icon" />
                         </form>
                     </div>
