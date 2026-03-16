@@ -7,9 +7,13 @@ import pingServer from "../helpers/pingServer";
 import formatDate from "../helpers/formatDate";
 import imageCheck from "../helpers/imageCheck";
 
+import ChannelDetails from "./MainPanel/ChannelDetails";
+// CreateChannel
+// EditChannel
 import EditMessage from "./MainPanel/EditMessage";
-import UserProfile from "./MainPanel/UserProfile";
 import EditProfile from "./MainPanel/EditProfile";
+// Messages
+import UserProfile from "./MainPanel/UserProfile";
 
 // conditionally render different content based on mainPanelView
 function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedChannel, channels, setChannels, mainPanelView, setMainPanelView, selectedUser, setSelectedUser, allUsers, editingProfile, setEditingProfile, newChannelUsers, setNewChannelUsers, newChannel, setNewChannel, addUserSearch, setAddUserSearch } ) {
@@ -262,89 +266,16 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
             }
             break;
         case "channelDetails": // display channel's details
-            {
-                title =
-                    <div className="header">
-                        <h2>
-                            <img className="channel-icon lg-icon" src={selectedChannel.icon?.startsWith("http") ? selectedChannel.icon : `/icons/${selectedChannel.icon}`} />
-                            {selectedChannel.name} Details
-
-                            {/* if current user is not channel owner, display leave icon */}
-                            {!selectedChannel.isDefault && currentUser.id !== selectedChannel.creatorId && (
-                                <i
-                                className="fa-solid fa-door-open leave-icon ui-icon"
-                                onClick={() => {
-                                    // leave channel
-                                    if (window.confirm("Are you sure you want to leave this channel?")) {
-                                        async function leaveChannel() {
-                                            if (!selectedChannel) {
-                                                return;
-                                            }
-
-                                            // remove user from channel
-                                            await apiFetch(`${import.meta.env.VITE_API_URL}/channels/leave/${selectedChannel.id}`, { method: "DELETE" });
-                                            // update channels list
-                                            setChannels(channels.filter(channel => channel.id !== selectedChannel.id));
-                                            // reset selectedChannel to default
-                                            setSelectedChannel(channels.find(channel => channel.isDefault === true));
-                                            setMainPanelView("messages");
-                                        }
-                                        leaveChannel();
-                                        pingServer();
-                                    }
-                                }}
-                                />
-                            )}
-
-                            <i
-                                className="fa-solid fa-x exit-icon ui-icon"
-                                onClick={() => {
-                                    setMainPanelView("messages");
-                                    pingServer();
-                                }}
-                            />
-                        </h2>
-                    </div>
-
-                // map over and display users
-                const displayUsers = channelDetails.users.map(user => 
-                    <div
-                        key={user.username}
-                        // clicking on user's name and/or icon opens user's profile
-                        onClick={() => {
-                            clearTimeout(clickTimer.current);
-                            clickTimer.current = setTimeout(() => {
-                                setSelectedUser(user);
-                                setMainPanelView("userProfile");
-                            }, 250);
-                            pingServer();
-                        }}
-                        // double clicking on user's name and/or icon creates DM
-                        onDoubleClick={() => {
-                            clearTimeout(clickTimer.current);
-                            async function getData() {
-                                const response = await apiFetch(`${import.meta.env.VITE_API_URL}/channels/new-channel/`, { method: "POST", body: JSON.stringify({ userIds: [user.id]}) });
-                                const data = await response.json();
-                                const createdChannel = data.channel || data.existingChannel;
-                                if (data.channel) setChannels([...channels, createdChannel]);
-                                setSelectedChannel(createdChannel);
-                                setMainPanelView("messages");
-                            }
-                            getData();
-                            pingServer();
-                        }}
-                    >
-                        <img className="user-icon icon" src={user.icon?.startsWith("http") ? user.icon : `/icons/${user.icon}`} />
-                        {user.displayName || user.username} 
-                    </div>
-                );
-
-                content = 
-                    <div className="channel-details">
-                        {channelDetails.channelInfo}
-                        {displayUsers}
-                    </div>
-            }
+            content = <ChannelDetails
+                currentUser={currentUser}
+                channels={channels}
+                setChannels={setChannels}
+                selectedChannel={selectedChannel}
+                setSelectedChannel={setSelectedChannel}
+                channelDetails={channelDetails}
+                setSelectedUser={setSelectedUser}
+                setMainPanelView={setMainPanelView}
+            />
             break;
         case "editChannel": // channel owner can edit and/or delete channel
             // if channel owner, display edit button
