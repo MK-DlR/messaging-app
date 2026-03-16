@@ -541,6 +541,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         <label>Description:
                             <textarea 
                                 placeholder="optional"
+                                maxLength={200}
                                 value={editingChannel.channelInfo || ""}
                                 onChange={(e) => setEditingChannel({ ...editingChannel, channelInfo: e.target.value })}
                             />
@@ -630,6 +631,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                             getData(); // initial fetch
                         }}>
                             <textarea 
+                                maxLength={2000}
                                 value={editingMessage.body}
                                 onChange={(e) => setEditingMessage({ ...editingMessage, body: e.target.value })}
                             />
@@ -738,6 +740,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         <input
                             type="text"
                             placeholder="optional"
+                            maxLength={64}
                             value={editingProfile.displayName}
                             onChange={(e) => setEditingProfile({ ...editingProfile, displayName: e.target.value })}
                         />
@@ -745,6 +748,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                     <label>Profile Info:
                         <textarea
                             placeholder="optional"
+                            maxLength={200}
                             value={editingProfile.profileInfo}
                             onChange={(e) => setEditingProfile({ ...editingProfile, profileInfo: e.target.value })}
                         />
@@ -928,6 +932,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         <label>Description:
                             <textarea 
                                 placeholder="optional"
+                                maxLength={200}
                                 value={newChannel.channelInfo || ""}
                                 onChange={(e) => setNewChannel({ ...newChannel, channelInfo: e.target.value })}
                             />
@@ -998,6 +1003,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                                 value={messageBody}
                                 onChange={(e) => setMessageBody(e.target.value)}
                                 placeholder="Reply..."
+                                maxLength={2000}
                                 onKeyDown={(e) => {
                                     if (e.key === "Enter" && !e.shiftKey) {
                                         e.preventDefault();
