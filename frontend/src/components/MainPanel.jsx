@@ -3,7 +3,6 @@
 // imports
 import { useState, useEffect } from "react";
 import apiFetch from "../helpers/apiFetch";
-import pingServer from "../helpers/pingServer";
 
 import ChannelDetails from "./MainPanel/ChannelDetails";
 import CreateChannel from "./MainPanel/CreateChannel";
@@ -21,9 +20,6 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
     const [previousView, setPreviousView] = useState("messages");
     const [editingChannel, setEditingChannel] = useState(null);
     const [editingMessage, setEditingMessage] = useState(null);
-    const [messageBody, setMessageBody] = useState("");
-    const [showImageInput, setShowImageInput] = useState(false);
-    const [imageUrl, setImageUrl] = useState("");
 
     // fetch all messages in selected channel
     useEffect(() => {
@@ -73,20 +69,6 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
         }
         getData(); // initial fetch
     }, [selectedUser]);
-
-    // message submit handler
-    async function submitHandler() {
-        if (!messageBody.trim()) {
-            return;
-        }
-        const newMessage = await apiFetch(`${import.meta.env.VITE_API_URL}/messages/new-message/`, { method: "POST", body: JSON.stringify({ body: messageBody, channelId: selectedChannel.id }) });
-        const data = await newMessage.json();
-        setMessages([...messages, data.messages]);
-        setMessageBody("");
-        setImageUrl("");
-        setShowImageInput(false);
-        pingServer();
-    }
 
     let title;
     let content;
@@ -214,68 +196,6 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
         <div>
             {title}
             {content}
-            {mainPanelView === "messages" && (
-                <div className="text-input">
-                    <i 
-                        className="fa-solid fa-plus add-icon ui-icon"
-                        onClick={() => {
-                            setShowImageInput(!showImageInput);
-                            pingServer();
-                        }}
-                    />
-                    {/* conditionally render file "upload" dropdown */}
-                    {showImageInput === true && (
-                        <div className="file-uploader">
-                            <input
-                                type="text"
-                                placeholder="Image url..."
-                                value={imageUrl}
-                                onChange={(e) => setImageUrl(e.target.value)}
-                            />
-                            <button 
-                                type="submit" 
-                                className="fa-solid fa-floppy-disk save-icon ui-icon send-icon ui-icon"
-                                onClick={() => {
-                                    setMessageBody(messageBody ? `${messageBody} ${imageUrl}` : imageUrl)
-                                    setImageUrl("");
-                                    setShowImageInput(false);
-                                    pingServer();
-                                }}
-                            />
-                            <i
-                                className="fa-solid fa-x exit-icon ui-icon"
-                                onClick={() => {
-                                    setShowImageInput(false);
-                                    pingServer();
-                                }}
-                            />
-                        </div>
-                    )}
-                    <div className="send-message form">
-                        <form onSubmit={(e) => {
-                            e.preventDefault();
-                            submitHandler();
-                        }}>
-                            <textarea
-                                value={messageBody}
-                                onChange={(e) => setMessageBody(e.target.value)}
-                                placeholder="Reply..."
-                                maxLength={2000}
-                                onKeyDown={(e) => {
-                                    if (e.key === "Enter" && !e.shiftKey) {
-                                        e.preventDefault();
-                                        submitHandler();
-                                    }
-                                }}
-                            />
-                            {(2000 - (messageBody?.length || 0)) < 50 && (
-                                <span>{2000 - (messageBody?.length || 0)} characters remaining</span>
-                            )}
-                            <button type="submit" className="fa-solid fa-share send-icon ui-icon" />
-                        </form>
-                    </div>
-                </div>
-            )}
         </div>
     )
 }
