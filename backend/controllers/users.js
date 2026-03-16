@@ -28,7 +28,7 @@ const registerPost = async (req, res, next) => {
       }
 
       // check valid characters
-      const pattern = /^[a-zA-Z0-9._]+$/;
+      const pattern = /^[a-zA-Z0-9._-]+$/;
       if (!pattern.test(username)) {
         return "Username contains invalid characters. Only letters, numbers, periods, and underscores are allowed.";
       }
