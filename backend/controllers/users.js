@@ -17,7 +17,31 @@ const registerPost = async (req, res, next) => {
   try {
     const { username, password } = req.body;
 
-    // check if user already exists
+    // check if username meets specifications
+    function validateUsername(username) {
+      // check username is between 2 and 32 characters
+      if (username.length < 2) {
+        return "Username is too short.";
+      }
+      if (username.length > 32) {
+        return "Username is too long.";
+      }
+
+      // check valid characters
+      const pattern = /^[a-zA-Z0-9._]+$/;
+      if (!pattern.test(username)) {
+        return "Username contains invalid characters. Only letters, numbers, periods, and underscores are allowed.";
+      }
+
+      return username;
+    }
+
+    const usernameError = validateUsername(username);
+    if (usernameError !== username) {
+      return res.status(400).json({ error: usernameError });
+    }
+
+    // check if username already exists
     const existingUser = await prisma.user.findUnique({
       where: { username },
     });
@@ -25,6 +49,11 @@ const registerPost = async (req, res, next) => {
     if (existingUser) {
       return res.status(400).json({ error: "Username already taken" });
     }
+
+    // TO DO: check that password fits requirements
+    // min/max length
+    // characters
+    // etc
 
     // hash password and create user
     const hashedPassword = await bcrypt.hash(password, 10);
