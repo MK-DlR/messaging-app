@@ -109,3 +109,11 @@ div .colored-circle {
   height: 7px;
   width: 7px;
 }
+
+/* limit displayed characters of channel description */
+.channel-description {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 500px; /* adjust to fit layout */
+}
