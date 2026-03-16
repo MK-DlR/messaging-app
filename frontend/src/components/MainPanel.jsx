@@ -4,10 +4,10 @@
 import { useState, useEffect, useRef } from "react";
 import apiFetch from "../helpers/apiFetch";
 import pingServer from "../helpers/pingServer";
-import isOnline from "../helpers/isOnline";
-import StatusCircle from "./StatusCircle";
 import formatDate from "../helpers/formatDate";
 import imageCheck from "../helpers/imageCheck";
+
+import EditMessage from "./MainPanel/EditMessage";
 
 // conditionally render different content based on mainPanelView
 function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedChannel, channels, setChannels, mainPanelView, setMainPanelView, selectedUser, setSelectedUser, allUsers, setAllUsers, editingProfile, setEditingProfile, newChannelUsers, setNewChannelUsers, newChannel, setNewChannel, addUserSearch, setAddUserSearch } ) {
@@ -604,50 +604,13 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
             }
             break;
         case "editMessage": // user can edit own message
-            title =
-                    <div className="header">
-                        <h2>
-                            Edit Message
-                            <i 
-                                className="fa-solid fa-x exit-icon ui-icon" 
-                                onClick={() => {
-                                    setMainPanelView("messages");
-                                    pingServer();
-                                }}
-                            />
-                        </h2>
-                    </div>
-
-                content = 
-                    <div className="editing-message form">
-                        <form onSubmit={(e) => {
-                            e.preventDefault();
-
-                            async function getData() {
-                                const response = await apiFetch(`${import.meta.env.VITE_API_URL}/messages/edit/${editingMessage.id}`, { method: "PUT", body: JSON.stringify({ 
-                                    body: editingMessage.body 
-                                }) });
-                                const data = await response.json();
-                                setMessages(messages.map(msg =>
-                                    msg.id === editingMessage.id
-                                    ? { ...msg, body: data.messages.body, updatedAt: data.messages.updatedAt }
-                                    : msg
-                                ));
-                                setMainPanelView("messages");
-                            }
-                            getData(); // initial fetch
-                        }}>
-                            <textarea 
-                                maxLength={2000}
-                                value={editingMessage.body}
-                                onChange={(e) => setEditingMessage({ ...editingMessage, body: e.target.value })}
-                            />
-                            {(2000 - (editingMessage.body?.length || 0)) < 50 && (
-                                <span>{2000 - (editingMessage.body?.length || 0)} characters remaining</span>
-                            )}
-                            <button type="submit" className="fa-solid fa-floppy-disk save-icon ui-icon" />
-                        </form>
-                    </div>
+                content = <EditMessage 
+                    editingMessage={editingMessage}
+                    setEditingMessage={setEditingMessage}
+                    messages={messages}
+                    setMessages={setMessages}
+                    setMainPanelView={setMainPanelView}
+                />
             break;
         case "userProfile": // display user profile details
             if (!userProfile) {
