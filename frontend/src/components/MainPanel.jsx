@@ -8,6 +8,7 @@ import formatDate from "../helpers/formatDate";
 import imageCheck from "../helpers/imageCheck";
 
 import EditMessage from "./MainPanel/EditMessage";
+import UserProfile from "./MainPanel/UserProfile";
 
 // conditionally render different content based on mainPanelView
 function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedChannel, channels, setChannels, mainPanelView, setMainPanelView, selectedUser, setSelectedUser, allUsers, setAllUsers, editingProfile, setEditingProfile, newChannelUsers, setNewChannelUsers, newChannel, setNewChannel, addUserSearch, setAddUserSearch } ) {
@@ -613,62 +614,16 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                 />
             break;
         case "userProfile": // display user profile details
-            if (!userProfile) {
-                content = <div>Loading...</div>
-            } else {
-                title =
-                    <div className="header">
-                        <h2>
-                        <img className="profile-icon lg-icon" src={userProfile.icon?.startsWith("http") ? userProfile.icon : `/icons/${userProfile.icon}`} />
-                            {userProfile.displayName} Details
-
-                            {currentUser.id === userProfile.id && (
-                            <i 
-                                className="fa-solid fa-pencil edit-icon ui-icon"
-                                onClick={() => {
-                                    if (!userProfile) return;
-                                    setEditingProfile({ ...userProfile, profileInfo: userProfile.profileInfo });
-                                    setMainPanelView("editProfile"); 
-                                    pingServer();
-                                }}
-                            />
-                            )}
-
-                            {currentUser.id !== userProfile.id && (
-                                <i 
-                                    className="fa-regular fa-envelope message-icon"
-                                    onClick={() => {
-                                        async function getData() {
-                                            const response = await apiFetch(`${import.meta.env.VITE_API_URL}/channels/new-channel/`, { method: "POST", body: JSON.stringify({ userIds: [userProfile.id]}) });
-                                            const data = await response.json();
-                                            const createdChannel = data.channel || data.existingChannel;
-                                            if (data.channel) setChannels([...channels, createdChannel]);
-                                            setSelectedChannel(createdChannel);
-                                            setMainPanelView("messages");
-                                        }
-                                        getData();
-                                        pingServer();
-                                    }}
-                                />
-                            )}
-                            <i 
-                                className="fa-solid fa-x exit-icon ui-icon" 
-                                onClick={() => {
-                                    setMainPanelView(previousView);
-                                    pingServer();
-                                }}
-                            />
-                        </h2>
-                    </div>
-
-                content = 
-                    <div className="user-profile">
-                        {userProfile.displayName}
-                        {userProfile.username}
-                        {userProfile.profileInfo}
-                        Last seen: {formatDate(userProfile.lastSeen)}
-                    </div>
-            }
+                content = <UserProfile 
+                    userProfile={userProfile}
+                    currentUser={currentUser}
+                    channels={channels}
+                    setChannels={setChannels}
+                    setSelectedChannel={setSelectedChannel}
+                    setEditingProfile={setEditingProfile}
+                    setMainPanelView={setMainPanelView}
+                    previousView={previousView}
+                />
             break;
         case "editProfile": // user can edit own profile
             title =
