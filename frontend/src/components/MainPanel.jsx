@@ -539,8 +539,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                             />
                         </label>
                         <label>Description:
-                            <input 
-                                type="text"
+                            <textarea 
                                 placeholder="optional"
                                 value={editingChannel.channelInfo || ""}
                                 onChange={(e) => setEditingChannel({ ...editingChannel, channelInfo: e.target.value })}
@@ -630,8 +629,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                             }
                             getData(); // initial fetch
                         }}>
-                            <input 
-                                type="text"
+                            <textarea 
                                 value={editingMessage.body}
                                 onChange={(e) => setEditingMessage({ ...editingMessage, body: e.target.value })}
                             />
@@ -745,8 +743,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                         />
                     </label>
                     <label>Profile Info:
-                        <input
-                            type="textarea"
+                        <textarea
                             placeholder="optional"
                             value={editingProfile.profileInfo}
                             onChange={(e) => setEditingProfile({ ...editingProfile, profileInfo: e.target.value })}
@@ -929,8 +926,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
                             />
                         </label>
                         <label>Description:
-                            <input 
-                                type="text"
+                            <textarea 
                                 placeholder="optional"
                                 value={newChannel.channelInfo || ""}
                                 onChange={(e) => setNewChannel({ ...newChannel, channelInfo: e.target.value })}
