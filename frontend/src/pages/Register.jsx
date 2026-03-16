@@ -32,7 +32,7 @@ function RegisterUser() {
 
             // check response
             if (!response.ok) {
-                setError(data.error);
+                setError(Array.isArray(data.error) ? data.error.join("\n") : data.error);
             } else {
                 // if successful registration, redirect to login
                 navigate("/login");
@@ -42,7 +42,7 @@ function RegisterUser() {
 
     return (
         <div className="register form">
-            <div>{error && <p>{error}</p>}</div>
+            <div>{error && <p className="errors">{error}</p>}</div>
             <form onSubmit={handleSubmit}>
                 <label>Username:
                     <input 

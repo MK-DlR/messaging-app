@@ -69,7 +69,7 @@
 }
 
 /* shared whitespace styles */
-.message, .user-profile, .channel-details {
+.errors, .message, .user-profile, .channel-details {
   white-space: pre-wrap;
 }
 

@@ -21,10 +21,10 @@ const registerPost = async (req, res, next) => {
     function validateUsername(username) {
       // check username is between 2 and 32 characters
       if (username.length < 2) {
-        return "Username is too short.";
+        return "Username must be at least 2 characters.";
       }
       if (username.length > 32) {
-        return "Username is too long.";
+        return "Username must be 32 characters or less.";
       }
 
       // check valid characters
@@ -50,10 +50,29 @@ const registerPost = async (req, res, next) => {
       return res.status(400).json({ error: "Username already taken" });
     }
 
-    // TO DO: check that password fits requirements
-    // min/max length
-    // characters
-    // etc
+    // check if password meets specifications
+    function validatePassword(password) {
+      const errors = [];
+
+      // check password length
+      if (password.length < 6)
+        errors.push("Password must be at least 6 characters.");
+
+      // check valid characters
+      if (!/[A-Z]/.test(password))
+        errors.push("Password must contain at least one uppercase letter.");
+      if (!/[a-z]/.test(password))
+        errors.push("Password must contain at least one lowercase letter.");
+      if (!/[0-9]/.test(password))
+        errors.push("Password must contain at least one number.");
+
+      return errors;
+    }
+
+    const passwordErrors = validatePassword(password);
+    if (passwordErrors.length > 0) {
+      return res.status(400).json({ error: passwordErrors });
+    }
 
     // hash password and create user
     const hashedPassword = await bcrypt.hash(password, 10);
