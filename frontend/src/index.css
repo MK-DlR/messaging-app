@@ -68,16 +68,17 @@
   cursor: pointer;
 }
 
+/* shared whitespace styles */
+.message, .user-profile, .channel-details {
+  white-space: pre-wrap;
+}
+
 /* shared message styles */
 .message-header {
   display: flex;
 }
 
 /* message styles */
-.message {
-  white-space: pre-wrap;
-}
-
 .author-message {
   /* align right */
 }
