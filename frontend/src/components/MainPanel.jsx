@@ -9,9 +9,10 @@ import imageCheck from "../helpers/imageCheck";
 
 import EditMessage from "./MainPanel/EditMessage";
 import UserProfile from "./MainPanel/UserProfile";
+import EditProfile from "./MainPanel/EditProfile";
 
 // conditionally render different content based on mainPanelView
-function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedChannel, channels, setChannels, mainPanelView, setMainPanelView, selectedUser, setSelectedUser, allUsers, setAllUsers, editingProfile, setEditingProfile, newChannelUsers, setNewChannelUsers, newChannel, setNewChannel, addUserSearch, setAddUserSearch } ) {
+function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedChannel, channels, setChannels, mainPanelView, setMainPanelView, selectedUser, setSelectedUser, allUsers, editingProfile, setEditingProfile, newChannelUsers, setNewChannelUsers, newChannel, setNewChannel, addUserSearch, setAddUserSearch } ) {
     const [messages, setMessages] = useState([]);
     const [userProfile, setUserProfile] = useState(null);
     const [channelDetails, setChannelDetails] = useState(null);
@@ -605,91 +606,38 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
             }
             break;
         case "editMessage": // user can edit own message
-                content = <EditMessage 
-                    editingMessage={editingMessage}
-                    setEditingMessage={setEditingMessage}
-                    messages={messages}
-                    setMessages={setMessages}
-                    setMainPanelView={setMainPanelView}
-                />
+            content = <EditMessage 
+                editingMessage={editingMessage}
+                setEditingMessage={setEditingMessage}
+                messages={messages}
+                setMessages={setMessages}
+                setMainPanelView={setMainPanelView}
+            />
             break;
         case "userProfile": // display user profile details
-                content = <UserProfile 
-                    userProfile={userProfile}
-                    currentUser={currentUser}
-                    channels={channels}
-                    setChannels={setChannels}
-                    setSelectedChannel={setSelectedChannel}
-                    setEditingProfile={setEditingProfile}
-                    setMainPanelView={setMainPanelView}
-                    previousView={previousView}
-                />
+            content = <UserProfile 
+                userProfile={userProfile}
+                currentUser={currentUser}
+                channels={channels}
+                setChannels={setChannels}
+                setSelectedChannel={setSelectedChannel}
+                setEditingProfile={setEditingProfile}
+                setMainPanelView={setMainPanelView}
+                previousView={previousView}
+            />
             break;
         case "editProfile": // user can edit own profile
-            title =
-            <div className="header">
-                <h2>Edit Profile 
-                    <i 
-                        className="fa-solid fa-x exit-icon ui-icon" 
-                        onClick={() => {
-                            setMainPanelView("userProfile");
-                            pingServer();
-                        }}
-                    />
-                </h2>
-            </div>
-            content = 
-            <div className="editing-profile form">
-                <form onSubmit={(e) => {
-                    e.preventDefault();
-
-                    async function getData() {
-                        await apiFetch(`${import.meta.env.VITE_API_URL}/users/${currentUser.username}`, { method: "PUT", body: JSON.stringify({
-                            icon: editingProfile.icon,
-                            displayName: editingProfile.displayName,
-                            profileInfo: editingProfile.profileInfo
-                        }) });
-                        setSelectedUser({ ...selectedUser, ...editingProfile });
-                        setCurrentUser({ ...currentUser, ...editingProfile });
-                        setUserProfile({ ...userProfile, ...editingProfile });
-                        setMainPanelView("userProfile");
-                    }
-                    getData(); // initial fetch
-                }}>
-                    <label>Icon URL:
-                        <input
-                            type="text"
-                            placeholder="optional"
-                            value={editingProfile.icon}
-                            onChange={(e) => setEditingProfile({ ...editingProfile, icon: e.target.value })}
-                        />
-                    </label>
-                    <label>Display Name:
-                        <input
-                            type="text"
-                            placeholder="optional"
-                            maxLength={64}
-                            value={editingProfile.displayName}
-                            onChange={(e) => setEditingProfile({ ...editingProfile, displayName: e.target.value })}
-                        />
-                        {(64 - (editingProfile.displayName?.length || 0)) < 50 && (
-                            <span>{64 - (editingProfile.displayName?.length || 0)} characters remaining</span>
-                        )}
-                    </label>
-                    <label>Profile Info:
-                        <textarea
-                            placeholder="optional"
-                            maxLength={200}
-                            value={editingProfile.profileInfo}
-                            onChange={(e) => setEditingProfile({ ...editingProfile, profileInfo: e.target.value })}
-                        />
-                        {(200 - (editingProfile.profileInfo?.length || 0)) < 50 && (
-                            <span>{200 - (editingProfile.profileInfo?.length || 0)} characters remaining</span>
-                        )}
-                    </label>
-                    <button type="submit" className="fa-solid fa-floppy-disk save-icon ui-icon ui-icon" />
-                </form>
-            </div>
+            content = <EditProfile
+            setMainPanelView={setMainPanelView}
+            editingProfile={editingProfile}
+            setEditingProfile={setEditingProfile}
+            currentUser={currentUser}
+            setCurrentUser={setCurrentUser}
+            selectedUser={selectedUser}
+            setSelectedUser={setSelectedUser}
+            userProfile={userProfile}
+            setUserProfile={setUserProfile}
+            />
             break;
         case "createChannel": // display create new channel
             {
