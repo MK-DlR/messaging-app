@@ -23,7 +23,9 @@ function Home() {
     useEffect(() => {
         async function getData() {
             // fetch all channels
-            const response = await apiFetch(`${import.meta.env.VITE_API_URL}/channels/all-channels`)
+            const response = await apiFetch(
+                `${import.meta.env.VITE_API_URL}/channels/all-channels`
+            )
 
             const data = await response.json();
             setChannels(data.channels);
@@ -40,7 +42,9 @@ function Home() {
     useEffect(() => {
         async function getData() {
         // fetch current user's data
-        const response = await apiFetch(`${import.meta.env.VITE_API_URL}/users/me`)
+        const response = await apiFetch(
+            `${import.meta.env.VITE_API_URL}/users/me`
+        )
 
         const data = await response.json();
         setCurrentUser(data.userData);
@@ -51,7 +55,9 @@ function Home() {
     // fetch all users
     useEffect(() => {
         async function getData() {
-            const response = await apiFetch(`${import.meta.env.VITE_API_URL}/users/all-users`);
+            const response = await apiFetch(
+                `${import.meta.env.VITE_API_URL}/users/all-users`
+            );
             const data = await response.json();
             setAllUsers(data.users);
         }
@@ -65,43 +71,14 @@ function Home() {
         <div className="panel-container">
             <LeftPanel 
                 setCurrentUser={setCurrentUser}
-                selectedChannel={selectedChannel}
                 setSelectedChannel={setSelectedChannel}
                 channels={channels}
-                setChannels={setChannels}
-                mainPanelView={mainPanelView}
                 setMainPanelView={setMainPanelView}
-                newChannelUsers={newChannelUsers}
                 setNewChannelUsers={setNewChannelUsers}
-                newChannel={newChannel}
                 setNewChannel={setNewChannel}
-                addUserSearch={addUserSearch}
-                setAddUserSearch={setAddUserSearch}
             />
             <MainPanel
-                currentUser={currentUser} 
-                setCurrentUser={setCurrentUser} 
-                selectedChannel={selectedChannel}
-                setSelectedChannel={setSelectedChannel}
-                channels={channels}
-                setChannels={setChannels}
-                mainPanelView={mainPanelView}
-                setMainPanelView={setMainPanelView}
-                selectedUser={selectedUser}
-                setSelectedUser={setSelectedUser}
-                allUsers={allUsers}
-                setAllUsers={setAllUsers}
-                editingProfile={editingProfile}
-                setEditingProfile={setEditingProfile}
-                newChannelUsers={newChannelUsers}
-                setNewChannelUsers={setNewChannelUsers}
-                newChannel={newChannel}
-                setNewChannel={setNewChannel}
-                addUserSearch={addUserSearch}
-                setAddUserSearch={setAddUserSearch}
-            />
-            <RightPanel 
-                currentUser={currentUser} 
+                currentUser={currentUser}
                 setCurrentUser={setCurrentUser}
                 selectedChannel={selectedChannel}
                 setSelectedChannel={setSelectedChannel}
@@ -112,8 +89,23 @@ function Home() {
                 selectedUser={selectedUser}
                 setSelectedUser={setSelectedUser}
                 allUsers={allUsers}
-                setAllUsers={setAllUsers}
                 editingProfile={editingProfile}
+                setEditingProfile={setEditingProfile}
+                newChannelUsers={newChannelUsers}
+                setNewChannelUsers={setNewChannelUsers}
+                newChannel={newChannel}
+                setNewChannel={setNewChannel}
+                addUserSearch={addUserSearch}
+                setAddUserSearch ={setAddUserSearch}
+            />
+            <RightPanel 
+                currentUser={currentUser} 
+                setSelectedChannel={setSelectedChannel}
+                channels={channels}
+                setChannels={setChannels}
+                setMainPanelView={setMainPanelView}
+                setSelectedUser={setSelectedUser}
+                allUsers={allUsers}
                 setEditingProfile={setEditingProfile}
             />
         </div>

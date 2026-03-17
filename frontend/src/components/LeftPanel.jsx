@@ -1,12 +1,18 @@
 // frontend/src/components/LeftPanel.jsx
 
 // imports
-import { useState, useEffect } from "react";
-import apiFetch from "../helpers/apiFetch";
 import { useNavigate } from "react-router-dom";
+import getIconUrl from "../helpers/getIconUrl";
 
 // display all channels that user is in
-function LeftPanel( {setCurrentUser, selectedChannel, setSelectedChannel, channels, setChannels, mainPanelView, setMainPanelView, newChannelUsers, setNewChannelUsers, newChannel, setNewChannel, addUserSearch, setAddUserSearch } ) {
+function LeftPanel({ 
+    setCurrentUser, 
+    setSelectedChannel, 
+    channels, 
+    setMainPanelView, 
+    setNewChannelUsers, 
+    setNewChannel 
+}) {
     const navigate = useNavigate()
     // map over and display channels
     const displayChannels = [...channels]
@@ -24,7 +30,7 @@ function LeftPanel( {setCurrentUser, selectedChannel, setSelectedChannel, channe
                 }}
                 className="channel"
             >
-                <img className="channel-icon icon" src={channel.icon?.startsWith("http") ? channel.icon : `/icons/${channel.icon}`} /> {channel.name}
+                <img className="channel-icon icon"src={getIconUrl(channel.icon)} /> {channel.name}
             </div>
         );
 

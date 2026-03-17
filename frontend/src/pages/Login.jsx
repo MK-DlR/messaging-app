@@ -15,7 +15,8 @@ function Login() {
         e.preventDefault();
 
         // fetch call to api
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/users/login`, 
+        const response = await fetch(
+            `${import.meta.env.VITE_API_URL}/users/login`, 
             { 
                 method: "POST", 
                 headers: {"Content-Type": "application/json" }, 

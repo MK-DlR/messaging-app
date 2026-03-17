@@ -1,14 +1,25 @@
 // frontend/src/components/RightPanel.jsx
 
 // imports
-import { useState, useEffect, useRef } from "react";
-import apiFetch from "../helpers/apiFetch";
-import pingServer from "../helpers/pingServer";
+import { useRef } from "react";
+import createDirectMessage from "../helpers/createDirectMessage";
+import getIconUrl from "../helpers/getIconUrl";
 import isOnline from "../helpers/isOnline";
+import pingServer from "../helpers/pingServer";
 import StatusCircle from "./StatusCircle";
 
-function RightPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedChannel, channels, setChannels, mainPanelView, setMainPanelView, selectedUser, setSelectedUser, allUsers, setAllUsers, editingProfile, setEditingProfile } ) {
-    const clickTimer = useRef(null); // set up timeout
+function RightPanel({ 
+    currentUser, 
+    setSelectedChannel, 
+    channels, 
+    setChannels, 
+    setMainPanelView, 
+    setSelectedUser, 
+    allUsers,  
+    setEditingProfile 
+}) {
+    // set up timeout
+    const clickTimer = useRef(null);
 
     let displayUsers;
     let activeUser;
@@ -34,23 +45,24 @@ function RightPanel( { currentUser, setCurrentUser, selectedChannel, setSelected
                 // double clicking on user's name and/or icon creates DM
                 onDoubleClick={() => {
                     clearTimeout(clickTimer.current);
-                    async function getData() {
-                        if (user.id === currentUser.id) {
-                            setEditingProfile({ ...currentUser })
-                            return setMainPanelView("editProfile");
-                        }
-                        const response = await apiFetch(`${import.meta.env.VITE_API_URL}/channels/new-channel/`, { method: "POST", body: JSON.stringify({ userIds: [user.id]}) });
-                        const data = await response.json();
-                        const createdChannel = data.channel || data.existingChannel;
-                        if (data.channel) setChannels([...channels, createdChannel]);
-                        setSelectedChannel(createdChannel);
-                        setMainPanelView("messages");
+                
+                    if (user.id === currentUser.id) {
+                        setEditingProfile({ ...currentUser });
+                        setMainPanelView("editProfile");
+                    } else {
+                        createDirectMessage(
+                            user.id,
+                            channels,
+                            setChannels,
+                            setSelectedChannel,
+                            setMainPanelView
+                        );
                     }
-                    getData();
+                
                     pingServer();
                 }}
             >
-                <img className="user-icon icon" src={user.icon?.startsWith("http") ? user.icon : `/icons/${user.icon}`} />
+                <img className="user-icon icon" src={getIconUrl(user.icon)} />
                 <StatusCircle color={isOnline(user.lastSeen) ? "green" : "grey"} />
                 {user.displayName || user.username} 
             </div>
@@ -81,7 +93,7 @@ function RightPanel( { currentUser, setCurrentUser, selectedChannel, setSelected
                 pingServer();
             }}
         >
-            <img className="user-icon icon" src={currentUser.icon?.startsWith("http") ? currentUser.icon : `/icons/${currentUser.icon}`} />
+            <img className="user-icon icon" src={getIconUrl(currentUser.icon)} />
             {currentUser.displayName || currentUser.username} 
         </div>
     

@@ -21,7 +21,8 @@ function RegisterUser() {
             return;
         } else {
             // fetch call to api
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/users/register`, 
+            const response = await fetch(
+                `${import.meta.env.VITE_API_URL}/users/register`, 
                 { 
                     method: "POST", 
                     headers: {"Content-Type": "application/json" }, 
