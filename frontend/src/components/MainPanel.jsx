@@ -13,7 +13,27 @@ import Messages from "./MainPanel/Messages";
 import UserProfile from "./MainPanel/UserProfile";
 
 // conditionally render different content based on mainPanelView
-function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedChannel, channels, setChannels, mainPanelView, setMainPanelView, selectedUser, setSelectedUser, allUsers, editingProfile, setEditingProfile, newChannelUsers, setNewChannelUsers, newChannel, setNewChannel, addUserSearch, setAddUserSearch } ) {
+function MainPanel({ 
+    currentUser, 
+    setCurrentUser, 
+    selectedChannel, 
+    setSelectedChannel, 
+    channels, 
+    setChannels, 
+    mainPanelView, 
+    setMainPanelView, 
+    selectedUser, 
+    setSelectedUser, 
+    allUsers, 
+    editingProfile, 
+    setEditingProfile, 
+    newChannelUsers, 
+    setNewChannelUsers, 
+    newChannel, 
+    setNewChannel, 
+    addUserSearch, 
+    setAddUserSearch 
+}) {
     const [messages, setMessages] = useState([]);
     const [userProfile, setUserProfile] = useState(null);
     const [channelDetails, setChannelDetails] = useState(null);
@@ -23,51 +43,57 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
 
     // fetch all messages in selected channel
     useEffect(() => {
-        async function getData() {
+        async function getMessages() {
             if (!selectedChannel) {
                 return;
             }
 
             // fetch channel's messages
-            const response = await apiFetch(`${import.meta.env.VITE_API_URL}/messages/all-messages/${selectedChannel.id}`);
+            const response = await apiFetch(
+                `${import.meta.env.VITE_API_URL}/messages/all-messages/${selectedChannel.id}`
+            );
 
             const data = await response.json();
             setMessages(data.messages);
         }
 
-        getData(); // initial fetch
+        getMessages(); // initial fetch
     }, [selectedChannel]);
 
     // fetch channel details
     useEffect(() => {
-        async function getData() {
+        async function getChannelDetails() {
             if (!selectedChannel) {
                 return;
             }
 
             // fetch channel's details
-            const response = await apiFetch(`${import.meta.env.VITE_API_URL}/channels/details/${selectedChannel.id}`);
+            const response = await apiFetch(
+                `${import.meta.env.VITE_API_URL}/channels/details/${selectedChannel.id}`
+            );
 
             const data = await response.json();
             setChannelDetails(data.channelDetails);
         }
-        getData(); // initial fetch
+        getChannelDetails(); // initial fetch
     }, [selectedChannel]);
 
     // fetch user profile info
     useEffect(() => {
-        async function getData() {
+        async function getProfileDetails() {
             if (!selectedUser) {
                 return;
             }
 
             // fetch user's info
-            const response = await apiFetch(`${import.meta.env.VITE_API_URL}/users/${selectedUser.username}`);
+            const response = await apiFetch(
+                `${import.meta.env.VITE_API_URL}/users/${selectedUser.username}`
+            );
 
             const data = await response.json();
             setUserProfile(data.result);
         }
-        getData(); // initial fetch
+        getProfileDetails(); // initial fetch
     }, [selectedUser]);
 
     let title;
@@ -76,7 +102,7 @@ function MainPanel( { currentUser, setCurrentUser, selectedChannel, setSelectedC
     // if no user, return a loading state early
     if (!currentUser) return <div>Loading...</div>;
 
-    // determine which channel is selected
+    // determine which view is selected
     switch (mainPanelView) {
         case "messages": // display channel's messages
             content = <Messages 

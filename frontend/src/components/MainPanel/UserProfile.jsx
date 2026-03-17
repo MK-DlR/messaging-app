@@ -1,16 +1,26 @@
 // frontend/src/components/MainPanel/UserProfile.jsx
 
 // imports
-import apiFetch from "../../helpers/apiFetch";
-import pingServer from "../../helpers/pingServer";
+import createDirectMessage from "../../helpers/createDirectMessage";
 import formatDate from "../../helpers/formatDate";
+import getIconUrl from "../../helpers/getIconUrl";
+import pingServer from "../../helpers/pingServer";
 
-function UserProfile({ userProfile, currentUser, channels, setChannels, setSelectedChannel, setEditingProfile, setMainPanelView, previousView }) {
+function UserProfile({ 
+    userProfile, 
+    currentUser, 
+    channels, 
+    setChannels, 
+    setSelectedChannel, 
+    setEditingProfile, 
+    setMainPanelView, 
+    previousView 
+}) {
     if (!userProfile) return <div>Loading...</div>
     return <>
         <div className="header">
             <h2>
-                <img className="profile-icon lg-icon" src={userProfile.icon?.startsWith("http") ? userProfile.icon : `/icons/${userProfile.icon}`} />
+                <img className="profile-icon lg-icon" src={getIconUrl(userProfile.icon)} />
                 {userProfile.displayName} Details
 
                 {currentUser.id === userProfile.id && (
@@ -29,15 +39,13 @@ function UserProfile({ userProfile, currentUser, channels, setChannels, setSelec
                     <i 
                         className="fa-regular fa-envelope message-icon"
                         onClick={() => {
-                            async function getData() {
-                                const response = await apiFetch(`${import.meta.env.VITE_API_URL}/channels/new-channel/`, { method: "POST", body: JSON.stringify({ userIds: [userProfile.id]}) });
-                                const data = await response.json();
-                                const createdChannel = data.channel || data.existingChannel;
-                                if (data.channel) setChannels([...channels, createdChannel]);
-                                setSelectedChannel(createdChannel);
-                                setMainPanelView("messages");
-                            }
-                            getData();
+                            createDirectMessage(
+                                userProfile.id,
+                                channels, 
+                                setChannels, 
+                                setSelectedChannel, 
+                                setMainPanelView
+                            );
                             pingServer();
                         }}
                     />

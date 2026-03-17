@@ -3,11 +3,28 @@
 // imports
 import { useState, useRef } from "react";
 import apiFetch from "../../helpers/apiFetch";
-import pingServer from "../../helpers/pingServer";
+import createDirectMessage from "../../helpers/createDirectMessage";
 import formatDate from "../../helpers/formatDate";
+import getIconUrl from "../../helpers/getIconUrl";
 import imageCheck from "../../helpers/imageCheck";
+import pingServer from "../../helpers/pingServer";
 
-function Messages ({ currentUser, selectedChannel, channelDetails, messages, setMessages, channels, setChannels, setSelectedChannel, setSelectedUser, setEditingMessage, setEditingProfile, setEditingChannel, setAddUserSearch, setMainPanelView }) {
+function Messages ({ 
+    currentUser, 
+    selectedChannel, 
+    channelDetails, 
+    messages, 
+    setMessages, 
+    channels, 
+    setChannels, 
+    setSelectedChannel, 
+    setSelectedUser, 
+    setEditingMessage, 
+    setEditingProfile, 
+    setEditingChannel, 
+    setAddUserSearch, 
+    setMainPanelView 
+}) {
     const [messageBody, setMessageBody] = useState("");
     const [showImageInput, setShowImageInput] = useState(false);
     const [imageUrl, setImageUrl] = useState("");
@@ -20,7 +37,16 @@ function Messages ({ currentUser, selectedChannel, channelDetails, messages, set
         if (!messageBody.trim()) {
             return;
         }
-        const newMessage = await apiFetch(`${import.meta.env.VITE_API_URL}/messages/new-message/`, { method: "POST", body: JSON.stringify({ body: messageBody, channelId: selectedChannel.id }) });
+        const newMessage = await apiFetch(
+            `${import.meta.env.VITE_API_URL}/messages/new-message/`, 
+            { 
+                method: "POST", 
+                body: JSON.stringify({ 
+                    body: messageBody, 
+                    channelId: selectedChannel.id 
+                }) 
+            }
+        );
         const data = await newMessage.json();
         setMessages([...messages, data.messages]);
         setMessageBody("");
@@ -54,23 +80,22 @@ function Messages ({ currentUser, selectedChannel, channelDetails, messages, set
                 // double clicking on user's name and/or icon creates DM
                 onDoubleClick={() => {
                     clearTimeout(clickTimer.current);
-                    async function getData() {
-                        if (message.users.id === currentUser.id) {
-                            setEditingProfile({ ...currentUser });
-                            return setMainPanelView("editProfile");
-                        }
-                        const response = await apiFetch(`${import.meta.env.VITE_API_URL}/channels/new-channel/`, { method: "POST", body: JSON.stringify({ userIds: [message.users.id]}) });
-                        const data = await response.json();
-                        const createdChannel = data.channel || data.existingChannel;
-                        if (data.channel) setChannels([...channels, createdChannel]);
-                        setSelectedChannel(createdChannel);
-                        setMainPanelView("messages");
+                    if (message.users.id === currentUser.id) {
+                        setEditingProfile({ ...currentUser });
+                        setMainPanelView("editProfile");
+                    } else {
+                        createDirectMessage(
+                            message.users.id,
+                            channels,
+                            setChannels,
+                            setSelectedChannel,
+                            setMainPanelView
+                        );
                     }
-                    getData();
                     pingServer();
                 }}
             >
-                <img className="message-icon icon" src={message.users.icon?.startsWith("http") ? message.users.icon : `/icons/${message.users.icon}`} />
+                <img className="message-icon icon" src={getIconUrl(message.users.icon)} />
                 {message.users.displayName || message.users.username}
                 {formatDate(message.createdAt)}
                 {Math.abs(new Date(message.updatedAt) - new Date(message.createdAt)) > 1000 && <span className="edited-message">edited</span>}
@@ -96,7 +121,6 @@ function Messages ({ currentUser, selectedChannel, channelDetails, messages, set
                                     if (!selectedChannel) {
                                         return;
                                     }
-
                                     // remove message from channel
                                     await apiFetch(`${import.meta.env.VITE_API_URL}/messages/delete/${message.id}`, { method: "DELETE" });
                                     // update message list
@@ -136,19 +160,17 @@ function Messages ({ currentUser, selectedChannel, channelDetails, messages, set
                     // double clicking on user's name and/or icon creates DM
                     onDoubleClick={() => {
                         clearTimeout(clickTimer.current);
-                        async function getData() {
-                            const response = await apiFetch(`${import.meta.env.VITE_API_URL}/channels/new-channel/`, { method: "POST", body: JSON.stringify({ userIds: [message.users.id]}) });
-                            const data = await response.json();
-                            const createdChannel = data.channel || data.existingChannel;
-                            if (data.channel) setChannels([...channels, createdChannel]);
-                            setSelectedChannel(createdChannel);
-                            setMainPanelView("messages");
-                        }
-                        getData();
+                        createDirectMessage(
+                            message.users.id, 
+                            channels, 
+                            setChannels, 
+                            setSelectedChannel, 
+                            setMainPanelView
+                        );
                         pingServer();
                     }}
                 >
-                    <img className="message-icon icon" src={message.users.icon?.startsWith("http") ? message.users.icon : `/icons/${message.users.icon}`} />
+                    <img className="message-icon icon" src={getIconUrl(message.users.icon)} />
                     {message.users.displayName || message.users.username} 
                     {formatDate(message.createdAt)}
                     {Math.abs(new Date(message.updatedAt) - new Date(message.createdAt)) > 1000 && <span className="edited-message">edited</span>}
@@ -162,7 +184,7 @@ function Messages ({ currentUser, selectedChannel, channelDetails, messages, set
 
     return <>
         <div className="header">
-            <img className="channel-icon lg-icon" src={selectedChannel.icon?.startsWith("http") ? selectedChannel.icon : `/icons/${selectedChannel.icon}`} />
+        <img className="channel-icon lg-icon" src={getIconUrl(selectedChannel.icon)} />
             <h2>{selectedChannel.name}
                 {currentUser.id === selectedChannel.creatorId && selectedChannel.creatorId !== null && (
                     <i 

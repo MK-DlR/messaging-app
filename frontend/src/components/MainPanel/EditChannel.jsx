@@ -3,11 +3,44 @@
 // imports
 import { useRef } from "react";
 import apiFetch from "../../helpers/apiFetch";
+import createDirectMessage from "../../helpers/createDirectMessage";
+import getIconUrl from "../../helpers/getIconUrl";
 import pingServer from "../../helpers/pingServer";
 
-function EditChannel ({ selectedChannel, channels, setChannels, setSelectedChannel, channelDetails, setChannelDetails, allUsers, addUserSearch, setAddUserSearch, editingChannel, setEditingChannel, setSelectedUser, setPreviousView, setMainPanelView }) {
+function EditChannel ({ 
+    selectedChannel, 
+    channels, 
+    setChannels, 
+    setSelectedChannel, 
+    channelDetails, 
+    setChannelDetails, 
+    allUsers, 
+    addUserSearch, 
+    setAddUserSearch, 
+    editingChannel, 
+    setEditingChannel, 
+    setSelectedUser, 
+    setPreviousView, 
+    setMainPanelView 
+}) {
     // set up timeout
     const clickTimer = useRef(null);
+
+    async function updateChannelDetails() {
+        await apiFetch(
+            `${import.meta.env.VITE_API_URL}/channels/manage/${selectedChannel.id}/edit`, 
+            { 
+                method: "PUT", body: JSON.stringify({ 
+                    icon: editingChannel.icon, 
+                    name: editingChannel.name, 
+                    channelInfo: editingChannel.channelInfo 
+                }) 
+            }
+        );
+        setSelectedChannel({ ...selectedChannel, ...editingChannel });
+        setChannels(channels.map(ch => ch.id === selectedChannel.id ? { ...ch, ...editingChannel } : ch))
+        setMainPanelView("messages");
+    }
 
     // filter for users not in channel
     const nonMembers = allUsers.filter(user => 
@@ -50,19 +83,17 @@ function EditChannel ({ selectedChannel, channels, setChannels, setSelectedChann
                         // double clicking on user's name and/or icon creates DM
                         onDoubleClick={() => {
                             clearTimeout(clickTimer.current);
-                            async function getData() {
-                                const response = await apiFetch(`${import.meta.env.VITE_API_URL}/channels/new-channel/`, { method: "POST", body: JSON.stringify({ userIds: [user.id]}) });
-                                const data = await response.json();
-                                const createdChannel = data.channel || data.existingChannel;
-                                if (data.channel) setChannels([...channels, createdChannel]);
-                                setSelectedChannel(createdChannel);
-                                setMainPanelView("messages");
-                            }
-                            getData();
+                            createDirectMessage(
+                                user.id, 
+                                channels, 
+                                setChannels, 
+                                setSelectedChannel, 
+                                setMainPanelView
+                            );
                             pingServer();
                         }}
                     >
-                        <img className="user-icon icon" src={user.icon?.startsWith("http") ? user.icon : `/icons/${user.icon}`} />
+                        <img className="user-icon icon" src={getIconUrl(user.icon)} />
                         {user.displayName || user.username} 
                         {/* clicking plus adds to channel, with confirmation */}
                         <i 
@@ -74,7 +105,13 @@ function EditChannel ({ selectedChannel, channels, setChannels, setSelectedChann
                                 if (window.confirm("Are you sure you want to add this user?")) {
                                     async function addUserToChannel() {
                                         // add user
-                                        await apiFetch(`${import.meta.env.VITE_API_URL}/channels/manage/${selectedChannel.id}/members`, { method: "PUT", body: JSON.stringify({ action: "add", userId: user.id }) });
+                                        await apiFetch(
+                                            `${import.meta.env.VITE_API_URL}/channels/manage/${selectedChannel.id}/members`, 
+                                            { 
+                                                method: "PUT", 
+                                                body: JSON.stringify({ action: "add", userId: user.id }) 
+                                            }
+                                        );
                                         // update channel details to display new member
                                         setChannelDetails({ ...channelDetails, users: [...channelDetails.users, user] });
                                     }
@@ -112,19 +149,17 @@ function EditChannel ({ selectedChannel, channels, setChannels, setSelectedChann
                         // double clicking on user's name and/or icon creates DM
                         onDoubleClick={() => {
                             clearTimeout(clickTimer.current);
-                            async function getData() {
-                                const response = await apiFetch(`${import.meta.env.VITE_API_URL}/channels/new-channel/`, { method: "POST", body: JSON.stringify({ userIds: [user.id]}) });
-                                const data = await response.json();
-                                const createdChannel = data.channel || data.existingChannel;
-                                if (data.channel) setChannels([...channels, createdChannel]);
-                                setSelectedChannel(createdChannel);
-                                setMainPanelView("messages");
-                            }
-                            getData();
+                            createDirectMessage(
+                                user.id, 
+                                channels, 
+                                setChannels, 
+                                setSelectedChannel, 
+                                setMainPanelView
+                            );
                             pingServer();
                         }}
                     >
-                        <img className="user-icon icon" src={user.icon?.startsWith("http") ? user.icon : `/icons/${user.icon}`} />
+                        <img className="user-icon icon" src={getIconUrl(user.icon)} />
                         {user.displayName || user.username} 
                         {/* clicking minus removes user from channel, with confirmation */}
                         <i 
@@ -136,7 +171,13 @@ function EditChannel ({ selectedChannel, channels, setChannels, setSelectedChann
                                 if (window.confirm("Are you sure you want to remove this user?")) {
                                     async function removeUserFromChannel() {
                                         // remove user
-                                        await apiFetch(`${import.meta.env.VITE_API_URL}/channels/manage/${selectedChannel.id}/members`, { method: "PUT", body: JSON.stringify({ action: "remove", userId: user.id }) });
+                                        await apiFetch(
+                                            `${import.meta.env.VITE_API_URL}/channels/manage/${selectedChannel.id}/members`, 
+                                            { 
+                                                method: "PUT", 
+                                                body: JSON.stringify({ action: "remove", userId: user.id }) 
+                                            }
+                                        );
                                         // update channel details to display remaining members
                                         setChannelDetails({ ...channelDetails, users: channelDetails.users.filter(u => u.username !== user.username) });
                                     }
@@ -155,33 +196,22 @@ function EditChannel ({ selectedChannel, channels, setChannels, setSelectedChann
     return <>
         <div className="header">
             <h2>
-                <img className="channel-icon lg-icon" src={selectedChannel.icon?.startsWith("http") ? selectedChannel.icon : `/icons/${selectedChannel.icon}`} /> 
-                Edit {selectedChannel.name}
-                <i 
-                    className="fa-solid fa-x exit-icon ui-icon" 
-                    onClick={() => {
-                        setMainPanelView("messages");
-                        pingServer();
-                    }}
-                />
+            <img className="channel-icon lg-icon" src={getIconUrl(selectedChannel.icon)} />
+            Edit {selectedChannel.name}
+            <i 
+                className="fa-solid fa-x exit-icon ui-icon" 
+                onClick={() => {
+                    setMainPanelView("messages");
+                    pingServer();
+                }}
+            />
             </h2>
         </div>
 
         <div className="editing-channel form">
             <form onSubmit={(e) => {
                 e.preventDefault();
-
-                async function getData() {
-                    await apiFetch(`${import.meta.env.VITE_API_URL}/channels/manage/${selectedChannel.id}/edit`, { method: "PUT", body: JSON.stringify({ 
-                        icon: editingChannel.icon, 
-                        name: editingChannel.name, 
-                        channelInfo: editingChannel.channelInfo 
-                    }) });
-                    setSelectedChannel({ ...selectedChannel, ...editingChannel });
-                    setChannels(channels.map(ch => ch.id === selectedChannel.id ? { ...ch, ...editingChannel } : ch))
-                    setMainPanelView("messages");
-                }
-                getData(); // initial fetch
+                updateChannelDetails(); // initial fetch
             }}>
                 <label>Icon URL:
                     <input 
@@ -231,7 +261,10 @@ function EditChannel ({ selectedChannel, channels, setChannels, setSelectedChann
                             }
 
                             // remove channel
-                            await apiFetch(`${import.meta.env.VITE_API_URL}/channels/delete/${selectedChannel.id}`, { method: "DELETE" });
+                            await apiFetch(
+                                `${import.meta.env.VITE_API_URL}/channels/delete/${selectedChannel.id}`, 
+                                { method: "DELETE" }
+                            );
                             // update channels list
                             setChannels(channels.filter(channel => channel.id !== selectedChannel.id));
                             // reset selectedChannel to default

@@ -4,7 +4,32 @@
 import apiFetch from "../../helpers/apiFetch";
 import pingServer from "../../helpers/pingServer";
 
-function EditMessage({ editingMessage, setEditingMessage, messages, setMessages, setMainPanelView }) {
+function EditMessage({ 
+    editingMessage, 
+    setEditingMessage, 
+    messages, 
+    setMessages, 
+    setMainPanelView 
+}) {
+    async function updateMessage() {
+        const response = await apiFetch(
+            `${import.meta.env.VITE_API_URL}/messages/edit/${editingMessage.id}`, 
+            { 
+                method: "PUT", 
+                body: JSON.stringify({ 
+                    body: editingMessage.body 
+                }) 
+            }
+        );
+        const data = await response.json();
+        setMessages(messages.map(msg =>
+            msg.id === editingMessage.id
+            ? { ...msg, body: data.messages.body, updatedAt: data.messages.updatedAt }
+            : msg
+        ));
+        setMainPanelView("messages");
+    }
+
     return <>
         <div className="header">
             <h2>
@@ -22,20 +47,7 @@ function EditMessage({ editingMessage, setEditingMessage, messages, setMessages,
         <div className="editing-message form">
             <form onSubmit={(e) => {
                 e.preventDefault();
-
-                async function getData() {
-                    const response = await apiFetch(`${import.meta.env.VITE_API_URL}/messages/edit/${editingMessage.id}`, { method: "PUT", body: JSON.stringify({ 
-                        body: editingMessage.body 
-                    }) });
-                    const data = await response.json();
-                    setMessages(messages.map(msg =>
-                        msg.id === editingMessage.id
-                        ? { ...msg, body: data.messages.body, updatedAt: data.messages.updatedAt }
-                        : msg
-                    ));
-                    setMainPanelView("messages");
-                }
-                getData(); // initial fetch
+                updateMessage(); // initial fetch
             }}>
                 <textarea 
                     maxLength={2000}

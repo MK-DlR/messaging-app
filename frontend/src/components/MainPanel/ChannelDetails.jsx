@@ -7,7 +7,16 @@ import createDirectMessage from "../../helpers/createDirectMessage";
 import getIconUrl from "../../helpers/getIconUrl";
 import pingServer from "../../helpers/pingServer";
 
-function ChannelDetails ({ currentUser, channels, setChannels, selectedChannel, setSelectedChannel, channelDetails, setSelectedUser, setMainPanelView }) {
+function ChannelDetails ({ 
+    currentUser, 
+    channels, 
+    setChannels, 
+    selectedChannel, 
+    setSelectedChannel, 
+    channelDetails, 
+    setSelectedUser, 
+    setMainPanelView 
+}) {
     // set up timeout
     const clickTimer = useRef(null);
 

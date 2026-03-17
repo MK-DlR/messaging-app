@@ -7,7 +7,22 @@ import createDirectMessage from "../../helpers/createDirectMessage";
 import getIconUrl from "../../helpers/getIconUrl";
 import pingServer from "../../helpers/pingServer";
 
-function CreateChannel ({ allUsers, currentUser, newChannelUsers, setNewChannelUsers, addUserSearch, setSelectedUser, setPreviousView, channels, setChannels, setSelectedChannel, setAddUserSearch, newChannel, setNewChannel, setMainPanelView }) {
+function CreateChannel ({ 
+    allUsers, 
+    currentUser, 
+    newChannelUsers, 
+    setNewChannelUsers, 
+    addUserSearch, 
+    setSelectedUser, 
+    setPreviousView, 
+    channels, 
+    setChannels, 
+    setSelectedChannel, 
+    setAddUserSearch, 
+    newChannel, 
+    setNewChannel, 
+    setMainPanelView 
+}) {
     // set up timeout
     const clickTimer = useRef(null);
 

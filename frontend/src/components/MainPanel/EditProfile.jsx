@@ -4,7 +4,35 @@
 import apiFetch from "../../helpers/apiFetch";
 import pingServer from "../../helpers/pingServer";
 
-function EditProfile ({ setMainPanelView, editingProfile, setEditingProfile, currentUser, setCurrentUser, selectedUser, setSelectedUser, userProfile, setUserProfile }) {
+function EditProfile ({ 
+    setMainPanelView, 
+    editingProfile, 
+    setEditingProfile, 
+    currentUser, 
+    setCurrentUser, 
+    selectedUser, 
+    setSelectedUser, 
+    userProfile, 
+    setUserProfile 
+}) {
+    async function updateProfile() {
+        await apiFetch(
+            `${import.meta.env.VITE_API_URL}/users/${currentUser.username}`, 
+            { 
+                method: "PUT", 
+                body: JSON.stringify({
+                    icon: editingProfile.icon,
+                    displayName: editingProfile.displayName,
+                    profileInfo: editingProfile.profileInfo
+                }) 
+            }
+        );
+        setSelectedUser({ ...selectedUser, ...editingProfile });
+        setCurrentUser({ ...currentUser, ...editingProfile });
+        setUserProfile({ ...userProfile, ...editingProfile });
+        setMainPanelView("userProfile");
+    }
+
     return <>
         <div className="header">
             <h2>Edit Profile 
@@ -21,19 +49,7 @@ function EditProfile ({ setMainPanelView, editingProfile, setEditingProfile, cur
         <div className="editing-profile form">
             <form onSubmit={(e) => {
                 e.preventDefault();
-
-                async function getData() {
-                    await apiFetch(`${import.meta.env.VITE_API_URL}/users/${currentUser.username}`, { method: "PUT", body: JSON.stringify({
-                        icon: editingProfile.icon,
-                        displayName: editingProfile.displayName,
-                        profileInfo: editingProfile.profileInfo
-                    }) });
-                    setSelectedUser({ ...selectedUser, ...editingProfile });
-                    setCurrentUser({ ...currentUser, ...editingProfile });
-                    setUserProfile({ ...userProfile, ...editingProfile });
-                    setMainPanelView("userProfile");
-                }
-                getData(); // initial fetch
+                updateProfile(); // initial fetch
             }}>
                 <label>Icon URL:
                     <input
@@ -66,7 +82,7 @@ function EditProfile ({ setMainPanelView, editingProfile, setEditingProfile, cur
                         <span>{200 - (editingProfile.profileInfo?.length || 0)} characters remaining</span>
                     )}
                 </label>
-                <button type="submit" className="fa-solid fa-floppy-disk save-icon ui-icon ui-icon" />
+                <button type="submit" className="fa-solid fa-floppy-disk save-icon ui-icon" />
             </form>
         </div>
     </>
