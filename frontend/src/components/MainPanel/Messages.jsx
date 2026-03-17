@@ -1,7 +1,7 @@
 // frontend/src/components/MainPanel/Messages.jsx
 
 // imports
-import { useState, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import apiFetch from "../../helpers/apiFetch";
 import createDirectMessage from "../../helpers/createDirectMessage";
 import formatDate from "../../helpers/formatDate";
@@ -31,6 +31,13 @@ function Messages ({
 
     // set up timeout
     const clickTimer = useRef(null);
+
+    // set up autoscroll to bottom
+    const messagesEndRef = useRef(null);
+
+    useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messages]);
 
     // message submit handler
     async function submitHandler() {
@@ -225,7 +232,10 @@ function Messages ({
                 {selectedChannel.channelInfo}
             </div>
         </div>
-        <div className="message-display">{messageList}</div>
+        <div className="message-display">
+            {messageList}
+            <div ref={messagesEndRef} />
+        </div>
         <div className="textbox">
             <i 
                 className="fa-solid fa-plus add-icon ui-icon"
