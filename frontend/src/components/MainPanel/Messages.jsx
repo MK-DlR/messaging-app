@@ -97,8 +97,9 @@ function Messages ({
             >
                 <img className="message-icon icon" src={getIconUrl(message.users.icon)} />
                 {message.users.displayName || message.users.username}
-                {formatDate(message.createdAt)}
-                {Math.abs(new Date(message.updatedAt) - new Date(message.createdAt)) > 1000 && <span className="edited-message">edited</span>}
+                <div className="message-details">
+                    {formatDate(message.createdAt)}
+                </div>
                 <div className="on-hover">
                     <i 
                         className="fa-solid fa-pencil edit-icon ui-icon edit-hover"
@@ -134,9 +135,14 @@ function Messages ({
                     />
                 </div> 
             </div>
-            {/* handle image/gifs and text messages */}
-            <div>{imageTokens.map((token, i) => <img key={i} src={token} className="message-image" />)}</div>
-            <div>{textTokens.join(" ")}</div>
+            <div className="author-message-content">
+                {/* handle image/gifs and text messages */}
+                <div>{imageTokens.map((token, i) => <img key={i} src={token} className="message-image" />)}</div>
+                <div>{textTokens.join(" ")}</div>
+                {Math.abs(new Date(message.updatedAt) - new Date(message.createdAt)) > 1000 && (
+                    <span className="author-edit edited-message">(edited)</span>
+                )}
+            </div>
         </div>
         } else {
             const imageTokens = message.body.split(" ").filter(token => imageCheck(token));
@@ -171,13 +177,19 @@ function Messages ({
                     }}
                 >
                     <img className="message-icon icon" src={getIconUrl(message.users.icon)} />
-                    {message.users.displayName || message.users.username} 
-                    {formatDate(message.createdAt)}
-                    {Math.abs(new Date(message.updatedAt) - new Date(message.createdAt)) > 1000 && <span className="edited-message">edited</span>}
+                    {message.users.displayName || message.users.username}
+                    <div className="message-details">
+                        {formatDate(message.createdAt)}
+                    </div>
                 </div>
-                {/* handle image/gifs and text messages */}
-                <div>{imageTokens.map((token, i) => <img key={i} src={token} className="message-image" />)}</div>
-                <div>{textTokens.join(" ")}</div>
+                <div className="user-message-content">
+                    {/* handle image/gifs and text messages */}
+                    <div>{imageTokens.map((token, i) => <img key={i} src={token} className="message-image" />)}</div>
+                    <div>{textTokens.join(" ")}</div>
+                    {Math.abs(new Date(message.updatedAt) - new Date(message.createdAt)) > 1000 && (
+                        <span className="user-edit edited-message">(edited)</span>
+                    )}
+                </div>
             </div>
         }
     })
