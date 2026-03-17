@@ -50,9 +50,15 @@ function EditMessage({
                 updateMessage(); // initial fetch
             }}>
                 <textarea 
-                    maxLength={2000}
                     value={editingMessage.body}
                     onChange={(e) => setEditingMessage({ ...editingMessage, body: e.target.value })}
+                    maxLength={2000}
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter" && !e.shiftKey) {
+                            e.preventDefault();
+                            updateMessage();
+                        }
+                    }}
                 />
                 {(2000 - (editingMessage.body?.length || 0)) < 50 && (
                     <span>{2000 - (editingMessage.body?.length || 0)} characters remaining</span>
