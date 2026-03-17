@@ -11,6 +11,26 @@ function CreateChannel ({ allUsers, currentUser, newChannelUsers, setNewChannelU
     // set up timeout
     const clickTimer = useRef(null);
 
+    async function createGroupChannel() {
+        const response = await apiFetch(
+            `${import.meta.env.VITE_API_URL}/channels/new-channel/`, 
+            { 
+                method: "POST", 
+                body: JSON.stringify({
+                    userIds: newChannelUsers.map(u => u.id), 
+                    name: newChannel.name,
+                    icon: newChannel.icon,
+                    channelInfo: newChannel.channelInfo
+                }) 
+            }
+        );
+        const data = await response.json();
+        const createdChannel = data.channel || data.existingChannel;
+        if (data.channel) setChannels([...channels, createdChannel]);
+        setSelectedChannel(createdChannel);
+        setMainPanelView("messages");
+    }
+
     // filter for users not in channel
         const nonMembers = allUsers.filter(user => 
             user.id !== currentUser.id &&
@@ -143,27 +163,7 @@ function CreateChannel ({ allUsers, currentUser, newChannelUsers, setNewChannelU
         <div className="creating-channel form">
             <form onSubmit={(e) => {
                 e.preventDefault();
-    
-                async function getData() {
-                    const response = await apiFetch(
-                        `${import.meta.env.VITE_API_URL}/channels/new-channel/`, 
-                        { 
-                            method: "POST", 
-                            body: JSON.stringify({
-                                userIds: newChannelUsers.map(u => u.id), 
-                                name: newChannel.name,
-                                icon: newChannel.icon,
-                                channelInfo: newChannel.channelInfo
-                            }) 
-                        }
-                    );
-                    const data = await response.json();
-                    const createdChannel = data.channel || data.existingChannel; 
-                    if (data.channel) setChannels([...channels, createdChannel]); // only add if new channel
-                    setSelectedChannel(createdChannel);
-                    setMainPanelView("messages");
-                }
-                getData();
+                createGroupChannel();
             }}>
                 <label>Icon URL:
                     <input 

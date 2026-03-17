@@ -34,7 +34,7 @@ const findChannelAsCreatorAny = async (channelId, creatorId) => {
 // create a channel (DM or group)
 const channelPost = async (req, res, next) => {
   try {
-    const { userIds, name } = req.body;
+    const { userIds, icon, name, channelInfo } = req.body;
     const creatorId = req.user.id;
 
     let channelName;
@@ -81,7 +81,9 @@ const channelPost = async (req, res, next) => {
       channelData = {
         isGroup: false,
         isCustomName: !!name,
+        ...(icon && { icon: icon }), // only add if icon has a value
         name: name || channelName,
+        ...(channelInfo && { channelInfo: channelInfo }), // only add if channelInfo has a value
         creatorId,
         users: { connect: [{ id: creatorId }, { id: userIds[0] }] },
       };
@@ -95,7 +97,9 @@ const channelPost = async (req, res, next) => {
       channelData = {
         isGroup: true,
         isCustomName: !!name,
+        ...(icon && { icon: icon }), // only add if icon has a value
         name: name || channelName,
+        ...(channelInfo && { channelInfo: channelInfo }), // only add if channelInfo has a value
         creatorId,
         users: {
           connect: [{ id: creatorId }, ...userIds.map((id) => ({ id }))],
