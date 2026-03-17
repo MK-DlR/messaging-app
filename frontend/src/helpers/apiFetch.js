@@ -1,4 +1,4 @@
-// frontend/helpers/apiFetch.js
+// frontend/src/helpers/apiFetch.js
 
 // add Authorization header automatically
 async function apiFetch(url, options = {}) {

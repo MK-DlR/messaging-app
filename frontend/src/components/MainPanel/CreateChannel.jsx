@@ -3,6 +3,8 @@
 // imports
 import { useRef } from "react";
 import apiFetch from "../../helpers/apiFetch";
+import createDirectMessage from "../../helpers/createDirectMessage";
+import getIconUrl from "../../helpers/getIconUrl";
 import pingServer from "../../helpers/pingServer";
 
 function CreateChannel ({ allUsers, currentUser, newChannelUsers, setNewChannelUsers, addUserSearch, setSelectedUser, setPreviousView, channels, setChannels, setSelectedChannel, setAddUserSearch, newChannel, setNewChannel, setMainPanelView }) {
@@ -42,19 +44,17 @@ function CreateChannel ({ allUsers, currentUser, newChannelUsers, setNewChannelU
                             // double clicking on user's name and/or icon creates DM
                             onDoubleClick={() => {
                                 clearTimeout(clickTimer.current);
-                                async function getData() {
-                                    const response = await apiFetch(`${import.meta.env.VITE_API_URL}/channels/new-channel/`, { method: "POST", body: JSON.stringify({ userIds: [user.id]}) });
-                                    const data = await response.json();
-                                    const createdChannel = data.channel || data.existingChannel;
-                                    if (data.channel) setChannels([...channels, createdChannel]);
-                                    setSelectedChannel(createdChannel);
-                                    setMainPanelView("messages");
-                                }
-                                getData();
+                                createDirectMessage(
+                                    user.id, 
+                                    channels, 
+                                    setChannels, 
+                                    setSelectedChannel, 
+                                    setMainPanelView
+                                );
                                 pingServer();
                             }}
                         >
-                            <img className="user-icon icon" src={user.icon?.startsWith("http") ? user.icon : `/icons/${user.icon}`} />
+                            <img className="user-icon icon" src={getIconUrl(user.icon)} />
                                 {user.displayName || user.username} 
                                 <i 
                                     className="fa-solid fa-minus remove-icon ui-icon"
@@ -100,30 +100,24 @@ function CreateChannel ({ allUsers, currentUser, newChannelUsers, setNewChannelU
                             // double clicking on user's name and/or icon creates DM
                             onDoubleClick={() => {
                                 clearTimeout(clickTimer.current);
-                                async function getData() {
-                                    const response = await apiFetch(`${import.meta.env.VITE_API_URL}/channels/new-channel/`, { method: "POST", body: JSON.stringify({ userIds: [user.id]}) });
-                                    const data = await response.json();
-                                    const createdChannel = data.channel || data.existingChannel;
-                                    if (data.channel) setChannels([...channels, createdChannel]);
-                                    setSelectedChannel(createdChannel);
-                                    setMainPanelView("messages");
-                                }
-                                getData();
+                                createDirectMessage(
+                                    user.id, 
+                                    channels, 
+                                    setChannels, 
+                                    setSelectedChannel, 
+                                    setMainPanelView
+                                );
                                 pingServer();
                             }}
                         >
-                            <img className="user-icon icon" src={user.icon?.startsWith("http") ? user.icon : `/icons/${user.icon}`} />
-                            {user.displayName || user.username}                                 <i 
+                            <img className="user-icon icon" src={getIconUrl(user.icon)} />
+                            {user.displayName || user.username}                                 
+                            <i 
                                 className="fa-solid fa-plus add-icon ui-icon"
                                 onClick={(e) => {
                                     // prevent triggering parent click
                                     e.stopPropagation();
-                                    // add user to channel 
-                                    async function addUserToChannel() {
-                                        // add user
-                                        setNewChannelUsers([...newChannelUsers, user]);
-                                    }
-                                    addUserToChannel();
+                                    setNewChannelUsers([...newChannelUsers, user]);
                                     pingServer();
                                 }}
                             />
@@ -151,12 +145,21 @@ function CreateChannel ({ allUsers, currentUser, newChannelUsers, setNewChannelU
                 e.preventDefault();
     
                 async function getData() {
-                    const response = await apiFetch(`${import.meta.env.VITE_API_URL}/channels/new-channel/`, { method: "POST", body: JSON.stringify({
-                        userIds: newChannelUsers.map(u => u.id), name: newChannel.name
-                    }) });
+                    const response = await apiFetch(
+                        `${import.meta.env.VITE_API_URL}/channels/new-channel/`, 
+                        { 
+                            method: "POST", 
+                            body: JSON.stringify({
+                                userIds: newChannelUsers.map(u => u.id), 
+                                name: newChannel.name,
+                                icon: newChannel.icon,
+                                channelInfo: newChannel.channelInfo
+                            }) 
+                        }
+                    );
                     const data = await response.json();
-                    const createdChannel = data.channel;
-                    setChannels([...channels, createdChannel]);
+                    const createdChannel = data.channel || data.existingChannel; 
+                    if (data.channel) setChannels([...channels, createdChannel]); // only add if new channel
                     setSelectedChannel(createdChannel);
                     setMainPanelView("messages");
                 }

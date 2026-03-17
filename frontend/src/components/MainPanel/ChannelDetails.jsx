@@ -3,27 +3,13 @@
 // imports
 import { useRef } from "react";
 import apiFetch from "../../helpers/apiFetch";
-import pingServer from "../../helpers/pingServer";
+import createDirectMessage from "../../helpers/createDirectMessage";
 import getIconUrl from "../../helpers/getIconUrl";
+import pingServer from "../../helpers/pingServer";
 
 function ChannelDetails ({ currentUser, channels, setChannels, selectedChannel, setSelectedChannel, channelDetails, setSelectedUser, setMainPanelView }) {
     // set up timeout
     const clickTimer = useRef(null);
-
-    async function getData(userId) {
-        const response = await apiFetch(
-            `${import.meta.env.VITE_API_URL}/channels/new-channel/`, 
-            { 
-                method: "POST", 
-                body: JSON.stringify({ userIds: [userId]}) 
-            }
-        );
-        const data = await response.json();
-        const createdChannel = data.channel || data.existingChannel;
-        if (data.channel) setChannels([...channels, createdChannel]);
-        setSelectedChannel(createdChannel);
-        setMainPanelView("messages");
-    }
 
     // map over and display users
     const displayUsers = channelDetails.users.map(user => 
@@ -41,7 +27,13 @@ function ChannelDetails ({ currentUser, channels, setChannels, selectedChannel, 
             // double clicking on user's name and/or icon creates DM
             onDoubleClick={() => {
                 clearTimeout(clickTimer.current);
-                getData(user.id);
+                createDirectMessage(
+                    user.id, 
+                    channels, 
+                    setChannels, 
+                    setSelectedChannel, 
+                    setMainPanelView
+                );
                 pingServer();
             }}
         >
