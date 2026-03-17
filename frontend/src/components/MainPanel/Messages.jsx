@@ -7,7 +7,7 @@ import pingServer from "../../helpers/pingServer";
 import formatDate from "../../helpers/formatDate";
 import imageCheck from "../../helpers/imageCheck";
 
-function Messages ({ currentUser, selectedChannel, channelDetails, messages, setMessages, channels, setChannels, setSelectedChannel, setSelectedUser, setEditingMessage, setEditingProfile, setEditingChannel, setAddUserSearch, mainPanelView, setMainPanelView }) {
+function Messages ({ currentUser, selectedChannel, channelDetails, messages, setMessages, channels, setChannels, setSelectedChannel, setSelectedUser, setEditingMessage, setEditingProfile, setEditingChannel, setAddUserSearch, setMainPanelView }) {
     const [messageBody, setMessageBody] = useState("");
     const [showImageInput, setShowImageInput] = useState(false);
     const [imageUrl, setImageUrl] = useState("");

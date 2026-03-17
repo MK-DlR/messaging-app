@@ -4,10 +4,26 @@
 import { useRef } from "react";
 import apiFetch from "../../helpers/apiFetch";
 import pingServer from "../../helpers/pingServer";
+import getIconUrl from "../../helpers/getIconUrl";
 
 function ChannelDetails ({ currentUser, channels, setChannels, selectedChannel, setSelectedChannel, channelDetails, setSelectedUser, setMainPanelView }) {
     // set up timeout
     const clickTimer = useRef(null);
+
+    async function getData(userId) {
+        const response = await apiFetch(
+            `${import.meta.env.VITE_API_URL}/channels/new-channel/`, 
+            { 
+                method: "POST", 
+                body: JSON.stringify({ userIds: [userId]}) 
+            }
+        );
+        const data = await response.json();
+        const createdChannel = data.channel || data.existingChannel;
+        if (data.channel) setChannels([...channels, createdChannel]);
+        setSelectedChannel(createdChannel);
+        setMainPanelView("messages");
+    }
 
     // map over and display users
     const displayUsers = channelDetails.users.map(user => 
@@ -25,19 +41,11 @@ function ChannelDetails ({ currentUser, channels, setChannels, selectedChannel, 
             // double clicking on user's name and/or icon creates DM
             onDoubleClick={() => {
                 clearTimeout(clickTimer.current);
-                async function getData() {
-                    const response = await apiFetch(`${import.meta.env.VITE_API_URL}/channels/new-channel/`, { method: "POST", body: JSON.stringify({ userIds: [user.id]}) });
-                    const data = await response.json();
-                    const createdChannel = data.channel || data.existingChannel;
-                    if (data.channel) setChannels([...channels, createdChannel]);
-                    setSelectedChannel(createdChannel);
-                    setMainPanelView("messages");
-                }
-                getData();
+                getData(user.id);
                 pingServer();
             }}
         >
-            <img className="user-icon icon" src={user.icon?.startsWith("http") ? user.icon : `/icons/${user.icon}`} />
+            <img className="user-icon icon" src={getIconUrl(user.icon)} />
             {user.displayName || user.username} 
         </div>
     );
@@ -45,7 +53,7 @@ function ChannelDetails ({ currentUser, channels, setChannels, selectedChannel, 
     return <>
         <div className="header">
             <h2>
-                <img className="channel-icon lg-icon" src={selectedChannel.icon?.startsWith("http") ? selectedChannel.icon : `/icons/${selectedChannel.icon}`} />
+                <img className="channel-icon lg-icon" src={getIconUrl(selectedChannel.icon)} />
                 {selectedChannel.name} Details
 
                 {/* if current user is not channel owner, display leave icon */}
@@ -61,7 +69,10 @@ function ChannelDetails ({ currentUser, channels, setChannels, selectedChannel, 
                                 }
 
                                 // remove user from channel
-                                await apiFetch(`${import.meta.env.VITE_API_URL}/channels/leave/${selectedChannel.id}`, { method: "DELETE" });
+                                await apiFetch(
+                                    `${import.meta.env.VITE_API_URL}/channels/leave/${selectedChannel.id}`, 
+                                    { method: "DELETE" }
+                                );
                                 // update channels list
                                 setChannels(channels.filter(channel => channel.id !== selectedChannel.id));
                                 // reset selectedChannel to default
