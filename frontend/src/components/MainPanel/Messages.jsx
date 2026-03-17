@@ -183,36 +183,38 @@ function Messages ({
     })
 
     return <>
-        <div className="header">
-        <img className="channel-icon lg-icon" src={getIconUrl(selectedChannel.icon)} />
-            <h2>{selectedChannel.name}
-                {currentUser.id === selectedChannel.creatorId && selectedChannel.creatorId !== null && (
+        <div className="channel-header header">
+            <div className="channel-info">
+                <img className="channel-icon lg-icon" src={getIconUrl(selectedChannel.icon)} />
+                <h2>{selectedChannel.name}
+                    {currentUser.id === selectedChannel.creatorId && selectedChannel.creatorId !== null && (
+                        <i 
+                            className="fa-solid fa-pencil edit-icon ui-icon"
+                            onClick={() => {
+                                if (!channelDetails) return;
+                                setEditingChannel({ ...selectedChannel, channelInfo: channelDetails.channelInfo });
+                                setAddUserSearch("");
+                                setMainPanelView("editChannel"); 
+                                pingServer();
+                            }}
+                        />
+                    )}
+
                     <i 
-                        className="fa-solid fa-pencil edit-icon ui-icon"
+                        className="fa-solid fa-circle-info details-icon ui-icon"
                         onClick={() => {
-                            if (!channelDetails) return;
-                            setEditingChannel({ ...selectedChannel, channelInfo: channelDetails.channelInfo });
-                            setAddUserSearch("");
-                            setMainPanelView("editChannel"); 
+                            setMainPanelView("channelDetails");
                             pingServer();
                         }}
                     />
-                )}
-
-                <i 
-                    className="fa-solid fa-circle-info details-icon ui-icon"
-                    onClick={() => {
-                        setMainPanelView("channelDetails");
-                        pingServer();
-                    }}
-                />
-            </h2>
+                </h2>
+            </div>
             <div className="channel-description">
                 {selectedChannel.channelInfo}
             </div>
         </div>
-        {messageList}
-        <div className="text-input">
+        <div className="message-display">{messageList}</div>
+        <div className="textbox">
             <i 
                 className="fa-solid fa-plus add-icon ui-icon"
                 onClick={() => {

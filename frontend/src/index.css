@@ -7,6 +7,90 @@
 
 .header {
   display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* shared panel styles */
+.left-panel, .right-panel {
+  display: flex;
+  flex-direction: column;
+  width: 15%;
+}
+
+.message-display, .users-display, .channel-display {
+  height: 85vh;
+}
+
+.button-panel, .active-user-display, .textbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 50px;
+  border-top: 2px solid red;
+}
+
+/* panel styles */
+.panel-container {
+  border: 2px solid black;
+  display: flex;
+  height: 100vh;
+}
+
+.left-panel {
+  border: 2px solid green;
+}
+
+.main-panel {
+  border: 2px solid pink;
+  width: 70%;
+}
+
+.channel-header {
+  display: flex;
+  flex-direction: column;
+}
+
+.channel-info {
+  display: flex;
+}
+
+.message-header {
+  border: 1px solid black;
+}
+
+/* shared message styles */
+.message-header {
+  display: flex;
+}
+
+/* message styles */
+.author-message {
+  /* align right */
+}
+
+.user-message {
+  /* align left */
+}
+
+.message-image {
+  max-width: 400px;
+  max-height: 400px;
+}
+
+.edited-message {
+  font-style: italic;
+}
+
+.right-panel {
+  border: 2px solid blue;
+}
+
+/* shared header styles */
+.header {
+  height: 50px;
+  border-bottom: 2px solid red;
 }
 
 /* shared icon styles */
@@ -71,29 +155,6 @@
 /* shared whitespace styles */
 .errors, .message, .user-profile, .channel-details {
   white-space: pre-wrap;
-}
-
-/* shared message styles */
-.message-header {
-  display: flex;
-}
-
-/* message styles */
-.author-message {
-  /* align right */
-}
-
-.user-message {
-  /* align left */
-}
-
-.message-image {
-  max-width: 400px;
-  max-height: 400px;
-}
-
-.edited-message {
-  font-style: italic;
 }
 
 /* online/offline status */

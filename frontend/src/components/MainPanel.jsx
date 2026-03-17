@@ -219,7 +219,7 @@ function MainPanel({
     }
 
     return (
-        <div>
+        <div className="main-panel">
             {title}
             {content}
         </div>

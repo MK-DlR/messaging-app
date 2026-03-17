@@ -35,9 +35,9 @@ function LeftPanel({
         );
 
     return (
-        <div>
+        <div className="left-panel">
             <h2 className="header">All Channels</h2>
-            {displayChannels}
+            <div className="channel-display">{displayChannels}</div>
             <div className="button-panel">
                 <button 
                     type="button" 
