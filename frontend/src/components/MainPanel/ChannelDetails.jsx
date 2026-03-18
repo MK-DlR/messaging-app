@@ -23,6 +23,7 @@ function ChannelDetails ({
     // map over and display users
     const displayUsers = channelDetails.users.map(user => 
         <div
+        className="user user-select"
             key={user.username}
             // clicking on user's name and/or icon opens user's profile
             onClick={() => {

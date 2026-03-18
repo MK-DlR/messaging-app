@@ -103,7 +103,7 @@ function RightPanel({
         <div className="right-panel">
             <h2 className="header">All Users</h2>
             <div className="users-display">{displayUsers}</div>
-            <div className="active-user-display">{activeUser}</div>
+            <div className="user active-user-display">{activeUser}</div>
         </div>
     )
 }

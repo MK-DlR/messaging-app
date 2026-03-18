@@ -33,6 +33,7 @@
   display: flex;
   flex-direction: column;
   width: 15%;
+  overflow-x: hidden;
 }
 
 .message-display, .channel-display, .users-display {
@@ -42,6 +43,11 @@
   overflow-y: auto;
   scrollbar-color: red orange;
   scrollbar-width: thin;
+}
+
+.channel, .user {
+  overflow-wrap: break-word;
+  word-break: break-all;
 }
 
 .channel, .user, .message-header {
