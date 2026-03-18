@@ -138,6 +138,8 @@
 /* shared header styles */
 .header {
   height: 80px;
+  align-items: center;
+  flex-shrink: 0;
   border-bottom: 2px solid red;
 }
 
