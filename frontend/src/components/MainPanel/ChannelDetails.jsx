@@ -100,7 +100,8 @@ function ChannelDetails ({
 
         <div className="channel-details">
             {channelDetails.channelInfo}
-            {displayUsers}
+            <h3>Channel Members</h3>
+            <div className="all-users display-users">{displayUsers}</div>
         </div>
     </>
 }
