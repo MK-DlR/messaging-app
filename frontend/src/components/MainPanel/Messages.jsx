@@ -239,7 +239,7 @@ function Messages ({
         </div>
         <div className="textbox">
             <i 
-                className="fa-solid fa-plus add-icon"
+                className="fa-solid fa-plus add-file-icon"
                 onClick={() => {
                     setShowImageInput(!showImageInput);
                     pingServer();

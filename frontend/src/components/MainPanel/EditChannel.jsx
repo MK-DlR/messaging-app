@@ -69,6 +69,7 @@ function EditChannel ({
                 <p>No users to add</p> : filteredNonMembers.sort((a, b) => 
                     (a.displayName || a.username).localeCompare(b.displayName || b.username)).map(user =>
                     <div
+                        className="user user-select"
                         key={user.username}
                         // clicking on user's name and/or icon opens user's profile
                         onClick={() => {
@@ -93,8 +94,6 @@ function EditChannel ({
                             pingServer();
                         }}
                     >
-                        <img className="user-icon icon" src={getIconUrl(user.icon)} />
-                        {user.displayName || user.username} 
                         {/* clicking plus adds to channel, with confirmation */}
                         <i 
                             className="fa-solid fa-plus add-icon ui-icon"
@@ -121,6 +120,8 @@ function EditChannel ({
                                 pingServer();
                             }}
                         />
+                        <img className="user-icon icon" src={getIconUrl(user.icon)} />
+                        {user.displayName || user.username} 
                     </div>
                 )
             }
@@ -135,6 +136,7 @@ function EditChannel ({
                 <p>No users to add</p> : removableUsers.sort((a, b) => 
                     (a.displayName || a.username).localeCompare(b.displayName || b.username)).map(user => 
                     <div
+                        className="user user-select"
                         key={user.username}
                         // clicking on user's name and/or icon opens user's profile
                         onClick={() => {
@@ -159,8 +161,6 @@ function EditChannel ({
                             pingServer();
                         }}
                     >
-                        <img className="user-icon icon" src={getIconUrl(user.icon)} />
-                        {user.displayName || user.username} 
                         {/* clicking minus removes user from channel, with confirmation */}
                         <i 
                             className="fa-solid fa-minus remove-icon ui-icon"
@@ -187,6 +187,8 @@ function EditChannel ({
                                 pingServer();
                             }}
                         />
+                        <img className="user-icon icon" src={getIconUrl(user.icon)} />
+                        {user.displayName || user.username} 
                     </div>
                 )
             }

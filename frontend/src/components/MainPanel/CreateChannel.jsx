@@ -65,6 +65,7 @@ function CreateChannel ({
                     <p>No users to add</p> : newChannelUsers.sort((a, b) => 
                         (a.displayName || a.username).localeCompare(b.displayName || b.username)).map(user =>
                         <div
+                            className="user user-select"
                             key={user.username}
                             // clicking on user's name and/or icon opens user's profile
                             onClick={() => {
@@ -89,18 +90,19 @@ function CreateChannel ({
                                 pingServer();
                             }}
                         >
+                            {/* clicking minus removes user from channel */}
+                            <i 
+                                className="fa-solid fa-minus remove-icon ui-icon"
+                                onClick={(e) => {
+                                    // prevent triggering parent click
+                                    e.stopPropagation();
+                                    // remove user from channel 
+                                    setNewChannelUsers(newChannelUsers.filter(u => u.id !== user.id))
+                                    pingServer();
+                                }}
+                            />
                             <img className="user-icon icon" src={getIconUrl(user.icon)} />
                                 {user.displayName || user.username} 
-                                <i 
-                                    className="fa-solid fa-minus remove-icon ui-icon"
-                                    onClick={(e) => {
-                                        // prevent triggering parent click
-                                        e.stopPropagation();
-                                        // remove user from channel 
-                                        setNewChannelUsers(newChannelUsers.filter(u => u.id !== user.id))
-                                        pingServer();
-                                    }}
-                                />
                         </div>
                     )
                 }
@@ -121,6 +123,7 @@ function CreateChannel ({
                     <p>No users to add</p> : filteredNonMembers.sort((a, b) => 
                         (a.displayName || a.username).localeCompare(b.displayName || b.username)).map(user =>
                         <div
+                            className="user user-select"
                             key={user.username}
                             // clicking on user's name and/or icon opens user's profile
                             onClick={() => {
@@ -145,8 +148,7 @@ function CreateChannel ({
                                 pingServer();
                             }}
                         >
-                            <img className="user-icon icon" src={getIconUrl(user.icon)} />
-                            {user.displayName || user.username}                                 
+                            {/* clicking plus adds to channel */}
                             <i 
                                 className="fa-solid fa-plus add-icon ui-icon"
                                 onClick={(e) => {
@@ -156,6 +158,8 @@ function CreateChannel ({
                                     pingServer();
                                 }}
                             />
+                            <img className="user-icon icon" src={getIconUrl(user.icon)} />
+                            {user.displayName || user.username}                                 
                         </div>
                     )
                 }

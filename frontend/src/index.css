@@ -40,6 +40,8 @@
   padding-top: 10px;
   padding-bottom: 10px;
   overflow-y: auto;
+  scrollbar-color: red orange;
+  scrollbar-width: thin;
 }
 
 .channel, .user, .message-header {
@@ -58,6 +60,15 @@
   cursor: pointer;
 }
 
+.user-select {
+  display: inline-flex;
+  padding-right: 5px;
+}
+
+.user-select:hover {
+  background-color: red;
+}
+
 .button-panel, .active-user-display, .textbox {
   display: flex;
   align-items: center;
@@ -72,7 +83,7 @@
   padding-right: 10px;
 }
 
-.add-icon, .textbox .send-icon {
+.add-file-icon, .textbox .send-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -208,7 +219,7 @@ textarea {
 }
 
 /* fontawesome icon styles */
-.ui-icon, .add-icon, .send-icon {
+.ui-icon, .add-file-icon, .send-icon {
   cursor: pointer;
 }
 
@@ -220,11 +231,11 @@ textarea {
   color: red !important;
 }
 
-.message-icon:hover, .save-icon:hover {
+.message-icon:hover, .add-icon:hover, .save-icon:hover {
   color: green !important;
 }
 
-.add-icon:hover, .send-icon:hover {
+.add-file-icon:hover, .send-icon:hover {
   background: red;
   border-radius: 50%;
   transition-duration: 0.4s;
