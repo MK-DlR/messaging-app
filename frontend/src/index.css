@@ -262,6 +262,16 @@ textarea {
 /* button styles */
 .button {
   cursor: pointer;
+  background-color: lightblue;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 5px;
+  font-size: 0.875rem;
+}
+
+.button:hover {
+  background-color: darkcyan;
+  transition-duration: 0.4s;
 }
 
 /* shared whitespace styles */
@@ -289,4 +299,19 @@ div .colored-circle {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 500px; /* adjust to fit layout */
+}
+
+/* media queries */
+@media (min-width: 1200px) {
+  .button {
+    padding: 8px 16px;
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 1600px) {
+  .button {
+    padding: 10px 20px;
+    font-size: 1.1rem;
+  }
 }
