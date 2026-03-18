@@ -37,7 +37,7 @@
   overflow-y: auto;
 }
 
-.channel, .user {
+.channel, .user, .message-header {
   display: flex;
   align-items: center;
   gap: 4px;
@@ -80,6 +80,7 @@
 }
 
 .message-header {
+  padding-top: 3px;
   border: 1px solid black;
 }
 
