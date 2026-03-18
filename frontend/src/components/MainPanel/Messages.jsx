@@ -279,6 +279,9 @@ function Messages ({
                     submitHandler();
                 }}>
                     <textarea
+                        autoFocus
+                        required
+                        className="message-textarea"
                         value={messageBody}
                         onChange={(e) => setMessageBody(e.target.value)}
                         placeholder="Reply..."

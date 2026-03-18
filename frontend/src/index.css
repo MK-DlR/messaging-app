@@ -5,10 +5,15 @@
   margin: 0;
 }
 
+/* shared header styles */
 .header {
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 80px;
+  align-items: center;
+  flex-shrink: 0;
+  border-bottom: 2px solid red;
 }
 
 .header h2 {
@@ -84,6 +89,23 @@
   border: 1px solid black;
 }
 
+.send-message {
+  width: 100%;
+}
+
+.send-message form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.message-textarea {
+  height: 60px;
+  flex: 1;
+  box-sizing: border-box;
+}
+
 /* shared message styles */
 .message-header {
   display: flex;
@@ -139,12 +161,9 @@
   border: 2px solid blue;
 }
 
-/* shared header styles */
-.header {
-  height: 80px;
-  align-items: center;
-  flex-shrink: 0;
-  border-bottom: 2px solid red;
+/* textarea styles */
+textarea {
+  resize: none;
 }
 
 /* user and channel icon styles */
