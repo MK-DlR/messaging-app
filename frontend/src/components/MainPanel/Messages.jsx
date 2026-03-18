@@ -239,7 +239,7 @@ function Messages ({
         </div>
         <div className="textbox">
             <i 
-                className="fa-solid fa-plus add-icon ui-icon"
+                className="fa-solid fa-plus add-icon"
                 onClick={() => {
                     setShowImageInput(!showImageInput);
                     pingServer();
@@ -256,7 +256,7 @@ function Messages ({
                     />
                     <button 
                         type="submit" 
-                        className="fa-solid fa-floppy-disk save-icon ui-icon send-icon ui-icon"
+                        className="fa-solid fa-floppy-disk save-icon ui-icon"
                         onClick={() => {
                             setMessageBody(messageBody ? `${messageBody} ${imageUrl}` : imageUrl)
                             setImageUrl("");
@@ -296,7 +296,7 @@ function Messages ({
                     {(2000 - (messageBody?.length || 0)) < 50 && (
                         <span>{2000 - (messageBody?.length || 0)} characters remaining</span>
                     )}
-                    <button type="submit" className="fa-solid fa-share send-icon ui-icon" />
+                    <button type="submit" className="fa-solid fa-share send-icon" />
                 </form>
             </div>
         </div>

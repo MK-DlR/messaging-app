@@ -46,8 +46,16 @@
   display: flex;
   align-items: center;
   gap: 4px;
+  padding-top: 5px;
   padding-bottom: 5px;
   padding-left: 5px;
+}
+
+.channel:hover, .user:hover {
+  background: red;
+  border-radius: 4px;
+  transition-duration: 0.4s;
+  cursor: pointer;
 }
 
 .button-panel, .active-user-display, .textbox {
@@ -57,6 +65,21 @@
   gap: 10px;
   height: 80px;
   border-top: 2px solid red;
+}
+
+.textbox {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.add-icon, .textbox .send-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  flex-shrink: 0;
 }
 
 /* panel styles */
@@ -185,8 +208,11 @@ textarea {
 }
 
 /* fontawesome icon styles */
-.ui-icon {
+.ui-icon, .add-icon, .send-icon {
   cursor: pointer;
+}
+
+.ui-icon {
   transition-duration: 0.4s;
 }
 
@@ -194,8 +220,14 @@ textarea {
   color: red !important;
 }
 
-.message-icon:hover, .save-icon:hover, .add-icon:hover, .send-icon:hover {
+.message-icon:hover, .save-icon:hover {
   color: green !important;
+}
+
+.add-icon:hover, .send-icon:hover {
+  background: red;
+  border-radius: 50%;
+  transition-duration: 0.4s;
 }
 
 .details-icon:hover {
