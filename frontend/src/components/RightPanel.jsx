@@ -74,6 +74,7 @@ function RightPanel({
     activeUser = 
         <div
             key={currentUser.username}
+            className="user"
             // clicking on user's name and/or icon opens user's profile
             onClick={() => {
                 clearTimeout(clickTimer.current);

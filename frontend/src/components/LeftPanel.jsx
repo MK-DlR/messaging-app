@@ -30,7 +30,7 @@ function LeftPanel({
                 }}
                 className="channel"
             >
-                <img className="channel-icon icon"src={getIconUrl(channel.icon)} /> {channel.name}
+                <img className="channel-icon icon"src={getIconUrl(channel.icon)} />{channel.name}
             </div>
         );
 
