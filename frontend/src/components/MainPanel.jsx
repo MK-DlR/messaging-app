@@ -149,8 +149,6 @@ function MainPanel({
                     setAddUserSearch={setAddUserSearch}
                     editingChannel={editingChannel}
                     setEditingChannel={setEditingChannel}
-                    setSelectedUser={setSelectedUser}
-                    setPreviousView={setPreviousView}
                     setMainPanelView={setMainPanelView}
                 />
             } else {
@@ -198,8 +196,6 @@ function MainPanel({
                 newChannelUsers={newChannelUsers}
                 setNewChannelUsers={setNewChannelUsers}
                 addUserSearch={addUserSearch}
-                setSelectedUser={setSelectedUser}
-                setPreviousView={setPreviousView}
                 channels={channels}
                 setChannels={setChannels}
                 setSelectedChannel={setSelectedChannel}

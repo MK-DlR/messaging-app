@@ -1,9 +1,7 @@
 // frontend/src/components/MainPanel/CreateChannel.jsx
 
 // imports
-import { useRef } from "react";
 import apiFetch from "../../helpers/apiFetch";
-import createDirectMessage from "../../helpers/createDirectMessage";
 import getIconUrl from "../../helpers/getIconUrl";
 import pingServer from "../../helpers/pingServer";
 
@@ -13,8 +11,6 @@ function CreateChannel ({
     newChannelUsers, 
     setNewChannelUsers, 
     addUserSearch, 
-    setSelectedUser, 
-    setPreviousView, 
     channels, 
     setChannels, 
     setSelectedChannel, 
@@ -23,9 +19,6 @@ function CreateChannel ({
     setNewChannel, 
     setMainPanelView 
 }) {
-    // set up timeout
-    const clickTimer = useRef(null);
-
     async function createGroupChannel() {
         const response = await apiFetch(
             `${import.meta.env.VITE_API_URL}/channels/new-channel/`, 
@@ -67,40 +60,13 @@ function CreateChannel ({
                         <div
                             className="user user-select"
                             key={user.username}
-                            // clicking on user's name and/or icon opens user's profile
                             onClick={() => {
-                                clearTimeout(clickTimer.current);
-                                clickTimer.current = setTimeout(() => {
-                                    setSelectedUser(user);
-                                    setPreviousView("createChannel");
-                                    setMainPanelView("userProfile");
-                                }, 250);
-                                pingServer();
-                            }}
-                            // double clicking on user's name and/or icon creates DM
-                            onDoubleClick={() => {
-                                clearTimeout(clickTimer.current);
-                                createDirectMessage(
-                                    user.id, 
-                                    channels, 
-                                    setChannels, 
-                                    setSelectedChannel, 
-                                    setMainPanelView
-                                );
+                                // clicking removes user from channel
+                                setNewChannelUsers(newChannelUsers.filter(u => u.id !== user.id))
                                 pingServer();
                             }}
                         >
-                            {/* clicking minus removes user from channel */}
-                            <i 
-                                className="fa-solid fa-minus remove-icon ui-icon"
-                                onClick={(e) => {
-                                    // prevent triggering parent click
-                                    e.stopPropagation();
-                                    // remove user from channel 
-                                    setNewChannelUsers(newChannelUsers.filter(u => u.id !== user.id))
-                                    pingServer();
-                                }}
-                            />
+                            <i className="fa-solid fa-minus remove-icon ui-icon" />
                             <img className="user-icon icon" src={getIconUrl(user.icon)} />
                                 {user.displayName || user.username} 
                         </div>
@@ -125,39 +91,13 @@ function CreateChannel ({
                         <div
                             className="user user-select"
                             key={user.username}
-                            // clicking on user's name and/or icon opens user's profile
+                            // clicking adds user to channel
                             onClick={() => {
-                                clearTimeout(clickTimer.current);
-                                clickTimer.current = setTimeout(() => {
-                                    setSelectedUser(user);
-                                    setPreviousView("createChannel");
-                                    setMainPanelView("userProfile");
-                                }, 250);
-                                pingServer();
-                            }}
-                            // double clicking on user's name and/or icon creates DM
-                            onDoubleClick={() => {
-                                clearTimeout(clickTimer.current);
-                                createDirectMessage(
-                                    user.id, 
-                                    channels, 
-                                    setChannels, 
-                                    setSelectedChannel, 
-                                    setMainPanelView
-                                );
+                                setNewChannelUsers([...newChannelUsers, user]);
                                 pingServer();
                             }}
                         >
-                            {/* clicking plus adds to channel */}
-                            <i 
-                                className="fa-solid fa-plus add-icon ui-icon"
-                                onClick={(e) => {
-                                    // prevent triggering parent click
-                                    e.stopPropagation();
-                                    setNewChannelUsers([...newChannelUsers, user]);
-                                    pingServer();
-                                }}
-                            />
+                            <i className="fa-solid fa-plus add-icon ui-icon" />
                             <img className="user-icon icon" src={getIconUrl(user.icon)} />
                             {user.displayName || user.username}                                 
                         </div>
@@ -179,47 +119,50 @@ function CreateChannel ({
             </h2>
         </div>
 
-        <div className="creating-channel form">
-            <form onSubmit={(e) => {
+        <form 
+            className="creating-channel form"
+            onSubmit={(e) => {
                 e.preventDefault();
                 createGroupChannel();
-            }}>
-                <label>Icon URL:
-                    <input 
-                        type="text"
-                        placeholder="optional"
-                        value={newChannel.icon}
-                        onChange={(e) => setNewChannel({ ...newChannel, icon: e.target.value })}
-                    />
-                </label>
-                <label>Name:
-                    <input 
-                        type="text"
-                        placeholder="optional"
-                        maxLength={100}
-                        value={newChannel.name}
-                        onChange={(e) => setNewChannel({ ...newChannel, name: e.target.value })}
-                    />
-                    {(100 - (newChannel.name?.length || 0)) < 50 && (
-                        <span>{100 - (newChannel.name?.length || 0)} characters remaining</span>
-                    )}
-                </label>
-                <label>Description:
-                    <textarea 
-                        placeholder="optional"
-                        maxLength={200}
-                        value={newChannel.channelInfo || ""}
-                        onChange={(e) => setNewChannel({ ...newChannel, channelInfo: e.target.value })}
-                    />
-                    {(200 - (newChannel.channelInfo?.length || 0)) < 50 && (
-                        <span>{200 - (newChannel.channelInfo?.length || 0)} characters remaining</span>
-                    )}
-                </label>
-                {selectedUsers}
-                {addUsers}
-                <button type="submit" className="fa-solid fa-floppy-disk save-icon ui-icon" />
-            </form>
-        </div>
+            }}
+        >
+            <label>Icon URL:
+                <input 
+                    type="text"
+                    placeholder="optional"
+                    value={newChannel.icon}
+                    onChange={(e) => setNewChannel({ ...newChannel, icon: e.target.value })}
+                />
+            </label>
+            <label>Name:
+                <input 
+                    type="text"
+                    placeholder="optional"
+                    maxLength={100}
+                    value={newChannel.name}
+                    onChange={(e) => setNewChannel({ ...newChannel, name: e.target.value })}
+                />
+                {(100 - (newChannel.name?.length || 0)) < 50 && (
+                    <span>{100 - (newChannel.name?.length || 0)} characters remaining</span>
+                )}
+            </label>
+            <label>Description:
+                <textarea 
+                    placeholder="optional"
+                    maxLength={200}
+                    value={newChannel.channelInfo || ""}
+                    onChange={(e) => setNewChannel({ ...newChannel, channelInfo: e.target.value })}
+                />
+                {(200 - (newChannel.channelInfo?.length || 0)) < 50 && (
+                    <span>{200 - (newChannel.channelInfo?.length || 0)} characters remaining</span>
+                )}
+            </label>
+            <div className="all-users">
+                <div className="selected-users">{selectedUsers}</div>
+                <div className="add-users">{addUsers}</div>
+            </div>
+            <button type="submit" className="fa-solid fa-floppy-disk save-icon ui-icon" />
+        </form>
     </>
 }
 
