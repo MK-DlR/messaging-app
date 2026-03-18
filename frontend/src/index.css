@@ -10,7 +10,6 @@ img {
   width: 100%;
 }
 
-
 /* shared header styles */
 .header {
   display: flex;
@@ -153,6 +152,12 @@ img {
 }
 
 /* shared message styles */
+.message:hover {
+  background: red;
+  border-radius: 4px;
+  transition-duration: 0.4s;
+}
+
 .message-header {
   display: flex;
   gap: 8px;
@@ -305,9 +310,9 @@ textarea {
 /* online/offline status */
 div .colored-circle {
   display: inline-block;
-  margin-left: -8px;
+  margin-left: -11px;
   margin-right: 5px;
-  margin-bottom: -1px;
+  margin-bottom: -20px;
   border-radius: 50%;
   border-style: solid;
   border-width: 0.5px;
