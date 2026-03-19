@@ -176,6 +176,12 @@ input[type=text], .description-textarea {
   align-self: center;
 }
 
+.save-delete {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+}
+
 .channel-save {
   align-self: flex-end;
 }

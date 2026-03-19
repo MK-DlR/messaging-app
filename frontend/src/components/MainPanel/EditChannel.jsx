@@ -53,6 +53,7 @@ function EditChannel ({
         <>
             <h3>Add Users</h3>
             <input
+                className="user-search"
                 type="text"
                 placeholder="Search users..."
                 value={addUserSearch}
@@ -138,7 +139,7 @@ function EditChannel ({
         <div className="header">
             <h2>
                 <img className="channel-icon lg-icon" src={getIconUrl(selectedChannel.icon)} />
-                <div className="channel-details-name">{selectedChannel.name} Edit</div>
+                <div className="channel-details-name">{selectedChannel.name} - Edit</div>
                 <i 
                     className="fa-solid fa-x exit-icon ui-icon" 
                     onClick={() => {
@@ -156,72 +157,79 @@ function EditChannel ({
                 updateChannelDetails(); // initial fetch
                 }}
         >
-            <label>Icon URL:
-                <input 
-                    type="text"
-                    placeholder="optional"
-                    value={editingChannel.icon}
-                    onChange={(e) => setEditingChannel({ ...editingChannel, icon: e.target.value })}
-                />
-            </label>
-            <label>Name:
-                <input 
-                    type="text"
-                    placeholder="optional"
-                    maxLength={100}
-                    value={editingChannel.name}
-                    onChange={(e) => setEditingChannel({ ...editingChannel, name: e.target.value })}
-                />
-                {(100 - (editingChannel.name?.length || 0)) < 50 && (
-                    <span>{100 - (editingChannel.name?.length || 0)} characters remaining</span>
-                )}
-            </label>
-            <label>Description:
-                <textarea 
-                    placeholder="optional"
-                    maxLength={200}
-                    value={editingChannel.channelInfo || ""}
-                    onChange={(e) => setEditingChannel({ ...editingChannel, channelInfo: e.target.value })}
-                />
-                {(200 - (editingChannel.channelInfo?.length || 0)) < 50 && (
-                    <span>{200 - (editingChannel.channelInfo?.length || 0)} characters remaining</span>
-                )}
-            </label>
-            <div className="all-users">
-                <div className="selected-users">{selectedUsers}</div>
-                <div className="add-users">{addUsers}</div>
+            <div className="form-no-users">
+                <label>Icon URL
+                    <input 
+                        type="text"
+                        placeholder="optional"
+                        value={editingChannel.icon}
+                        onChange={(e) => setEditingChannel({ ...editingChannel, icon: e.target.value })}
+                    />
+                </label>
+                <label>Name
+                    <input 
+                        type="text"
+                        placeholder="optional"
+                        maxLength={100}
+                        value={editingChannel.name}
+                        onChange={(e) => setEditingChannel({ ...editingChannel, name: e.target.value })}
+                    />
+                    {(100 - (editingChannel.name?.length || 0)) < 50 && (
+                        <span>{100 - (editingChannel.name?.length || 0)} characters remaining</span>
+                    )}
+                </label>
+                <label>Description
+                    <textarea 
+                        className="description-textarea"
+                        placeholder="optional"
+                        maxLength={200}
+                        value={editingChannel.channelInfo || ""}
+                        onChange={(e) => setEditingChannel({ ...editingChannel, channelInfo: e.target.value })}
+                    />
+                    {(200 - (editingChannel.channelInfo?.length || 0)) < 50 && (
+                        <span>{200 - (editingChannel.channelInfo?.length || 0)} characters remaining</span>
+                    )}
+                </label>
             </div>
-            <button type="submit" className="fa-solid fa-floppy-disk save-icon ui-icon" />
-        </form>
-    <i 
-        className="fa-solid fa-trash delete-channel-icon ui-icon"
-        onClick={(e) => {
-            // prevent triggering parent click
-            e.stopPropagation();
-            // delete channel
-            if (window.confirm("Are you sure you want to delete this channel?")) {
-                async function deleteChannel() {
-                    if (!selectedChannel) {
-                        return;
-                    }
+            <div className="form-bottom">
+                <div className="all-users">
+                    <div className="selected-users">{selectedUsers}</div>
+                    <div className="add-users">{addUsers}</div>
+                </div>
+                <div className="save-delete">
+                    <button type="submit" className="fa-solid fa-floppy-disk save-icon channel-save ui-icon" />
+                    <i 
+                        className="fa-solid fa-trash delete-channel-icon ui-icon"
+                        onClick={(e) => {
+                            // prevent triggering parent click
+                            e.stopPropagation();
+                            // delete channel
+                            if (window.confirm("Are you sure you want to delete this channel?")) {
+                                async function deleteChannel() {
+                                    if (!selectedChannel) {
+                                        return;
+                                    }
 
-                    // remove channel
-                    await apiFetch(
-                        `${import.meta.env.VITE_API_URL}/channels/delete/${selectedChannel.id}`, 
-                        { method: "DELETE" }
-                    );
-                    // update channels list
-                    setChannels(channels.filter(channel => channel.id !== selectedChannel.id));
-                    // reset selectedChannel to default
-                    setSelectedChannel(channels.find(channel => channel.isDefault === true));
-                    setMainPanelView("messages");
-                }
-                deleteChannel();
-                pingServer();
-            }
-            pingServer();
-        }}
-    />
+                                    // remove channel
+                                    await apiFetch(
+                                        `${import.meta.env.VITE_API_URL}/channels/delete/${selectedChannel.id}`, 
+                                        { method: "DELETE" }
+                                    );
+                                    // update channels list
+                                    setChannels(channels.filter(channel => channel.id !== selectedChannel.id));
+                                    // reset selectedChannel to default
+                                    setSelectedChannel(channels.find(channel => channel.isDefault === true));
+                                    setMainPanelView("messages");
+                                }
+                                deleteChannel();
+                                pingServer();
+                            }
+                            pingServer();
+                        }}
+                    />
+                </div>
+            </div>
+        </form>
 
     </>
 }
