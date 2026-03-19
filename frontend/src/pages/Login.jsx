@@ -37,28 +37,31 @@ function Login() {
     }
 
     return (
-        <div className="login form">
-            <div>{error && <p>{error}</p>}</div>
-            <form onSubmit={handleSubmit}>
-                <label>Username:
-                    <input 
-                        type="text"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        placeholder="Enter your username"
-                    />
-                </label>
-                <label>Password:
-                    <input 
-                        type="password" 
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="Enter your password"
-                    />
-                </label>
-                <button className="submit button" type="submit">Login</button>
-            </form>
-            Don't have an account? Register <a href="/register">here</a>.
+        <div className="login-page">
+            <div className="login form">
+                <div>{error && <p>{error}</p>}</div>
+                <form onSubmit={handleSubmit}>
+                    <label>Username:
+                        <input 
+                            type="text"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            placeholder="Enter your username"
+                        />
+                    </label>
+                    <label>Password:
+                        <input 
+                            className="password-input"
+                            type="password" 
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="Enter your password"
+                        />
+                    </label>
+                    <button className="submit button" type="submit">Login</button>
+                </form>
+                <div className="register-here">Don't have an account? Register <a href="/register">here</a>.</div>
+            </div>
         </div>
     )
 }

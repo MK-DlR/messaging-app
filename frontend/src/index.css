@@ -159,7 +159,7 @@ img {
   box-sizing: border-box;
 }
 
-input[type=text], .description-textarea, .edit-textarea, .user-textarea {
+input[type=text], .description-textarea, .edit-textarea, .user-textarea, .password-input {
   width: 100%;
   padding: 12px;
   margin: 8px 0;
@@ -167,6 +167,22 @@ input[type=text], .description-textarea, .edit-textarea, .user-textarea {
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
+}
+
+.register form, .login form {
+  display: flex;
+  flex-direction: column;
+}
+
+.register-page, .login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-here, .register-here {
+  text-align: center;
 }
 
 .editing-message form, .editing-profile form {

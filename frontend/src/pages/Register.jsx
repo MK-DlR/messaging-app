@@ -42,36 +42,40 @@ function RegisterUser() {
     }
 
     return (
-        <div className="register form">
-            <div>{error && <p className="errors">{error}</p>}</div>
-            <form onSubmit={handleSubmit}>
-                <label>Username:
-                    <input 
-                        type="text"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        placeholder="Enter a username"
-                    />
-                </label>
-                <label>Password:
-                    <input 
-                        type="password" 
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="Enter a password"
-                    />
-                </label>
-                <label>Confirm Password:
-                <input 
-                        type="password" 
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        placeholder="Confirm password"
-                    />
-                </label>
-                <button className="submit button" type="submit">Register</button>
-            </form>
-            Already have an account? Login <a href="/login">here</a>.
+        <div className="register-page">
+            <div className="register form form-no-users">
+                <div>{error && <p className="errors">{error}</p>}</div>
+                <form onSubmit={handleSubmit}>
+                    <label>Username
+                        <input 
+                            type="text"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            placeholder="Enter a username"
+                        />
+                    </label>
+                    <label>Password
+                        <input 
+                            className="password-input"
+                            type="password" 
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="Enter a password"
+                        />
+                    </label>
+                    <label>Confirm Password
+                        <input 
+                            className="password-input"
+                            type="password" 
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            placeholder="Confirm password"
+                        />
+                    </label>
+                    <button className="submit button" type="submit">Register</button>
+                </form>
+                <div className="login-here">Already have an account? Login <a href="/login">here</a>.</div>
+            </div>
         </div>
     )
 }
