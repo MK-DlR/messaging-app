@@ -256,6 +256,31 @@ input[type=text], .description-textarea, .edit-textarea, .user-textarea {
   text-align: center;
 }
 
+.user-profile {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-profile, .channel-details-info {
+  width: min(800px, 90%);
+  align-self: center;
+}
+
+.profile-displayname {
+  font-weight: bold;
+  font-size: 25px;
+}
+
+.profile-username {
+  font-style: italic;
+  font-size: 18px;
+}
+
+.channel-details-name, .channel-details-info {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
 /* shared message styles */
 .message:hover {
   background: red;

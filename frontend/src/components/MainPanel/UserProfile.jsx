@@ -60,11 +60,14 @@ function UserProfile({
             </h2>
         </div>
 
-        <div className="user-profile">
-            {userProfile.displayName}
-            {userProfile.username}
-            {userProfile.profileInfo}
-            Last seen: {formatDate(userProfile.lastSeen)}
+        <div className="user-profile form">
+            <p className="profile-displayname">{userProfile.displayName}</p>
+            <p className="profile-username">{userProfile.username}</p>
+            <p className="profile-info">{userProfile.profileInfo}</p>
+            <p className="profile-seen">
+                Last seen<br />
+                {formatDate(userProfile.lastSeen)}
+            </p>
         </div>
     </>
 }
