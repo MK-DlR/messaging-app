@@ -61,7 +61,7 @@ function UserProfile({
         </div>
 
         <div className="user-profile form">
-            <p className="profile-displayname">{userProfile.displayName}</p>
+            <p className="profile-displayname">{userProfile.displayName || userProfile.username}</p>
             <p className="profile-username">{userProfile.username}</p>
             <p className="profile-info">{userProfile.profileInfo}</p>
             <p className="profile-seen">
