@@ -99,8 +99,8 @@ function ChannelDetails ({
         </div>
 
         <div className="channel-details">
-            <div className="channel-details-name">{channelDetails.channelInfo}</div>
-            <h3>Channel Members</h3>
+            <div className="channel-details-info">{channelDetails.channelInfo}</div>
+            <h3 className="channel-members">Channel Members</h3>
             <div className="all-users display-users">{displayUsers}</div>
         </div>
     </>
