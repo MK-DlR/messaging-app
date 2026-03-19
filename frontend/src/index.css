@@ -67,7 +67,6 @@ img {
 .channel:hover, .user:hover {
   background: red;
   border-radius: 4px;
-  transition-duration: 0.4s;
   cursor: pointer;
 }
 
@@ -185,7 +184,6 @@ img {
 .message:hover {
   background: red;
   border-radius: 4px;
-  transition-duration: 0.4s;
 }
 
 .message-header {
@@ -355,12 +353,12 @@ div .colored-circle {
   width: 7px;
 }
 
-/* limit displayed characters of channel description */
-.channel-description {
+/* limit displayed characters */
+.channel-info, .channel-description {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 500px; /* adjust to fit layout */
+  max-width: 500px; 
 }
 
 /* media queries */

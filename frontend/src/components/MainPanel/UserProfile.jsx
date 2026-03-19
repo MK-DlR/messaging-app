@@ -21,7 +21,7 @@ function UserProfile({
         <div className="header">
             <h2>
                 <img className="profile-icon lg-icon" src={getIconUrl(userProfile.icon)} />
-                {userProfile.displayName} Details
+                {userProfile.displayName || userProfile.username} Details
 
                 {currentUser.id === userProfile.id && (
                 <i 
