@@ -81,17 +81,28 @@ img {
 
 .all-users {
   display: flex;
-  gap: 5px; 
+  justify-content: space-between;
+  width: min(800px, 90%);
+  align-self: center;
+  gap: 10px;
 }
 
 .selected-users,
 .add-users,
 .display-users {
-  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 5px;
   align-items: flex-start;
+  width: 280px;
+  border-radius: 4px;
+  background-color: darkgrey;
+  padding: 10px;
+}
+
+.user-search {
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .button-panel, .active-user-display, .textbox {
@@ -121,10 +132,52 @@ img {
 
 /* forms */
 .form {
+  margin-top: 15px;
+  border-radius: 4px;
+  background-color: #f2f2f2;
+  padding: 10px;
+}
+
+.form, .form-no-users {
   display: flex;
   flex-direction: column;
-  padding-top: 15px;
   gap: 10px;
+  align-self: center;
+}
+
+.form-no-users {
+  width: min(800px, 90%);
+  align-self: center;
+}
+
+.form-no-users label {
+  width: 100%;
+}
+
+.form-no-users input, .form-no-users textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+input[type=text], .description-textarea {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.form-bottom {
+  display: flex;
+  flex-direction: column;
+  width: min(800px, 90%);
+  align-self: center;
+}
+
+.channel-save {
+  align-self: flex-end;
 }
 
 /* panel styles */

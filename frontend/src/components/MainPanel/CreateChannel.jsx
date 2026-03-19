@@ -80,6 +80,7 @@ function CreateChannel ({
             <>
                 <h3>Add Users</h3>
                 <input
+                    className="user-search"
                     type="text"
                     placeholder="Search users..."
                     value={addUserSearch}
@@ -126,42 +127,47 @@ function CreateChannel ({
                 createGroupChannel();
             }}
         >
-            <label>Icon URL:
-                <input 
-                    type="text"
-                    placeholder="optional"
-                    value={newChannel.icon}
-                    onChange={(e) => setNewChannel({ ...newChannel, icon: e.target.value })}
-                />
-            </label>
-            <label>Name:
-                <input 
-                    type="text"
-                    placeholder="optional"
-                    maxLength={100}
-                    value={newChannel.name}
-                    onChange={(e) => setNewChannel({ ...newChannel, name: e.target.value })}
-                />
-                {(100 - (newChannel.name?.length || 0)) < 50 && (
-                    <span>{100 - (newChannel.name?.length || 0)} characters remaining</span>
-                )}
-            </label>
-            <label>Description:
-                <textarea 
-                    placeholder="optional"
-                    maxLength={200}
-                    value={newChannel.channelInfo || ""}
-                    onChange={(e) => setNewChannel({ ...newChannel, channelInfo: e.target.value })}
-                />
-                {(200 - (newChannel.channelInfo?.length || 0)) < 50 && (
-                    <span>{200 - (newChannel.channelInfo?.length || 0)} characters remaining</span>
-                )}
-            </label>
-            <div className="all-users">
-                <div className="selected-users">{selectedUsers}</div>
-                <div className="add-users">{addUsers}</div>
+            <div className="form-no-users">
+                <label>Icon URL
+                    <input 
+                        type="text"
+                        placeholder="optional"
+                        value={newChannel.icon}
+                        onChange={(e) => setNewChannel({ ...newChannel, icon: e.target.value })}
+                    />
+                </label>
+                <label>Name
+                    <input 
+                        type="text"
+                        placeholder="optional"
+                        maxLength={100}
+                        value={newChannel.name}
+                        onChange={(e) => setNewChannel({ ...newChannel, name: e.target.value })}
+                    />
+                    {(100 - (newChannel.name?.length || 0)) < 50 && (
+                        <span>{100 - (newChannel.name?.length || 0)} characters remaining</span>
+                    )}
+                </label>
+                <label>Description
+                    <textarea 
+                        className="description-textarea"
+                        placeholder="optional"
+                        maxLength={200}
+                        value={newChannel.channelInfo || ""}
+                        onChange={(e) => setNewChannel({ ...newChannel, channelInfo: e.target.value })}
+                    />
+                    {(200 - (newChannel.channelInfo?.length || 0)) < 50 && (
+                        <span>{200 - (newChannel.channelInfo?.length || 0)} characters remaining</span>
+                    )}
+                </label>
             </div>
-            <button type="submit" className="fa-solid fa-floppy-disk save-icon ui-icon" />
+            <div className="form-bottom">
+                <div className="all-users">
+                    <div className="selected-users">{selectedUsers}</div>
+                    <div className="add-users">{addUsers}</div>
+                </div>
+                <button type="submit" className="fa-solid fa-floppy-disk save-icon channel-save ui-icon" />
+            </div>
         </form>
     </>
 }
