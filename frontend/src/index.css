@@ -1,11 +1,83 @@
-/* frontend/src/index.css */
+/*
+COLORS
+black 050404
+dark blue 00232B
+teal 2C8A8D
+light blue 9DC3C3
+dark orange AD3924
+light orange F99564
+*/
 
+/* reset */
 * {
   padding: 0;
   margin: 0;
 }
 
-/* shared header styles */
+
+/* layout - panels and containers */
+.panel-container {
+  border: 2px solid black;
+  display: flex;
+  height: 100vh;
+}
+
+.left-panel, .main-panel, .right-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.left-panel, .right-panel {
+  display: flex;
+  flex-direction: column;
+  width: 15%;
+  overflow-x: hidden;
+}
+
+.left-panel {
+  border: 2px solid green;
+}
+
+.main-panel {
+  border: 2px solid pink;
+  width: 70%;
+}
+
+.right-panel {
+  border: 2px solid blue;
+}
+
+
+/* layout - scrollable content areas */
+.message-display, .channel-display, .users-display {
+  height: 85vh;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  overflow-y: auto;
+  scrollbar-color: red orange;
+  scrollbar-width: thin;
+}
+
+
+/* layout - fixed bottom bars */
+.button-panel, .active-user-display, .textbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 80px;
+  box-sizing: border-box;
+  border-top: 2px solid red;
+}
+
+.textbox {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+
+/* headers */
 .header {
   display: flex;
   align-items: center;
@@ -22,29 +94,50 @@
   gap: 8px;
 }
 
-/* shared panel styles */
-.left-panel, .main-panel, .right-panel {
+
+/* leftpanel - channels */
+.channel-header {
   display: flex;
   flex-direction: column;
-  height: 100vh;
 }
 
-.left-panel, .right-panel {
+.channel-info {
+  display: flex;
+}
+
+.channel-name, .channel-description {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 50vw;
+}
+
+
+/* channel details */
+.channel-details {
   display: flex;
   flex-direction: column;
-  width: 15%;
-  overflow-x: hidden;
-}
-
-.message-display, .channel-display, .users-display {
-  height: 85vh;
   padding-top: 10px;
-  padding-bottom: 10px;
-  overflow-y: auto;
-  scrollbar-color: red orange;
-  scrollbar-width: thin;
+  gap: 10px;
+  max-width: 90vw;
 }
 
+.channel-details-name, .channel-details-info {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.channel-details-info {
+  width: min(800px, 90%);
+  align-self: center;
+}
+
+.channel-members {
+  text-align: center;
+}
+
+
+/* display - channels and users */
 .channel, .user {
   overflow-wrap: break-word;
   word-break: break-all;
@@ -100,19 +193,113 @@
   box-sizing: border-box;
 }
 
-.button-panel, .active-user-display, .textbox {
+
+/* user profile */
+.user-profile {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  height: 80px;
-  box-sizing: border-box;
-  border-top: 2px solid red;
+  flex-direction: column;
+  width: min(800px, 90%);
+  align-self: center;
 }
 
-.textbox {
-  padding-left: 10px;
-  padding-right: 10px;
+.profile-displayname {
+  font-weight: bold;
+  font-size: 25px;
+}
+
+.profile-username {
+  font-style: italic;
+  font-size: 18px;
+}
+
+
+/* messages */
+.message-header {
+  display: flex;
+  gap: 8px;
+  padding-top: 3px;
+  border: 1px solid black;
+}
+
+.author-message, .user-message {
+  max-width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+.author-message {
+  margin-left: auto;
+}
+
+.user-message {
+  margin-right: auto;
+}
+
+.message:hover {
+  background: red;
+  border-radius: 4px;
+}
+
+.author-message-content, .user-message-content {
+  display: flex;
+  flex-direction: column;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.message-details {
+  font-size: 12px;
+}
+
+.message-image {
+  max-width: 100%;
+  max-height: 400px;
+  border-radius: 4px;
+  display: block;
+}
+
+.edited-message {
+  font-style: italic;
+  font-size: 10px;
+}
+
+.author-edit {
+  margin-left: auto;
+}
+
+.user-edit {
+  margin-right: auto;
+}
+
+.edit-hover, .delete-icon {
+  opacity: 0;
+  transition: color 0.4s;
+}
+
+.author-message:hover .edit-hover,
+.author-message:hover .delete-icon {
+  opacity: 1;
+}
+
+
+/* messages textbox */
+.send-message {
+  width: 100%;
+}
+
+.send-message form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.message-textarea {
+  height: 60px;
+  flex: 1;
+  box-sizing: border-box;
 }
 
 .add-file-icon, .textbox .send-icon {
@@ -124,6 +311,20 @@
   border-radius: 50%;
   flex-shrink: 0;
 }
+
+.add-file-icon:hover, .send-icon:hover {
+  background: red;
+  border-radius: 50%;
+  transition-duration: 0.4s;
+}
+
+.send-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
 
 /* forms */
 .form, .channel-details-info {
@@ -154,37 +355,6 @@
   box-sizing: border-box;
 }
 
-input[type=text], .description-textarea, .edit-textarea, .user-textarea, .password-input {
-  width: 100%;
-  padding: 12px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-.register form, .login form {
-  display: flex;
-  flex-direction: column;
-}
-
-.register-page, .login-page {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.login-here, .register-here {
-  text-align: center;
-}
-
-.editing-message form, .editing-profile form {
-  display: flex;
-  flex-direction: column;
-}
-
 .form-bottom {
   display: flex;
   flex-direction: column;
@@ -202,165 +372,45 @@ input[type=text], .description-textarea, .edit-textarea, .user-textarea, .passwo
   align-self: flex-end;
 }
 
-/* panel styles */
-.panel-container {
-  border: 2px solid black;
-  display: flex;
-  height: 100vh;
-}
-
-.left-panel {
-  border: 2px solid green;
-}
-
-.main-panel {
-  border: 2px solid pink;
-  width: 70%;
-}
-
-.channel-header {
+.editing-message form, .editing-profile form {
   display: flex;
   flex-direction: column;
 }
 
-.channel-info {
-  display: flex;
-}
-
-.message-header {
-  padding-top: 3px;
-  border: 1px solid black;
-}
-
-.send-message {
-  width: 100%;
-}
-
-.send-message form {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-}
-
-.message-textarea {
-  height: 60px;
-  flex: 1;
-  box-sizing: border-box;
-}
-
-.channel-details {
-  display: flex;
-  flex-direction: column;
-  padding-top: 10px;
-  gap: 10px;
-  max-width: 90vw;
-}
-
-.channel-details-name, .channel-details-info {
-  white-space: pre-wrap;
-  word-break: break-word;
-  max-width: 85%;
-}
-
-.channel-members {
-  text-align: center;
-}
-
-.user-profile {
+.register form, .login form {
   display: flex;
   flex-direction: column;
 }
 
-.user-profile, .channel-details-info {
-  width: min(800px, 90%);
-  align-self: center;
-}
-
-.profile-displayname {
-  font-weight: bold;
-  font-size: 25px;
-}
-
-.profile-username {
-  font-style: italic;
-  font-size: 18px;
-}
-
-.channel-details-name, .channel-details-info {
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-
-/* shared message styles */
-.message:hover {
-  background: red;
-  border-radius: 4px;
-}
-
-.message-header {
-  display: flex;
-  gap: 8px;
-}
-
-.author-message, .user-message {
-  max-width: 50%;
-  display: flex;
-  flex-direction: column;
-}
-
-.author-message-content, .user-message-content {
-  display: flex;
-  flex-direction: column;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-
-/* message styles */
-.author-message {
-  margin-left: auto;
-}
-
-.user-message {
-  margin-right: auto;
-}
-
-.message-details {
-  font-size: 12px;
-}
-
-.message-image {
-  max-width: 100%;
-  max-height: 400px;
-  border-radius: 4px;
-  display: block;
-}
-
-.edited-message {
-  font-style: italic;
-  font-size: 10px;
-}
-
-.author-edit {
-  margin-left: auto;
-}
-
-.user-edit {
-  margin-right: auto;
-}
-
-.right-panel {
-  border: 2px solid blue;
-}
-
-/* textarea styles */
 textarea {
   resize: none;
 }
 
-/* user and channel icon styles */
+input[type=text], .description-textarea, .edit-textarea, .user-textarea, .password-input {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+
+/* login and register */
+.register-page, .login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-here, .register-here {
+  text-align: center;
+}
+
+
+/* icons - users and channels */
 .icon, .lg-icon {
   border-radius: 50%;
   object-fit: cover;
@@ -378,7 +428,8 @@ textarea {
   padding-bottom: 5px;
 }
 
-/* fontawesome icon styles */
+
+/* icons - fontawesome ui  */
 .ui-icon, .add-file-icon, .send-icon {
   cursor: pointer;
 }
@@ -387,18 +438,19 @@ textarea {
   transition-duration: 0.4s;
 }
 
+.save-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
 .exit-icon:hover, .delete-icon:hover, .delete-channel-icon:hover, .remove-icon:hover {
   color: red !important;
 }
 
 .message-icon:hover, .add-icon:hover, .save-icon:hover {
   color: green !important;
-}
-
-.add-file-icon:hover, .send-icon:hover {
-  background: red;
-  border-radius: 50%;
-  transition-duration: 0.4s;
 }
 
 .details-icon:hover {
@@ -413,28 +465,8 @@ textarea {
   color: orange !important;
 }
 
-.edit-hover, .delete-icon {
-  opacity: 0;
-  transition: color 0.4s;
-}
 
-.save-icon, .send-icon {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-.send-icon {
-  margin-bottom: 14px;
-}
-
-.author-message:hover .edit-hover,
-.author-message:hover .delete-icon {
-  opacity: 1;
-}
-
-/* button styles */
+/* buttons */
 .button {
   cursor: pointer;
   background-color: lightblue;
@@ -449,12 +481,14 @@ textarea {
   transition-duration: 0.4s;
 }
 
-/* shared whitespace styles */
+
+/* shared whitespace */
 .errors, .message, .user-profile, .channel-details {
   white-space: pre-wrap;
 }
 
-/* online/offline status */
+
+/* online/offline status circle */
 div .colored-circle {
   display: inline-block;
   margin-left: -11px;
@@ -466,14 +500,6 @@ div .colored-circle {
   border-color: black;
   height: 7px;
   width: 7px;
-}
-
-/* limit displayed characters */
-.channel-name, .channel-description {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 50vw; 
 }
 
 /* media queries */
