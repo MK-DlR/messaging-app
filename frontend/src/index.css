@@ -145,7 +145,7 @@ img {
   align-self: center;
 }
 
-.form-no-users {
+.form-no-users, .editing-message {
   width: min(800px, 90%);
   align-self: center;
 }
@@ -159,7 +159,7 @@ img {
   box-sizing: border-box;
 }
 
-input[type=text], .description-textarea {
+input[type=text], .description-textarea, .edit-textarea {
   width: 100%;
   padding: 12px;
   margin: 8px 0;
@@ -167,6 +167,11 @@ input[type=text], .description-textarea {
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
+}
+
+.editing-message form {
+  display: flex;
+  flex-direction: column;
 }
 
 .form-bottom {
@@ -182,7 +187,7 @@ input[type=text], .description-textarea {
   justify-content: space-between;
 }
 
-.channel-save {
+.channel-save, .message-save {
   align-self: flex-end;
 }
 
@@ -371,7 +376,7 @@ textarea {
 
 .edit-hover, .delete-icon {
   opacity: 0;
-  transition: opacity 0.4s, color 0.4s;
+  transition: color 0.4s;
 }
 
 .save-icon, .send-icon {

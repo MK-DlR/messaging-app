@@ -50,6 +50,7 @@ function EditMessage({
                 updateMessage(); // initial fetch
             }}>
                 <textarea 
+                    className="edit-textarea"
                     value={editingMessage.body}
                     onChange={(e) => setEditingMessage({ ...editingMessage, body: e.target.value })}
                     maxLength={2000}
@@ -63,7 +64,7 @@ function EditMessage({
                 {(2000 - (editingMessage.body?.length || 0)) < 50 && (
                     <span>{2000 - (editingMessage.body?.length || 0)} characters remaining</span>
                 )}
-                <button type="submit" className="fa-solid fa-floppy-disk save-icon ui-icon" />
+                <button type="submit" className="fa-solid fa-floppy-disk save-icon message-save ui-icon" />
             </form>
         </div>
     </>

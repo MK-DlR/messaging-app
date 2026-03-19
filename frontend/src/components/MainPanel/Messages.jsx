@@ -271,7 +271,7 @@ function Messages ({
                     />
                 </div>
             )}
-            <div className="send-message form">
+            <div className="send-message">
                 <form onSubmit={(e) => {
                     e.preventDefault();
                     submitHandler();
