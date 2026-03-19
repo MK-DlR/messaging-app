@@ -159,7 +159,7 @@ img {
   box-sizing: border-box;
 }
 
-input[type=text], .description-textarea, .edit-textarea {
+input[type=text], .description-textarea, .edit-textarea, .user-textarea {
   width: 100%;
   padding: 12px;
   margin: 8px 0;
@@ -169,7 +169,7 @@ input[type=text], .description-textarea, .edit-textarea {
   box-sizing: border-box;
 }
 
-.editing-message form {
+.editing-message form, .editing-profile form {
   display: flex;
   flex-direction: column;
 }
@@ -187,7 +187,7 @@ input[type=text], .description-textarea, .edit-textarea {
   justify-content: space-between;
 }
 
-.channel-save, .message-save {
+.channel-save, .message-save, .profile-save {
   align-self: flex-end;
 }
 

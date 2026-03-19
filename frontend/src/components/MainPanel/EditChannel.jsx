@@ -151,7 +151,7 @@ function EditChannel ({
         </div>
 
         <form 
-            className="creating-channel form"
+            className="editing-channel form"
             onSubmit={(e) => {
                 e.preventDefault();
                 updateChannelDetails(); // initial fetch
