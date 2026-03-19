@@ -354,11 +354,11 @@ div .colored-circle {
 }
 
 /* limit displayed characters */
-.channel-info, .channel-description {
+.channel-name, .channel-description {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 500px; 
+  max-width: 50vw; 
 }
 
 /* media queries */

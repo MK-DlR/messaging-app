@@ -206,7 +206,7 @@ function Messages ({
             <div className="channel-info">
                 <h2>
                 <img className="channel-icon lg-icon" src={getIconUrl(selectedChannel.icon)} />
-                    {selectedChannel.name}
+                    <div className="channel-name">{selectedChannel.name}</div>
                     {currentUser.id === selectedChannel.creatorId && selectedChannel.creatorId !== null && (
                         <i 
                             className="fa-solid fa-pencil edit-icon ui-icon"
