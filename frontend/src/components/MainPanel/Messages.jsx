@@ -229,9 +229,7 @@ function Messages ({
                     />
                 </h2>
             </div>
-            <div className="channel-description">
-                {selectedChannel.channelInfo}
-            </div>
+            <div className="channel-description">{selectedChannel.channelInfo}</div>
         </div>
         <div className="message-display">
             {messageList}

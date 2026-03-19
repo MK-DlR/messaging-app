@@ -56,7 +56,7 @@ function ChannelDetails ({
         <div className="header">
             <h2>
                 <img className="channel-icon lg-icon" src={getIconUrl(selectedChannel.icon)} />
-                {selectedChannel.name} Details
+                <div className="channel-details-name">{selectedChannel.name} Details</div>
 
                 {/* if current user is not channel owner, display leave icon */}
                 {!selectedChannel.isDefault && currentUser.id !== selectedChannel.creatorId && (
@@ -99,7 +99,7 @@ function ChannelDetails ({
         </div>
 
         <div className="channel-details">
-            {channelDetails.channelInfo}
+            <div className="channel-details-name">{channelDetails.channelInfo}</div>
             <h3>Channel Members</h3>
             <div className="all-users display-users">{displayUsers}</div>
         </div>

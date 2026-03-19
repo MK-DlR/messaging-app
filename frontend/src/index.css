@@ -91,6 +91,7 @@ img {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  align-items: flex-start;
 }
 
 .button-panel, .active-user-display, .textbox {
@@ -178,6 +179,12 @@ img {
   flex-direction: column;
   padding-top: 10px;
   max-width: 90vw;
+}
+
+.channel-details-name, .channel-details-desc {
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-width: 85%;
 }
 
 /* shared message styles */

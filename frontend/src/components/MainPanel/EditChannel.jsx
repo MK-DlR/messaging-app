@@ -137,15 +137,15 @@ function EditChannel ({
     return <>
         <div className="header">
             <h2>
-            <img className="channel-icon lg-icon" src={getIconUrl(selectedChannel.icon)} />
-            Edit {selectedChannel.name}
-            <i 
-                className="fa-solid fa-x exit-icon ui-icon" 
-                onClick={() => {
-                    setMainPanelView("messages");
-                    pingServer();
-                }}
-            />
+                <img className="channel-icon lg-icon" src={getIconUrl(selectedChannel.icon)} />
+                <div className="channel-details-name">{selectedChannel.name} Edit</div>
+                <i 
+                    className="fa-solid fa-x exit-icon ui-icon" 
+                    onClick={() => {
+                        setMainPanelView("messages");
+                        pingServer();
+                    }}
+                />
             </h2>
         </div>
 
