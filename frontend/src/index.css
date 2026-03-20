@@ -231,7 +231,7 @@ a:hover {
 }
 
 hr {
-  border: 1px dotted var(--light-blue);
+  border: 1px dashed var(--light-blue);
 }
 
 .user-seen {
@@ -281,6 +281,11 @@ hr {
 .message:hover {
   background: #31333a;
   border-radius: 4px;
+}
+
+.message-hr {
+  width: 80%;
+  margin: 0 auto;
 }
 
 .author-message-content, .user-message-content {

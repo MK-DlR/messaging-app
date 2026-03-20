@@ -150,6 +150,7 @@ function Messages ({
                     />
                 </div> 
             </div>
+            <hr className="message-hr" />
             <div className="author-message-content">
                 {/* handle image/gifs and text messages */}
                 <div>{imageTokens.map((token, i) => <img key={i} src={token} className="message-image" />)}</div>
@@ -197,6 +198,7 @@ function Messages ({
                         {formatDate(message.createdAt)}
                     </div>
                 </div>
+                <hr className="message-hr" />
                 <div className="user-message-content">
                     {/* handle image/gifs and text messages */}
                     <div>{imageTokens.map((token, i) => <img key={i} src={token} className="message-image" />)}</div>
