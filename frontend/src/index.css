@@ -1,35 +1,37 @@
-/*
-COLORS
-black 000000
-darkest grey 111113
-dark grey 1B1C20
-light grey C5C4C9
-white DDDEE0
-light blue 41B9CA
-dark blue 173D40
-orange F3583A
-*/
+/* frontend/src/index.css */
+
+/* theme variables */
+:root {
+  --black: #000000;
+  --darkest-grey: #111113;
+  --dark-grey: #1B1C20;
+  --light-grey: #C5C4C9;
+  --white: #DDDEE0;
+  --light-blue: #41B9CA;
+  --dark-blue: #173D40;
+  --orange: #F3583A;
+}
 
 /* reset */
 * {
   padding: 0;
   margin: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  color: #DDDEE0;
+  color: var(--white);
 }
 
 /* entire background */
 body {
-  background-color: #000000;
+  background-color: var(--black);
 }
 
 /* links */
 a {
-  color: #F3583A;
+  color: var(--orange);
 }
 
 a:hover {
-  color: #C5C4C9;
+  color: var(--light-grey);
 }
 
 /* layout - panels and containers */
@@ -52,8 +54,8 @@ a:hover {
 }
 
 .main-panel {
-  border-left: 1px solid #41B9CA;
-  border-right: 1px solid #41B9CA;
+  border-left: 1px solid var(--light-blue);
+  border-right: 1px solid var(--light-blue);
   width: 70%;
 }
 
@@ -63,7 +65,7 @@ a:hover {
   padding-top: 10px;
   padding-bottom: 10px;
   overflow-y: auto;
-  scrollbar-color: #173D40 #41B9CA;
+  scrollbar-color: var(--dark-blue) var(--light-blue);
   scrollbar-width: thin;
 }
 
@@ -75,7 +77,7 @@ a:hover {
   gap: 10px;
   height: 80px;
   box-sizing: border-box;
-  border-top: 1px solid #41B9CA;
+  border-top: 1px solid var(--light-blue);
 }
 
 .textbox {
@@ -91,7 +93,7 @@ a:hover {
   height: 80px;
   align-items: center;
   flex-shrink: 0;
-  border-bottom: 1px solid #41B9CA;
+  border-bottom: 1px solid var(--light-blue);
 }
 
 .header h2 {
@@ -156,7 +158,7 @@ a:hover {
 }
 
 .channel:hover, .user:hover {
-  background: #F3583A;
+  background: var(--orange);
   border-radius: 4px;
   cursor: pointer;
 }
@@ -167,7 +169,7 @@ a:hover {
 }
 
 .user-select:hover {
-  background-color: #F3583A;
+  background-color: var(--orange);
 }
 
 .all-users {
@@ -187,7 +189,7 @@ a:hover {
   align-items: flex-start;
   width: 280px;
   border-radius: 4px;
-  background-color: #1B1C20;
+  background-color: var(--dark-grey);
   padding: 10px;
 }
 
@@ -206,7 +208,7 @@ a:hover {
 }
 
 .add-users .user-search[type="text"] {
-  background-color: #111113;
+  background-color: var(--darkest-grey);
 }
 
 /* user profile */
@@ -214,13 +216,13 @@ a:hover {
   display: flex;
   flex-direction: column;
   width: min(800px, 90%);
-  border: 1px solid #41B9CA;
+  border: 1px solid var(--light-blue);
   border-radius: 4px;
   align-self: center;
 }
 
 .user-profile.form {
-  background-color: #1B1C20;
+  background-color: var(--dark-grey);
 }
 
 .profile-displayname {
@@ -229,7 +231,7 @@ a:hover {
 }
 
 hr {
-  border: 1px dotted #41B9CA;
+  border: 1px dotted var(--light-blue);
 }
 
 .user-seen {
@@ -256,7 +258,7 @@ hr {
   display: flex;
   flex-direction: column;
   border-radius: 4px;
-  background-color: #1B1C20;
+  background-color: var(--dark-grey);
 }
 
 .author-message {
@@ -288,7 +290,7 @@ hr {
 
 .message-details {
   font-size: 12px;
-  color: #C5C4C9;
+  color: var(--light-grey);
 }
 
 .message-image {
@@ -350,8 +352,8 @@ hr {
 }
 
 .add-file-icon:hover, .send-icon:hover {
-  color: #C5C4C9;
-  background: #F3583A;
+  color: var(--light-grey);
+  background: var(--orange);
   border-radius: 50%;
   transition-duration: 0.4s;
 }
@@ -365,13 +367,13 @@ hr {
 
 /* forms */
 .form {
-  border: 1px solid #41B9CA;
+  border: 1px solid var(--light-blue);
 }
 
 .form, .channel-details-info {
   margin-top: 15px;
   border-radius: 4px;
-  background-color: #111113; 
+  background-color: var(--darkest-grey); 
   padding: 10px;
 }
 
@@ -394,7 +396,7 @@ hr {
 .form-no-users input, .form-no-users textarea {
   width: 100%;
   box-sizing: border-box;
-  background-color: #1B1C20;
+  background-color: var(--dark-grey);
 }
 
 .form-bottom {
@@ -426,9 +428,9 @@ hr {
 
 textarea {
   resize: none;
-  background-color: #1B1C20;
+  background-color: var(--dark-grey);
   border-radius: 4px;
-  border: 1px solid #41B9CA;
+  border: 1px solid var(--light-blue);
 }
 
 input[type=text], .description-textarea, .edit-textarea, .user-textarea, .password-input {
@@ -436,10 +438,10 @@ input[type=text], .description-textarea, .edit-textarea, .user-textarea, .passwo
   padding: 12px;
   margin: 8px 0;
   display: inline-block;
-  border: 1px solid #41B9CA;
+  border: 1px solid var(--light-blue);
   border-radius: 4px;
   box-sizing: border-box;
-  background-color: #1B1C20;
+  background-color: var(--dark-grey);
 }
 
 /* login and register */
@@ -480,7 +482,7 @@ input[type=text], .description-textarea, .edit-textarea, .user-textarea, .passwo
 /* icons - fontawesome ui  */
 .ui-icon, .add-file-icon, .send-icon {
   cursor: pointer;
-  color: #F3583A;
+  color: var(--orange);
 }
 
 .ui-icon {
@@ -488,7 +490,7 @@ input[type=text], .description-textarea, .edit-textarea, .user-textarea, .passwo
 }
 
 .ui-icon:hover {
-  color: #C5C4C9;
+  color: var(--light-grey);
 }
 
 .save-icon {
@@ -501,7 +503,7 @@ input[type=text], .description-textarea, .edit-textarea, .user-textarea, .passwo
 /* buttons */
 .button {
   cursor: pointer;
-  background-color: #41B9CA;
+  background-color: var(--light-blue);
   border: none;
   border-radius: 4px;
   padding: 5px 5px;
@@ -509,7 +511,7 @@ input[type=text], .description-textarea, .edit-textarea, .user-textarea, .passwo
 }
 
 .button:hover {
-  background-color: #173D40; 
+  background-color: var(--dark-blue); 
   transition-duration: 0.4s;
 }
 
@@ -527,7 +529,7 @@ div .colored-circle {
   border-radius: 50%;
   border-style: solid;
   border-width: 0.5px;
-  border-color: black; 
+  border-color: var(--black); 
   height: 7px;
   width: 7px;
 }
