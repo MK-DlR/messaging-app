@@ -250,7 +250,11 @@ hr {
 /* messages */
 .message-header {
   gap: 8px;
-  padding-top: 3px;
+  padding-top: 10px;
+}
+
+.message {
+  margin: 8px;
 }
 
 .author-message, .user-message {
@@ -283,7 +287,9 @@ hr {
   display: flex;
   flex-direction: column;
   padding-top: 5px;
-  padding-bottom: 5px;
+  padding-bottom: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
   white-space: pre-wrap;
   word-break: break-word;
 }
@@ -339,6 +345,10 @@ hr {
   height: 60px;
   flex: 1;
   box-sizing: border-box;
+}
+
+.add-file-icon {
+  transform: translateX(1px);
 }
 
 .add-file-icon, .textbox .send-icon {
