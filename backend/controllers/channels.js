@@ -31,6 +31,19 @@ const findChannelAsCreatorAny = async (channelId, creatorId) => {
   return selectedChannel;
 };
 
+// check if channel name meets requirements
+function validateChannelName(name) {
+  // check if channel name length is between 2 and 100 characters
+  if (name.length < 2) {
+    return "Channel name must be at least 2 characters.";
+  }
+  if (name.length > 100) {
+    return "Channel name must be 100 characters or less.";
+  }
+
+  return name;
+}
+
 // create a channel (DM or group)
 const channelPost = async (req, res, next) => {
   try {
@@ -39,6 +52,14 @@ const channelPost = async (req, res, next) => {
 
     let channelName;
     let channelData;
+
+    // validate custom name length
+    if (name) {
+      const channelNameError = validateChannelName(name);
+      if (channelNameError !== name) {
+        return res.status(400).json({ error: channelNameError });
+      }
+    }
 
     // determine if DM or group channel
     if (userIds.length === 1) {
@@ -189,6 +210,11 @@ const channelPut = async (req, res, next) => {
     if (!selectedChannel) {
       return res.status(404).json({ error: "Channel not found" });
     } else {
+      // validate custom name length
+      const channelNameError = validateChannelName(name);
+      if (channelNameError !== name) {
+        return res.status(400).json({ error: channelNameError });
+      }
       // action logic for editing channel name
       await prisma.channel.update({
         where: { id: channel },

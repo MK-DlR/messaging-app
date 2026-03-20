@@ -1,6 +1,7 @@
 // frontend/src/components/MainPanel/CreateChannel.jsx
 
 // imports
+import { useState } from "react";
 import apiFetch from "../../helpers/apiFetch";
 import getIconUrl from "../../helpers/getIconUrl";
 import pingServer from "../../helpers/pingServer";
@@ -19,6 +20,8 @@ function CreateChannel ({
     setNewChannel, 
     setMainPanelView 
 }) {
+    const [error, setError] = useState("");
+
     async function createGroupChannel() {
         const response = await apiFetch(
             `${import.meta.env.VITE_API_URL}/channels/new-channel/`, 
@@ -34,9 +37,15 @@ function CreateChannel ({
         );
         const data = await response.json();
         const createdChannel = data.channel || data.existingChannel;
-        if (data.channel) setChannels([...channels, createdChannel]);
-        setSelectedChannel(createdChannel);
-        setMainPanelView("messages");
+
+        // check response
+        if (!response.ok) {
+            setError(data.error);
+        } else {
+            if (data.channel) setChannels([...channels, createdChannel]);
+            setSelectedChannel(createdChannel);
+            setMainPanelView("messages");
+        }
     }
 
     // filter for users not in channel
@@ -120,6 +129,7 @@ function CreateChannel ({
             </h2>
         </div>
 
+        <div className="error-display">{error && <p className="errors">{error}</p>}</div>
         <form 
             className="creating-channel form"
             onSubmit={(e) => {

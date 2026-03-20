@@ -1,6 +1,7 @@
 // frontend/src/components/MainPanel/EditChannel.jsx
 
 // imports
+import { useState } from "react";
 import apiFetch from "../../helpers/apiFetch";
 import getIconUrl from "../../helpers/getIconUrl";
 import pingServer from "../../helpers/pingServer";
@@ -19,8 +20,10 @@ function EditChannel ({
     setEditingChannel, 
     setMainPanelView 
 }) {
+    const [error, setError] = useState("");
+
     async function updateChannelDetails() {
-        await apiFetch(
+        const response = await apiFetch(
             `${import.meta.env.VITE_API_URL}/channels/manage/${selectedChannel.id}/edit`, 
             { 
                 method: "PUT", body: JSON.stringify({ 
@@ -30,9 +33,16 @@ function EditChannel ({
                 }) 
             }
         );
-        setSelectedChannel({ ...selectedChannel, ...editingChannel });
-        setChannels(channels.map(ch => ch.id === selectedChannel.id ? { ...ch, ...editingChannel } : ch))
-        setMainPanelView("messages");
+        const data = await response.json();
+
+        // check response
+        if (!response.ok) {
+            setError(data.error);
+        } else {
+            setSelectedChannel({ ...selectedChannel, ...editingChannel });
+            setChannels(channels.map(ch => ch.id === selectedChannel.id ? { ...ch, ...editingChannel } : ch))
+            setMainPanelView("messages");
+        }
     }
 
     // filter for users not in channel
@@ -150,6 +160,7 @@ function EditChannel ({
             </h2>
         </div>
 
+        <div className="error-display">{error && <p className="errors">{error}</p>}</div>
         <form 
             className="editing-channel form"
             onSubmit={(e) => {

@@ -20,7 +20,6 @@ function RegisterUser() {
             setError("Passwords do not match");
             return;
         } else {
-            // fetch call to api
             const response = await fetch(
                 `${import.meta.env.VITE_API_URL}/users/register`, 
                 { 
@@ -44,7 +43,7 @@ function RegisterUser() {
     return (
         <div className="register-page">
             <div className="register form form-no-users">
-                <div>{error && <p className="errors">{error}</p>}</div>
+                <div className="error-display">{error && <p className="errors">{error}</p>}</div>
                 <form onSubmit={handleSubmit}>
                     <label>Username
                         <input 

@@ -14,7 +14,6 @@ function Login() {
     async function handleSubmit(e) {
         e.preventDefault();
 
-        // fetch call to api
         const response = await fetch(
             `${import.meta.env.VITE_API_URL}/users/login`, 
             { 
@@ -39,7 +38,7 @@ function Login() {
     return (
         <div className="login-page">
             <div className="login form">
-                <div>{error && <p>{error}</p>}</div>
+            <div className="error-display">{error && <p className="errors">{error}</p>}</div>
                 <form onSubmit={handleSubmit}>
                     <label>Username:
                         <input 
