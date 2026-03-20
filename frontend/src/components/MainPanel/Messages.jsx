@@ -35,11 +35,17 @@ function Messages ({
     // set up autoscroll to bottom
     const messagesEndRef = useRef(null);
 
+    // autoscroll
     useEffect(() => {
         setTimeout(() => {
             messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-        }, 100)
-    }, [messages, selectedChannel]);
+        }, 100);
+        pingServer();
+    }, [selectedChannel]);
+
+    useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messages]);
 
     // message submit handler
     async function submitHandler() {
