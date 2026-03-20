@@ -41,7 +41,15 @@ function RegisterUser() {
     }
 
     return (
-        <div className="register-page">
+        <div 
+            className="register-page"
+            style={{
+                backgroundImage: "url('/backgrounds/shapes.gif')",
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+            }}
+        >
             <div className="register form form-no-users">
                 <div className="error-display">{error && <p className="errors">{error}</p>}</div>
                 <form onSubmit={handleSubmit}>

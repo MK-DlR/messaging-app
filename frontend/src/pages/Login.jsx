@@ -36,7 +36,15 @@ function Login() {
     }
 
     return (
-        <div className="login-page">
+        <div 
+            className="login-page"
+            style={{
+                backgroundImage: "url('/backgrounds/shapes.gif')",
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+            }}
+        >
             <div className="login form form-no-users">
             <div className="error-display">{error && <p className="errors">{error}</p>}</div>
                 <form onSubmit={handleSubmit}>
