@@ -1,6 +1,7 @@
 // frontend/src/components/MainPanel/EditMessage.jsx
 
 // imports
+import { useState } from "react";
 import apiFetch from "../../helpers/apiFetch";
 import pingServer from "../../helpers/pingServer";
 
@@ -11,23 +12,30 @@ function EditMessage({
     setMessages, 
     setMainPanelView 
 }) {
+    const [error, setError] = useState("");
+
     async function updateMessage() {
-        const response = await apiFetch(
-            `${import.meta.env.VITE_API_URL}/messages/edit/${editingMessage.id}`, 
-            { 
-                method: "PUT", 
-                body: JSON.stringify({ 
-                    body: editingMessage.body 
-                }) 
-            }
-        );
-        const data = await response.json();
-        setMessages(messages.map(msg =>
-            msg.id === editingMessage.id
-            ? { ...msg, body: data.messages.body, updatedAt: data.messages.updatedAt }
-            : msg
-        ));
-        setMainPanelView("messages");
+        if (editingMessage.body.length === 0) {
+            setError("Messages cannot be empty.");
+            return;
+        } else {
+            const response = await apiFetch(
+                `${import.meta.env.VITE_API_URL}/messages/edit/${editingMessage.id}`, 
+                { 
+                    method: "PUT", 
+                    body: JSON.stringify({ 
+                        body: editingMessage.body 
+                    }) 
+                }
+            );
+            const data = await response.json();
+            setMessages(messages.map(msg =>
+                msg.id === editingMessage.id
+                ? { ...msg, body: data.messages.body, updatedAt: data.messages.updatedAt }
+                : msg
+            ));
+            setMainPanelView("messages");
+        }
     }
 
     return <>
@@ -49,6 +57,7 @@ function EditMessage({
                 e.preventDefault();
                 updateMessage(); // initial fetch
             }}>
+                <div className="error-display">{error && <p className="errors">{error}</p>}</div>
                 <textarea 
                     className="edit-textarea"
                     value={editingMessage.body}
