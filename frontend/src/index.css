@@ -215,7 +215,6 @@ light orange F99564
 
 /* messages */
 .message-header {
-  display: flex;
   gap: 8px;
   padding-top: 3px;
   border: 1px solid black;
@@ -233,6 +232,11 @@ light orange F99564
 
 .user-message {
   margin-right: auto;
+}
+
+.on-hover {
+  margin-left: auto;
+  margin-right: 5px;
 }
 
 .message:hover {
