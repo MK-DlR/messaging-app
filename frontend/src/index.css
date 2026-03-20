@@ -1,24 +1,36 @@
 /*
 COLORS
-black 050404
-dark blue 00232B
-teal 2C8A8D
-light blue 9DC3C3
-dark orange AD3924
-light orange F99564
+black 000000
+dark grey 1B1C20
+light grey C5C4C9
+white DDDEE0
+light blue 41B9CA
+dark blue 173D40
+orange F3583A
 */
 
 /* reset */
 * {
   padding: 0;
   margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: #DDDEE0;
+}
+
+/* links */
+a {
+  color: #F3583A;
+}
+
+a:hover {
+  color: #C5C4C9;
 }
 
 /* layout - panels and containers */
 .panel-container {
-  border: 2px solid black;
   display: flex;
   height: 100vh;
+  background-color: #000000;
 }
 
 .left-panel, .main-panel, .right-panel {
@@ -34,17 +46,10 @@ light orange F99564
   overflow-x: hidden;
 }
 
-.left-panel {
-  border: 2px solid green;
-}
-
 .main-panel {
-  border: 2px solid pink;
+  border-left: 1px solid #41B9CA;
+  border-right: 1px solid #41B9CA;
   width: 70%;
-}
-
-.right-panel {
-  border: 2px solid blue;
 }
 
 /* layout - scrollable content areas */
@@ -53,7 +58,7 @@ light orange F99564
   padding-top: 10px;
   padding-bottom: 10px;
   overflow-y: auto;
-  scrollbar-color: red orange; /* TO DO: change color */
+  scrollbar-color: #173D40 #41B9CA;
   scrollbar-width: thin;
 }
 
@@ -65,7 +70,7 @@ light orange F99564
   gap: 10px;
   height: 80px;
   box-sizing: border-box;
-  border-top: 2px solid red;
+  border-top: 1px solid #41B9CA;
 }
 
 .textbox {
@@ -81,7 +86,7 @@ light orange F99564
   height: 80px;
   align-items: center;
   flex-shrink: 0;
-  border-bottom: 2px solid red;
+  border-bottom: 1px solid #41B9CA;
 }
 
 .header h2 {
@@ -146,7 +151,7 @@ light orange F99564
 }
 
 .channel:hover, .user:hover {
-  background: red;
+  background: #F3583A;
   border-radius: 4px;
   cursor: pointer;
 }
@@ -157,7 +162,7 @@ light orange F99564
 }
 
 .user-select:hover {
-  background-color: red; /* TO DO: change color */
+  background-color: #F3583A;
 }
 
 .all-users {
@@ -177,7 +182,7 @@ light orange F99564
   align-items: flex-start;
   width: 280px;
   border-radius: 4px;
-  background-color: darkgrey; /* TO DO: change color */
+  background-color: #1B1C20;
   padding: 10px;
 }
 
@@ -208,22 +213,31 @@ light orange F99564
   font-size: 25px;
 }
 
+.user-seen {
+  display: flex;
+}
+
+.profile-username,
+.profile-seen {
+  font-size: 14px;
+}
+
 .profile-username {
   font-style: italic;
-  font-size: 18px;
 }
 
 /* messages */
 .message-header {
   gap: 8px;
   padding-top: 3px;
-  border: 1px solid black;
 }
 
 .author-message, .user-message {
   max-width: 50%;
   display: flex;
   flex-direction: column;
+  border-radius: 4px;
+  background-color: #1B1C20;
 }
 
 .author-message {
@@ -240,7 +254,7 @@ light orange F99564
 }
 
 .message:hover {
-  background: red;
+  background: #31333a;
   border-radius: 4px;
 }
 
@@ -255,6 +269,7 @@ light orange F99564
 
 .message-details {
   font-size: 12px;
+  color: #C5C4C9;
 }
 
 .message-image {
@@ -316,7 +331,8 @@ light orange F99564
 }
 
 .add-file-icon:hover, .send-icon:hover {
-  background: red;
+  color: #C5C4C9;
+  background: #F3583A;
   border-radius: 50%;
   transition-duration: 0.4s;
 }
@@ -332,7 +348,7 @@ light orange F99564
 .form, .channel-details-info {
   margin-top: 15px;
   border-radius: 4px;
-  background-color: #f2f2f2; /* TO DO: change color */
+  background-color: #000000; 
   padding: 10px;
 }
 
@@ -355,6 +371,7 @@ light orange F99564
 .form-no-users input, .form-no-users textarea {
   width: 100%;
   box-sizing: border-box;
+  background-color: #1B1C20;
 }
 
 .form-bottom {
@@ -386,6 +403,9 @@ light orange F99564
 
 textarea {
   resize: none;
+  background-color: #1B1C20;
+  border-radius: 4px;
+  border: 1px solid #41B9CA;
 }
 
 input[type=text], .description-textarea, .edit-textarea, .user-textarea, .password-input {
@@ -393,9 +413,10 @@ input[type=text], .description-textarea, .edit-textarea, .user-textarea, .passwo
   padding: 12px;
   margin: 8px 0;
   display: inline-block;
-  border: 1px solid #ccc;
+  border: 1px solid #41B9CA;
   border-radius: 4px;
   box-sizing: border-box;
+  background-color: #1B1C20;
 }
 
 /* login and register */
@@ -436,10 +457,15 @@ input[type=text], .description-textarea, .edit-textarea, .user-textarea, .passwo
 /* icons - fontawesome ui  */
 .ui-icon, .add-file-icon, .send-icon {
   cursor: pointer;
+  color: #F3583A;
 }
 
 .ui-icon {
   transition-duration: 0.4s;
+}
+
+.ui-icon:hover {
+  color: #C5C4C9;
 }
 
 .save-icon {
@@ -449,30 +475,10 @@ input[type=text], .description-textarea, .edit-textarea, .user-textarea, .passwo
   font-size: 1rem;
 }
 
-.exit-icon:hover, .delete-icon:hover, .delete-channel-icon:hover, .remove-icon:hover {
-  color: red !important; /* TO DO: change color */
-}
-
-.message-icon:hover, .add-icon:hover, .save-icon:hover {
-  color: green !important; /* TO DO: change color */
-}
-
-.details-icon:hover {
-  color: gray !important; /* TO DO: change color */
-}
-
-.edit-icon:hover {
-  color: blue !important; /* TO DO: change color */
-}
-
-.leave-icon:hover {
-  color: orange !important; /* TO DO: change color */
-}
-
 /* buttons */
 .button {
   cursor: pointer;
-  background-color: lightblue; /* TO DO: change color */
+  background-color: #41B9CA;
   border: none;
   border-radius: 4px;
   padding: 5px 5px;
@@ -480,7 +486,7 @@ input[type=text], .description-textarea, .edit-textarea, .user-textarea, .passwo
 }
 
 .button:hover {
-  background-color: darkcyan; /* TO DO: change color */
+  background-color: #173D40; 
   transition-duration: 0.4s;
 }
 
