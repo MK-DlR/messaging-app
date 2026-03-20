@@ -188,11 +188,19 @@ light orange F99564
   padding: 10px;
 }
 
+.selected-users .user-select,
+.add-users .user-select,
+.display-users .user-select {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  padding-right: 5px;
+}
+
 .user-search {
   width: 100%;
   box-sizing: border-box;
 }
-
 
 /* user profile */
 .user-profile {
