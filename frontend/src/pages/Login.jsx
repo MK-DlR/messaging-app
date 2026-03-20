@@ -37,7 +37,7 @@ function Login() {
 
     return (
         <div className="login-page">
-            <div className="login form">
+            <div className="login form form-no-users">
             <div className="error-display">{error && <p className="errors">{error}</p>}</div>
                 <form onSubmit={handleSubmit}>
                     <label>Username
