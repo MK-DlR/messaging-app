@@ -1,6 +1,7 @@
 /*
 COLORS
 black 000000
+darkest grey 111113
 dark grey 1B1C20
 light grey C5C4C9
 white DDDEE0
@@ -17,6 +18,11 @@ orange F3583A
   color: #DDDEE0;
 }
 
+/* entire background */
+body {
+  background-color: #000000;
+}
+
 /* links */
 a {
   color: #F3583A;
@@ -30,7 +36,6 @@ a:hover {
 .panel-container {
   display: flex;
   height: 100vh;
-  background-color: #000000;
 }
 
 .left-panel, .main-panel, .right-panel {
@@ -200,17 +205,31 @@ a:hover {
   box-sizing: border-box;
 }
 
+.add-users .user-search[type="text"] {
+  background-color: #111113;
+}
+
 /* user profile */
 .user-profile {
   display: flex;
   flex-direction: column;
   width: min(800px, 90%);
+  border: 1px solid #41B9CA;
+  border-radius: 4px;
   align-self: center;
+}
+
+.user-profile.form {
+  background-color: #1B1C20;
 }
 
 .profile-displayname {
   font-weight: bold;
   font-size: 25px;
+}
+
+hr {
+  border: 1px dotted #41B9CA;
 }
 
 .user-seen {
@@ -345,10 +364,14 @@ a:hover {
 }
 
 /* forms */
+.form {
+  border: 1px solid #41B9CA;
+}
+
 .form, .channel-details-info {
   margin-top: 15px;
   border-radius: 4px;
-  background-color: #000000; 
+  background-color: #111113; 
   padding: 10px;
 }
 
