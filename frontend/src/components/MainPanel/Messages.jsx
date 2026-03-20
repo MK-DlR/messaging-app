@@ -36,8 +36,10 @@ function Messages ({
     const messagesEndRef = useRef(null);
 
     useEffect(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, [messages]);
+        setTimeout(() => {
+            messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        }, 100)
+    }, [messages, selectedChannel]);
 
     // message submit handler
     async function submitHandler() {

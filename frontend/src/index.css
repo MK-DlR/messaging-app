@@ -55,7 +55,7 @@ light orange F99564
   padding-top: 10px;
   padding-bottom: 10px;
   overflow-y: auto;
-  scrollbar-color: red orange;
+  scrollbar-color: red orange; /* TO DO: change color */
   scrollbar-width: thin;
 }
 
@@ -164,7 +164,7 @@ light orange F99564
 }
 
 .user-select:hover {
-  background-color: red;
+  background-color: red; /* TO DO: change color */
 }
 
 .all-users {
@@ -184,7 +184,7 @@ light orange F99564
   align-items: flex-start;
   width: 280px;
   border-radius: 4px;
-  background-color: darkgrey;
+  background-color: darkgrey; /* TO DO: change color */
   padding: 10px;
 }
 
@@ -330,7 +330,7 @@ light orange F99564
 .form, .channel-details-info {
   margin-top: 15px;
   border-radius: 4px;
-  background-color: #f2f2f2;
+  background-color: #f2f2f2; /* TO DO: change color */
   padding: 10px;
 }
 
@@ -446,30 +446,30 @@ input[type=text], .description-textarea, .edit-textarea, .user-textarea, .passwo
 }
 
 .exit-icon:hover, .delete-icon:hover, .delete-channel-icon:hover, .remove-icon:hover {
-  color: red !important;
+  color: red !important; /* TO DO: change color */
 }
 
 .message-icon:hover, .add-icon:hover, .save-icon:hover {
-  color: green !important;
+  color: green !important; /* TO DO: change color */
 }
 
 .details-icon:hover {
-  color: gray !important;
+  color: gray !important; /* TO DO: change color */
 }
 
 .edit-icon:hover {
-  color: blue !important;
+  color: blue !important; /* TO DO: change color */
 }
 
 .leave-icon:hover {
-  color: orange !important;
+  color: orange !important; /* TO DO: change color */
 }
 
 
 /* buttons */
 .button {
   cursor: pointer;
-  background-color: lightblue;
+  background-color: lightblue; /* TO DO: change color */
   border: none;
   border-radius: 4px;
   padding: 5px 5px;
@@ -477,7 +477,7 @@ input[type=text], .description-textarea, .edit-textarea, .user-textarea, .passwo
 }
 
 .button:hover {
-  background-color: darkcyan;
+  background-color: darkcyan; /* TO DO: change color */
   transition-duration: 0.4s;
 }
 
@@ -497,7 +497,7 @@ div .colored-circle {
   border-radius: 50%;
   border-style: solid;
   border-width: 0.5px;
-  border-color: black;
+  border-color: black; 
   height: 7px;
   width: 7px;
 }
