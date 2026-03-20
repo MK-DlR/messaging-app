@@ -17,7 +17,7 @@ const registerPost = async (req, res, next) => {
   try {
     const { username, password } = req.body;
 
-    // check if username meets specifications
+    // check if username meets requirements
     function validateUsername(username) {
       // check username is between 2 and 32 characters
       if (username.length < 2) {
@@ -50,7 +50,7 @@ const registerPost = async (req, res, next) => {
       return res.status(400).json({ error: "Username already taken" });
     }
 
-    // check if password meets specifications
+    // check if password meets requirements
     function validatePassword(password) {
       const errors = [];
 
