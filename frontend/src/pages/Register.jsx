@@ -17,7 +17,7 @@ function RegisterUser() {
 
         // check if password and confirmPassword match
         if (password !== confirmPassword) {
-            setError("Passwords do not match");
+            setError("Passwords do not match.");
             return;
         } else {
             const response = await fetch(

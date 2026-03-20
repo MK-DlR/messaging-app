@@ -16,7 +16,7 @@ const messagePost = async (req, res, next) => {
 
     if (!member) {
       // if not in channel, return 403
-      return res.status(403).json({ message: "Channel not found" });
+      return res.status(403).json({ message: "Channel not found." });
     } else {
       // if in channel, send message
       const message = await prisma.message.create({
@@ -50,7 +50,7 @@ const messagesGet = async (req, res, next) => {
 
     if (!member) {
       // if not in channel, return 403
-      return res.status(403).json({ message: "Channel not found" });
+      return res.status(403).json({ message: "Channel not found." });
     } else {
       // if in channel, fetch messages
       const allMessages = await prisma.message.findMany({
@@ -91,7 +91,7 @@ const messagePut = async (req, res, next) => {
 
     if (!member) {
       // if not in channel, return 403
-      return res.status(403).json({ message: "Channel not found" });
+      return res.status(403).json({ message: "Channel not found." });
     } else {
       // if in channel, check if author of message
       if (message.userId === user) {
@@ -103,7 +103,7 @@ const messagePut = async (req, res, next) => {
         return res.status(200).json({ messages: editedMessage });
       } else {
         // if not message author, return 403
-        return res.status(403).json({ message: "Invalid credentials" });
+        return res.status(403).json({ message: "Invalid credentials." });
       }
     }
   } catch (err) {
@@ -127,7 +127,7 @@ const messageDelete = async (req, res, next) => {
 
     if (!member) {
       // if not in channel, return 403
-      return res.status(403).json({ message: "Channel not found" });
+      return res.status(403).json({ message: "Channel not found." });
     } else {
       // if in channel, check if author of message
       if (message.userId === user) {
@@ -135,10 +135,10 @@ const messageDelete = async (req, res, next) => {
         await prisma.message.delete({
           where: { id: messageId },
         });
-        res.status(200).json({ message: "Message successfully deleted" });
+        res.status(200).json({ message: "Message successfully deleted." });
       } else {
         // if not message author, return 403
-        return res.status(403).json({ message: "Invalid credentials" });
+        return res.status(403).json({ message: "Invalid credentials." });
       }
     }
   } catch (err) {

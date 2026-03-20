@@ -23,28 +23,33 @@ function CreateChannel ({
     const [error, setError] = useState("");
 
     async function createGroupChannel() {
-        const response = await apiFetch(
-            `${import.meta.env.VITE_API_URL}/channels/new-channel/`, 
-            { 
-                method: "POST", 
-                body: JSON.stringify({
-                    userIds: newChannelUsers.map(u => u.id), 
-                    name: newChannel.name,
-                    icon: newChannel.icon,
-                    channelInfo: newChannel.channelInfo
-                }) 
-            }
-        );
-        const data = await response.json();
-        const createdChannel = data.channel || data.existingChannel;
-
-        // check response
-        if (!response.ok) {
-            setError(data.error);
+        if (newChannelUsers.length === 0) {
+            setError("Please select at least one user.");
+            return;
         } else {
-            if (data.channel) setChannels([...channels, createdChannel]);
-            setSelectedChannel(createdChannel);
-            setMainPanelView("messages");
+            const response = await apiFetch(
+                `${import.meta.env.VITE_API_URL}/channels/new-channel/`, 
+                { 
+                    method: "POST", 
+                    body: JSON.stringify({
+                        userIds: newChannelUsers.map(u => u.id), 
+                        name: newChannel.name,
+                        icon: newChannel.icon,
+                        channelInfo: newChannel.channelInfo
+                    }) 
+                }
+            );
+            const data = await response.json();
+            const createdChannel = data.channel || data.existingChannel;
+    
+            // check response
+            if (!response.ok) {
+                setError(data.error);
+            } else {
+                if (data.channel) setChannels([...channels, createdChannel]);
+                setSelectedChannel(createdChannel);
+                setMainPanelView("messages");
+            }
         }
     }
 
@@ -129,7 +134,6 @@ function CreateChannel ({
             </h2>
         </div>
 
-        <div className="error-display">{error && <p className="errors">{error}</p>}</div>
         <form 
             className="creating-channel form"
             onSubmit={(e) => {
@@ -137,6 +141,7 @@ function CreateChannel ({
                 createGroupChannel();
             }}
         >
+            <div className="error-display">{error && <p className="errors">{error}</p>}</div>
             <div className="form-no-users">
                 <label>Icon URL
                     <input 

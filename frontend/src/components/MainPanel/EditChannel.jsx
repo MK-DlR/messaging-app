@@ -160,7 +160,6 @@ function EditChannel ({
             </h2>
         </div>
 
-        <div className="error-display">{error && <p className="errors">{error}</p>}</div>
         <form 
             className="editing-channel form"
             onSubmit={(e) => {
@@ -168,6 +167,7 @@ function EditChannel ({
                 updateChannelDetails(); // initial fetch
                 }}
         >
+            <div className="error-display">{error && <p className="errors">{error}</p>}</div>
             <div className="form-no-users">
                 <label>Icon URL
                     <input 

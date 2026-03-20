@@ -40,7 +40,7 @@ function Login() {
             <div className="login form">
             <div className="error-display">{error && <p className="errors">{error}</p>}</div>
                 <form onSubmit={handleSubmit}>
-                    <label>Username:
+                    <label>Username
                         <input 
                             type="text"
                             value={username}
@@ -48,7 +48,7 @@ function Login() {
                             placeholder="Enter your username"
                         />
                     </label>
-                    <label>Password:
+                    <label>Password
                         <input 
                             className="password-input"
                             type="password" 

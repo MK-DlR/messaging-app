@@ -16,14 +16,14 @@ const authJWT = (req, res, next) => {
     // verify token
     jwt.verify(bearerToken, process.env.JWT_SECRET, (err, authData) => {
       if (err) {
-        res.status(401).json({ error: "Invalid or expired token" });
+        res.status(401).json({ error: "Invalid or expired token." });
       } else {
         req.user = authData;
         next();
       }
     });
   } else {
-    res.status(401).json({ error: "No token provided" });
+    res.status(401).json({ error: "No token provided." });
   }
 };
 

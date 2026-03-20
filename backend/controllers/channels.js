@@ -151,7 +151,7 @@ const channelsGet = async (req, res, next) => {
 
     if (channels.length === 0) {
       // if no channels found
-      return res.status(400).json({ error: "No channels found" });
+      return res.status(400).json({ error: "No channels found." });
     } else {
       // display channels
       res.status(200).json({ channels });
@@ -187,7 +187,7 @@ const channelDetailsGet = async (req, res, next) => {
     });
 
     if (!channelDetails) {
-      return res.status(404).json({ error: "Channel not found" });
+      return res.status(404).json({ error: "Channel not found." });
     } else {
       // display channel details
       res.status(200).json({ channelDetails });
@@ -208,7 +208,7 @@ const channelPut = async (req, res, next) => {
     const selectedChannel = await findChannelAsCreatorAny(channel, creator);
 
     if (!selectedChannel) {
-      return res.status(404).json({ error: "Channel not found" });
+      return res.status(404).json({ error: "Channel not found." });
     } else {
       // validate custom name length
       const channelNameError = validateChannelName(name);
@@ -225,7 +225,7 @@ const channelPut = async (req, res, next) => {
           isCustomName: true,
         },
       });
-      res.status(200).json({ message: "Channel name updated successfully" });
+      res.status(200).json({ message: "Channel name updated successfully." });
     }
   } catch (err) {
     return next(err);
@@ -242,7 +242,7 @@ const channelDelete = async (req, res, next) => {
     const selectedChannel = await findChannelAsCreatorAny(channel, creator);
 
     if (!selectedChannel) {
-      return res.status(404).json({ error: "Channel not found" });
+      return res.status(404).json({ error: "Channel not found." });
     } else {
       // delete messages before deleting channel
       await prisma.message.deleteMany({
@@ -253,7 +253,7 @@ const channelDelete = async (req, res, next) => {
         where: { id: channel },
       });
     }
-    res.status(200).json({ message: "Channel deleted successfully" });
+    res.status(200).json({ message: "Channel deleted successfully." });
   } catch (err) {
     return next(err);
   }
@@ -270,7 +270,7 @@ const channelLeave = async (req, res, next) => {
 
     if (channelData.isDefault === true) {
       // if trying to leave main channel, return 403
-      return res.status(403).json({ message: "Channel cannot be left" });
+      return res.status(403).json({ message: "Channel cannot be left." });
     }
 
     // check if user is in channel
@@ -282,10 +282,10 @@ const channelLeave = async (req, res, next) => {
         where: { id: channel },
         data: { users: { disconnect: { id: req.user.id } } },
       });
-      res.status(200).json({ message: "Channel left successfully" });
+      res.status(200).json({ message: "Channel left successfully." });
     } else {
       // if not in channel, return 404
-      res.status(404).json({ message: "Channel not found" });
+      res.status(404).json({ message: "Channel not found." });
     }
   } catch (err) {
     return next(err);
@@ -303,7 +303,7 @@ const membersPut = async (req, res, next) => {
     const selectedChannel = await findChannelAsCreatorAny(channel, creator);
 
     if (!selectedChannel) {
-      return res.status(404).json({ error: "Channel not found" });
+      return res.status(404).json({ error: "Channel not found." });
     } else {
       // action logic for adding or removing member
       if (action === "add") {
@@ -342,7 +342,7 @@ const membersPut = async (req, res, next) => {
           data: { name: newName },
         });
       }
-      res.status(200).json({ message: "Member updated successfully" });
+      res.status(200).json({ message: "Member updated successfully." });
     }
   } catch (err) {
     return next(err);

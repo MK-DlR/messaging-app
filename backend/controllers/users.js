@@ -47,7 +47,7 @@ const registerPost = async (req, res, next) => {
     });
 
     if (existingUser) {
-      return res.status(400).json({ error: "Username already taken" });
+      return res.status(400).json({ error: "Username already taken." });
     }
 
     // check if password meets requirements
@@ -97,8 +97,7 @@ const registerPost = async (req, res, next) => {
       data: { users: { connect: { id: newUser.id } } },
     });
 
-    console.log(`${newUser.username} registered successfully`);
-    res.status(201).json({ message: "User registered successfully" });
+    res.status(201).json({ message: "User registered successfully." });
   } catch (err) {
     return next(err);
   }
@@ -135,11 +134,11 @@ const loginPost = async (req, res, next) => {
         );
         res.status(200).json({ token });
       } else {
-        return res.status(401).json({ error: "Invalid credentials" });
+        return res.status(401).json({ error: "Invalid credentials." });
       }
     } else {
       // user not found
-      return res.status(401).json({ error: "Invalid credentials" });
+      return res.status(401).json({ error: "Invalid credentials." });
     }
   } catch (err) {
     return next(err);
@@ -171,7 +170,7 @@ const profileGetMe = async (req, res, next) => {
       res.status(200).json({ userData });
     } else {
       // user not found
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({ error: "User not found." });
     }
   } catch (err) {
     return next(err);
@@ -222,7 +221,7 @@ const profileGet = async (req, res, next) => {
       res.status(200).json({ result });
     } else {
       // user not found
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({ error: "User not found." });
     }
   } catch (err) {
     return next(err);

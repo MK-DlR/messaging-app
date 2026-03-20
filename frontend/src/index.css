@@ -14,7 +14,6 @@ light orange F99564
   margin: 0;
 }
 
-
 /* layout - panels and containers */
 .panel-container {
   border: 2px solid black;
@@ -48,7 +47,6 @@ light orange F99564
   border: 2px solid blue;
 }
 
-
 /* layout - scrollable content areas */
 .message-display, .channel-display, .users-display {
   height: 85vh;
@@ -58,7 +56,6 @@ light orange F99564
   scrollbar-color: red orange; /* TO DO: change color */
   scrollbar-width: thin;
 }
-
 
 /* layout - fixed bottom bars */
 .button-panel, .active-user-display, .textbox {
@@ -75,7 +72,6 @@ light orange F99564
   padding-left: 10px;
   padding-right: 10px;
 }
-
 
 /* headers */
 .header {
@@ -94,7 +90,6 @@ light orange F99564
   gap: 8px;
 }
 
-
 /* leftpanel - channels */
 .channel-header {
   display: flex;
@@ -111,7 +106,6 @@ light orange F99564
   text-overflow: ellipsis;
   max-width: 50vw;
 }
-
 
 /* channel details */
 .channel-details {
@@ -135,7 +129,6 @@ light orange F99564
 .channel-members {
   text-align: center;
 }
-
 
 /* display - channels and users */
 .channel, .user {
@@ -220,7 +213,6 @@ light orange F99564
   font-size: 18px;
 }
 
-
 /* messages */
 .message-header {
   display: flex;
@@ -291,7 +283,6 @@ light orange F99564
   opacity: 1;
 }
 
-
 /* messages textbox */
 .send-message {
   width: 100%;
@@ -332,7 +323,6 @@ light orange F99564
   cursor: pointer;
   font-size: 1rem;
 }
-
 
 /* forms */
 .form, .channel-details-info {
@@ -404,7 +394,6 @@ input[type=text], .description-textarea, .edit-textarea, .user-textarea, .passwo
   box-sizing: border-box;
 }
 
-
 /* login and register */
 .register-page, .login-page {
   min-height: 100vh;
@@ -417,6 +406,10 @@ input[type=text], .description-textarea, .edit-textarea, .user-textarea, .passwo
   text-align: center;
 }
 
+/* errors */
+.error-display {
+  text-align: center;
+}
 
 /* icons - users and channels */
 .icon, .lg-icon {
@@ -435,7 +428,6 @@ input[type=text], .description-textarea, .edit-textarea, .user-textarea, .passwo
   padding-top: 5px;
   padding-bottom: 5px;
 }
-
 
 /* icons - fontawesome ui  */
 .ui-icon, .add-file-icon, .send-icon {
@@ -473,7 +465,6 @@ input[type=text], .description-textarea, .edit-textarea, .user-textarea, .passwo
   color: orange !important; /* TO DO: change color */
 }
 
-
 /* buttons */
 .button {
   cursor: pointer;
@@ -489,12 +480,10 @@ input[type=text], .description-textarea, .edit-textarea, .user-textarea, .passwo
   transition-duration: 0.4s;
 }
 
-
 /* shared whitespace */
 .errors, .message, .user-profile, .channel-details {
   white-space: pre-wrap;
 }
-
 
 /* online/offline status circle */
 div .colored-circle {

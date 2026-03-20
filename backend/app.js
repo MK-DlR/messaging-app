@@ -40,7 +40,7 @@ app.use("/users", userRouter);
 
 // 404 handler
 app.use((req, res) => {
-  res.status(404).json({ error: "Not found" });
+  res.status(404).json({ error: "Not found." });
 });
 
 // error handler
@@ -53,7 +53,7 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, async (error) => {
   if (error) throw error;
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}.`);
 
   // test database connection
   try {
@@ -67,6 +67,6 @@ app.listen(PORT, async (error) => {
 // graceful shutdown
 process.on("SIGINT", async () => {
   await prisma.$disconnect();
-  console.log("Database disconnected");
+  console.log("Database disconnected.");
   process.exit(0);
 });
