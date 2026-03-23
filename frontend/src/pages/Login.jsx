@@ -46,7 +46,7 @@ function Login() {
             }}
         >
             <div className="login form form-no-users">
-            <div className="error-display">{error && <p className="errors">{error}</p>}</div>
+                <div className="error-display">{error && <p className="errors">{error}</p>}</div>
                 <form onSubmit={handleSubmit}>
                     <label>Username
                         <input 

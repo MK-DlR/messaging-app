@@ -27,13 +27,13 @@ function RegisterUser() {
     
         const data = await response.json();
 
-            // check response
-            if (!response.ok) {
-                setError(data.error);
-            } else {
-                navigate("/login");
-            }
+        // check response
+        if (!response.ok) {
+            setError(data.error);
+        } else {
+            navigate("/login");
         }
+    }
 
     return (
         <div 
