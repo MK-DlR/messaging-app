@@ -1,0 +1,89 @@
+/* frontend/src/styles/messages.css */
+
+/* messages */
+.message-header {
+  gap: 8px;
+  padding-top: 10px;
+}
+
+.message {
+  margin: 8px;
+}
+
+.author-message, .user-message {
+  max-width: 50%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 4px;
+  background-color: var(--dark-grey);
+}
+
+.author-message {
+  margin-left: auto;
+}
+
+.user-message {
+  margin-right: auto;
+}
+
+.on-hover {
+  margin-left: auto;
+  margin-right: 5px;
+}
+
+.message:hover {
+  background: #31333a;
+  border-radius: 4px;
+}
+
+.message-hr {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.author-message-content, .user-message-content {
+  display: flex;
+  flex-direction: column;
+  padding-top: 5px;
+  padding-bottom: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.message-timestamp {
+  font-size: 12px;
+  color: var(--light-grey);
+  max-width: 75px;
+}
+
+.message-image {
+  max-width: 100%;
+  max-height: 400px;
+  border-radius: 4px;
+  display: block;
+}
+
+.edited-message {
+  font-style: italic;
+  font-size: 10px;
+}
+
+.author-edit {
+  margin-left: auto;
+}
+
+.user-edit {
+  margin-right: auto;
+}
+
+.edit-hover, .delete-icon {
+  opacity: 0;
+  transition: color 0.4s;
+}
+
+.author-message:hover .edit-hover,
+.author-message:hover .delete-icon {
+  opacity: 1;
+}

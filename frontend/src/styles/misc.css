@@ -1,0 +1,35 @@
+/* frontend/src/styles/misc.css */
+
+/* shared whitespace */
+.errors, .message, .user-profile, .channel-details {
+  white-space: pre-wrap;
+}
+
+/* online/offline status circle */
+div .colored-circle {
+  display: inline-block;
+  margin-left: -11px;
+  margin-right: 5px;
+  margin-bottom: -20px;
+  border-radius: 50%;
+  border-style: solid;
+  border-width: 0.5px;
+  border-color: var(--black); 
+  height: 7px;
+  width: 7px;
+}
+
+/* media queries */
+@media (min-width: 1200px) {
+  .button {
+    padding: 8px 16px;
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 1600px) {
+  .button {
+    padding: 10px 20px;
+    font-size: 1.1rem;
+  }
+}

@@ -1,0 +1,47 @@
+/* frontend/src/styles/textbox.css */
+
+/* messages textbox */
+.send-message {
+  width: 100%;
+}
+
+.send-message form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.message-textarea {
+  height: 60px;
+  flex: 1;
+  box-sizing: border-box;
+}
+
+.add-file-icon {
+  transform: translateX(1px);
+}
+
+.add-file-icon, .textbox .send-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.add-file-icon:hover, .send-icon:hover {
+  color: var(--light-grey);
+  background: var(--orange);
+  border-radius: 50%;
+  transition-duration: 0.4s;
+}
+
+.send-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+}

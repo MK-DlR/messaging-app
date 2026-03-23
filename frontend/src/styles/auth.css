@@ -1,0 +1,18 @@
+/* frontend/src/styles/auth.css */
+
+/* login and register */
+.register-page, .login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-here, .register-here {
+  text-align: center;
+}
+
+/* errors */
+.error-display {
+  text-align: center;
+}

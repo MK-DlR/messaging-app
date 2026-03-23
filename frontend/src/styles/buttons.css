@@ -1,0 +1,16 @@
+/* frontend/src/styles/buttons.css */
+
+/* buttons */
+.button {
+  cursor: pointer;
+  background-color: var(--light-blue);
+  border: none;
+  border-radius: 4px;
+  padding: 5px 5px;
+  font-size: 0.875rem;
+}
+
+.button:hover {
+  background-color: var(--dark-blue); 
+  transition-duration: 0.4s;
+}

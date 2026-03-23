@@ -1,0 +1,40 @@
+/* frontend/src/styles/users.css */
+
+.all-users {
+  display: flex;
+  justify-content: space-between;
+  width: min(800px, 90%);
+  align-self: center;
+  gap: 10px;
+}
+
+.selected-users,
+.add-users,
+.display-users {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: flex-start;
+  width: 280px;
+  border-radius: 4px;
+  background-color: var(--dark-grey);
+  padding: 10px;
+}
+
+.selected-users .user-select,
+.add-users .user-select,
+.display-users .user-select {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  padding-right: 5px;
+}
+
+.user-search {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.add-users .user-search[type="text"] {
+  background-color: var(--darkest-grey);
+}

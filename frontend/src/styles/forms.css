@@ -1,0 +1,80 @@
+/* frontend/src/styles/forms.css */
+
+/* forms */
+.form {
+  border: 1px solid var(--light-blue);
+}
+
+.form, .channel-details-info {
+  margin-top: 15px;
+  border-radius: 4px;
+  background-color: var(--darkest-grey); 
+  padding: 10px;
+}
+
+.form, .form-no-users, .channel-details-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-self: center;
+}
+
+.form-no-users, .editing-message {
+  width: min(800px, 90%);
+  align-self: center;
+}
+
+.form-no-users label {
+  width: 100%;
+}
+
+.form-no-users input, .form-no-users textarea {
+  width: 100%;
+  box-sizing: border-box;
+  background-color: var(--dark-grey);
+}
+
+.form-bottom {
+  display: flex;
+  flex-direction: column;
+  width: min(800px, 90%);
+  align-self: center;
+}
+
+.save-delete {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+}
+
+.channel-save, .message-save, .profile-save {
+  align-self: flex-end;
+}
+
+.editing-message form, .editing-profile form {
+  display: flex;
+  flex-direction: column;
+}
+
+.register form, .login form {
+  display: flex;
+  flex-direction: column;
+}
+
+textarea {
+  resize: none;
+  background-color: var(--dark-grey);
+  border-radius: 4px;
+  border: 1px solid var(--light-blue);
+}
+
+input[type=text], .description-textarea, .edit-textarea, .user-textarea, .password-input {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid var(--light-blue);
+  border-radius: 4px;
+  box-sizing: border-box;
+  background-color: var(--dark-grey);
+}

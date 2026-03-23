@@ -1,0 +1,13 @@
+/* frontend/src/styles/theme.css */
+
+/* theme variables */
+:root {
+  --black: #000000;
+  --darkest-grey: #111113;
+  --dark-grey: #1B1C20;
+  --light-grey: #C5C4C9;
+  --white: #DDDEE0;
+  --light-blue: #41B9CA;
+  --dark-blue: #173D40;
+  --orange: #F3583A;
+}

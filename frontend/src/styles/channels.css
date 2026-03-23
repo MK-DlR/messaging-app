@@ -1,0 +1,70 @@
+/* frontend/src/styles/channels.css */
+
+/* leftpanel - channels */
+.channel-header {
+  display: flex;
+  flex-direction: column;
+}
+
+.channel-info {
+  display: flex;
+}
+
+.channel-name, .channel-description {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 50vw;
+}
+
+/* channel details */
+.channel-details {
+  display: flex;
+  flex-direction: column;
+  padding-top: 10px;
+  gap: 10px;
+  max-width: 90vw;
+}
+
+.channel-details-name, .channel-details-info {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.channel-details-info {
+  width: min(800px, 90%);
+  align-self: center;
+}
+
+.channel-members {
+  text-align: center;
+}
+
+/* display - channels and users */
+.channel, .user {
+  overflow-wrap: break-word;
+  word-break: break-all;
+}
+
+.channel, .user, .message-header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+}
+
+.channel:hover, .user:hover {
+  background: var(--orange);
+  cursor: pointer;
+}
+
+.user-select {
+  display: inline-flex;
+  padding-right: 5px;
+}
+
+.user-select:hover {
+  background-color: var(--orange);
+}

@@ -1,0 +1,37 @@
+/* frontend/src/styles/profile.css */
+
+/* user profile */
+.user-profile {
+  display: flex;
+  flex-direction: column;
+  width: min(800px, 90%);
+  border: 1px solid var(--light-blue);
+  border-radius: 4px;
+  align-self: center;
+}
+
+.user-profile.form {
+  background-color: var(--dark-grey);
+}
+
+.profile-displayname {
+  font-weight: bold;
+  font-size: 25px;
+}
+
+hr {
+  border: 1px dashed var(--light-blue);
+}
+
+.user-seen {
+  display: flex;
+}
+
+.profile-username,
+.profile-seen {
+  font-size: 14px;
+}
+
+.profile-username {
+  font-style: italic;
+}
