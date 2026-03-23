@@ -298,9 +298,10 @@ hr {
   word-break: break-word;
 }
 
-.message-details {
+.message-timestamp {
   font-size: 12px;
   color: var(--light-grey);
+  max-width: 75px;
 }
 
 .message-image {

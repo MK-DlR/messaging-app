@@ -112,7 +112,7 @@ function Messages ({
             >
                 <img className="message-icon icon" src={getIconUrl(message.users.icon)} />
                 {message.users.displayName || message.users.username}
-                <div className="message-details">
+                <div className="message-timestamp">
                     {formatDate(message.createdAt)}
                 </div>
                 <div className="on-hover">
@@ -194,7 +194,7 @@ function Messages ({
                 >
                     <img className="message-icon icon" src={getIconUrl(message.users.icon)} />
                     {message.users.displayName || message.users.username}
-                    <div className="message-details">
+                    <div className="message-timestamp">
                         {formatDate(message.createdAt)}
                     </div>
                 </div>
