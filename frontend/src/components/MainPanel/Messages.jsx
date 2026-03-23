@@ -3,6 +3,7 @@
 // imports
 import { useState, useEffect, useRef } from "react";
 import apiFetch from "../../helpers/apiFetch";
+import convertLink from "../../helpers/convertLink";
 import createDirectMessage from "../../helpers/createDirectMessage";
 import formatDate from "../../helpers/formatDate";
 import getIconUrl from "../../helpers/getIconUrl";
@@ -154,7 +155,9 @@ function Messages ({
             <div className="author-message-content">
                 {/* handle image/gifs and text messages */}
                 <div>{imageTokens.map((token, i) => <img key={i} src={token} className="message-image" />)}</div>
-                <div>{textTokens.join(" ")}</div>
+                <div>
+                    {convertLink(textTokens.join(" "))}
+                </div>
                 {Math.abs(new Date(message.updatedAt) - new Date(message.createdAt)) > 1000 && (
                     <span className="author-edit edited-message">(edited)</span>
                 )}
@@ -202,7 +205,9 @@ function Messages ({
                 <div className="user-message-content">
                     {/* handle image/gifs and text messages */}
                     <div>{imageTokens.map((token, i) => <img key={i} src={token} className="message-image" />)}</div>
-                    <div>{textTokens.join(" ")}</div>
+                    <div>
+                        {convertLink(textTokens.join(" "))}
+                    </div>
                     {Math.abs(new Date(message.updatedAt) - new Date(message.createdAt)) > 1000 && (
                         <span className="user-edit edited-message">(edited)</span>
                     )}

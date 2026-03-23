@@ -1,8 +1,5 @@
 // frontend/src/helpers/imageCheck.jsx
 
-// imports
-import React from "react";
-
 // check if file string is an image/gif
 function imageCheck(fileString) {
   if (
