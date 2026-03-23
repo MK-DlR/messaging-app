@@ -8,37 +8,32 @@ function RegisterUser() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [error, setError] = useState("");
+    const [error, setError] = useState([]);
 
     const navigate = useNavigate();
     
     async function handleSubmit(e) {
         e.preventDefault();
+        setError([]);
 
-        // check if password and confirmPassword match
-        if (password !== confirmPassword) {
-            setError("Passwords do not match.");
-            return;
-        } else {
-            const response = await fetch(
-                `${import.meta.env.VITE_API_URL}/users/register`, 
-                { 
-                    method: "POST", 
-                    headers: {"Content-Type": "application/json" }, 
-                    body: JSON.stringify({ username, password })
-                }
-            )
-            const data = await response.json();
+        const response = await fetch(
+            `${import.meta.env.VITE_API_URL}/users/register`, 
+            { 
+                method: "POST", 
+                headers: {"Content-Type": "application/json" }, 
+                body: JSON.stringify({ username, password, confirmPassword })
+            }
+        );
+    
+        const data = await response.json();
 
             // check response
             if (!response.ok) {
-                setError(Array.isArray(data.error) ? data.error.join("\n") : data.error);
+                setError(data.error);
             } else {
-                // if successful registration, redirect to login
                 navigate("/login");
             }
         }
-    }
 
     return (
         <div 
@@ -51,7 +46,10 @@ function RegisterUser() {
             }}
         >
             <div className="register form form-no-users">
-                <div className="error-display">{error && <p className="errors">{error}</p>}</div>
+            <div className="error-display">
+                {Array.isArray(error) &&
+                    error.map((err, i) => <p key={i} className="errors">{err}</p>)}
+            </div>
                 <form onSubmit={handleSubmit}>
                     <label>Username
                         <input 

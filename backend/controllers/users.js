@@ -8,38 +8,44 @@ const { prisma } = require("../lib/prisma.js");
 
 // registration - inserts new user into schema
 const registerPost = async (req, res, next) => {
-  const errors = validationResult(req);
+  const validationErrors = validationResult(req);
 
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+  if (!validationErrors.isEmpty()) {
+    return res.status(400).json({
+      error: validationErrors.array().map((e) => e.msg),
+    });
   }
 
+  let errors = [];
+
   try {
-    const { username, password } = req.body;
+    const { username, password, confirmPassword } = req.body;
 
     // check if username meets requirements
     function validateUsername(username) {
+      const errors = [];
+
       // check username is between 2 and 32 characters
       if (username.length < 2) {
-        return "Username must be at least 2 characters.";
+        errors.push("Username must be at least 2 characters.");
       }
       if (username.length > 32) {
-        return "Username must be 32 characters or less.";
+        errors.push("Username must be 32 characters or less.");
       }
 
       // check valid characters
       const pattern = /^[a-zA-Z0-9._-]+$/;
       if (!pattern.test(username)) {
-        return "Username contains invalid characters. Only letters, numbers, periods, and underscores are allowed.";
+        errors.push(
+          "Username contains invalid characters. Only letters, numbers, periods, and underscores are allowed.",
+        );
       }
 
-      return username;
+      return errors;
     }
 
-    const usernameError = validateUsername(username);
-    if (usernameError !== username) {
-      return res.status(400).json({ error: usernameError });
-    }
+    const usernameErrors = validateUsername(username);
+    errors = errors.concat(usernameErrors);
 
     // check if username already exists
     const existingUser = await prisma.user.findUnique({
@@ -47,7 +53,7 @@ const registerPost = async (req, res, next) => {
     });
 
     if (existingUser) {
-      return res.status(400).json({ error: "Username already taken." });
+      errors.push("Username already taken.");
     }
 
     // check if password meets requirements
@@ -70,8 +76,15 @@ const registerPost = async (req, res, next) => {
     }
 
     const passwordErrors = validatePassword(password);
-    if (passwordErrors.length > 0) {
-      return res.status(400).json({ error: passwordErrors });
+    errors = errors.concat(passwordErrors);
+
+    if (password !== confirmPassword) {
+      errors.push("Passwords do not match.");
+    }
+
+    // return all errors at once
+    if (errors.length > 0) {
+      return res.status(400).json({ error: errors });
     }
 
     // hash password and create user
