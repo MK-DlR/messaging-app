@@ -46,7 +46,7 @@ function Messages ({
 
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, [messages]);
+    }, [messages.length]);
 
     // message submit handler
     async function submitHandler() {

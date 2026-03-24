@@ -58,6 +58,8 @@ function MainPanel({
         }
 
         getMessages(); // initial fetch
+        const intervalId = setInterval(getMessages, 5000);
+        return () => clearInterval(intervalId);
     }, [selectedChannel]);
 
     // fetch channel details

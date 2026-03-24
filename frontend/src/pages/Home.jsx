@@ -1,7 +1,7 @@
 // frontend/src/pages/Home.jsx
 
 // imports
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import apiFetch from "../helpers/apiFetch";
 import LeftPanel from "../components/LeftPanel";
 import MainPanel from "../components/MainPanel";
@@ -19,6 +19,8 @@ function Home() {
     const [newChannel, setNewChannel] = useState({ icon: "", name: "", channelInfo: "" });
     const [addUserSearch, setAddUserSearch] = useState("");
 
+    const isInitialLoad = useRef(true);
+
     // fetch and store channels list
     useEffect(() => {
         async function getData() {
@@ -30,12 +32,27 @@ function Home() {
             const data = await response.json();
             setChannels(data.channels);
 
-            // set default channel
-            const defaultChannel = data.channels.find(channel => channel.isDefault === true);
-            setSelectedChannel(defaultChannel);
-            setMainPanelView("messages");
+            // only set default channel on initial load
+            if (isInitialLoad.current) {
+                const defaultChannel = data.channels.find(channel => channel.isDefault === true);
+                setSelectedChannel(defaultChannel);
+                setMainPanelView("messages");
+                isInitialLoad.current = false;
+            } else {
+                // after updating channels
+                // also update selectedChannel if it's one of them
+                setSelectedChannel(prevChannel => {
+                    if (prevChannel) {
+                        const updatedChannel = data.channels.find(ch => ch.id === prevChannel.id);
+                        return updatedChannel || prevChannel;
+                    }
+                    return prevChannel;
+                });
+            }
         }
         getData();
+        const intervalId = setInterval(getData, 5000);
+        return () => clearInterval(intervalId);
     }, []);
 
     // fetch and store current user's data
