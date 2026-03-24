@@ -3,6 +3,8 @@
 // imports
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Spinner from "../components/Spinner";
+import useApi from "../helpers/useApi";
 
 function Login() {
     const [username, setUsername] = useState("");
@@ -11,8 +13,20 @@ function Login() {
 
     const navigate = useNavigate();
 
+    const { isCheckingApi, isApiReady } = useApi();
+
+    if (isCheckingApi) {
+        return <div>Loading...</div>;
+    }
+
     async function handleSubmit(e) {
         e.preventDefault();
+
+        // block submission if API isn't ready
+        if (isCheckingApi) {
+            setError("Backend is still loading. Please wait...");
+            return;
+        }
 
         const response = await fetch(
             `${import.meta.env.VITE_API_URL}/users/login`, 
@@ -46,8 +60,22 @@ function Login() {
             }}
         >
             <div className="login form form-no-users">
-                <div className="error-display">{error && <p className="errors">{error}</p>}</div>
-                <form onSubmit={handleSubmit}>
+                <div className="error-display">
+                    {!isApiReady && (
+                        <div className="loading-state">
+                            <Spinner />
+                            <div>
+                                {isCheckingApi ? "Checking server..." : "Server not responding."}
+                            </div>
+                        </div>
+                    )}
+
+                    {error && <p className="errors">{error}</p>}
+                </div>
+                <form 
+                    onSubmit={handleSubmit}
+                    style={{ pointerEvents: !isApiReady ? "none" : "auto", opacity: !isApiReady ? 0.5 : 1 }}
+                >
                     <label>Username
                         <input 
                             type="text"

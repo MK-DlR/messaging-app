@@ -3,6 +3,8 @@
 // imports
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Spinner from "../components/Spinner";
+import useApi from "../helpers/useApi";
 
 function RegisterUser() {
     const [username, setUsername] = useState("");
@@ -11,10 +13,22 @@ function RegisterUser() {
     const [error, setError] = useState([]);
 
     const navigate = useNavigate();
-    
+
+    const { isCheckingApi, isApiReady } = useApi();
+
+    if (isCheckingApi) {
+        return <div>Loading...</div>;
+    }
+
     async function handleSubmit(e) {
         e.preventDefault();
         setError([]);
+
+        // block submission if API isn't ready
+        if (isCheckingApi) {
+            setError("Backend is still loading. Please wait...");
+            return;
+        }
 
         const response = await fetch(
             `${import.meta.env.VITE_API_URL}/users/register`, 
@@ -46,11 +60,22 @@ function RegisterUser() {
             }}
         >
             <div className="register form form-no-users">
-            <div className="error-display">
-                {Array.isArray(error) &&
-                    error.map((err, i) => <p key={i} className="errors">{err}</p>)}
-            </div>
-                <form onSubmit={handleSubmit}>
+                <div className="error-display">
+                    {!isApiReady && (
+                        <div className="loading-state">
+                            <Spinner />
+                            <div>
+                                {isCheckingApi ? "Checking server..." : "Server not responding."}
+                            </div>
+                        </div>
+                    )}
+
+                    {error && <p className="errors">{error}</p>}
+                </div>
+                <form 
+                    onSubmit={handleSubmit}
+                    style={{ pointerEvents: !isApiReady ? "none" : "auto", opacity: !isApiReady ? 0.5 : 1 }}
+                >
                     <label>Username
                         <input 
                             type="text"
