@@ -19,7 +19,7 @@
 }
 
 /* icons - fontawesome ui  */
-.ui-icon, .message-icon, .add-file-icon, .send-icon {
+.ui-icon, .add-file-icon, .send-icon {
   cursor: pointer;
   color: var(--orange);
 }

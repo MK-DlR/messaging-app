@@ -37,7 +37,7 @@ function UserProfile({
 
                 {currentUser.id !== userProfile.id && (
                     <i 
-                        className="fa-regular fa-envelope message-icon"
+                        className="fa-regular fa-envelope ui-icon message-icon"
                         onClick={() => {
                             createDirectMessage(
                                 userProfile.id,
