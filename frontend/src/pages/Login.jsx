@@ -95,6 +95,7 @@ function Login() {
                     </label>
                     <button className="submit button" type="submit">Login</button>
                 </form>
+                <button className="guest button" type="guest">Login As Guest</button>
                 <div className="register-here">Don't have an account? Register <a href="/register">here</a>.</div>
             </div>
         </div>
