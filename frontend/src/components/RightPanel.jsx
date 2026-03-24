@@ -2,11 +2,12 @@
 
 // imports
 import { useRef } from "react";
+import Spinner from "./Spinner";
+import StatusCircle from "./StatusCircle";
 import createDirectMessage from "../helpers/createDirectMessage";
 import getIconUrl from "../helpers/getIconUrl";
 import isOnline from "../helpers/isOnline";
 import pingServer from "../helpers/pingServer";
-import StatusCircle from "./StatusCircle";
 
 function RightPanel({ 
     currentUser, 
@@ -26,8 +27,16 @@ function RightPanel({
 
     // if no user, return a loading state early
     if (!currentUser) {
-        displayUsers = <div>Loading..</div>;
-        activeUser = <div>Loading..</div>;
+        displayUsers = 
+            <div className="loading">
+                <Spinner />
+                Loading...
+            </div>;
+        activeUser = 
+            <div className="loading">
+                <Spinner />
+                Loading...
+            </div>;
 
         return (
             <div className="right-panel">

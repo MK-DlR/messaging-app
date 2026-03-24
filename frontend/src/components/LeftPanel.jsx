@@ -2,6 +2,7 @@
 
 // imports
 import { useNavigate } from "react-router-dom";
+import Spinner from "./Spinner";
 import getIconUrl from "../helpers/getIconUrl";
 
 // display all channels that user is in
@@ -20,7 +21,11 @@ function LeftPanel({
 
     // if no user, return a loading state early
     if (!currentUser) {
-        displayChannels = <div className="loading">Loading..</div>;
+        displayChannels = 
+            <div className="loading">
+                <Spinner />
+                Loading...
+            </div>;
 
         return (
             <div className="left-panel">

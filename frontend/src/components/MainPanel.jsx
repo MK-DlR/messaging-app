@@ -2,8 +2,8 @@
 
 // imports
 import { useState, useEffect } from "react";
+import Spinner from "./Spinner";
 import apiFetch from "../helpers/apiFetch";
-
 import ChannelDetails from "./MainPanel/ChannelDetails";
 import CreateChannel from "./MainPanel/CreateChannel";
 import EditChannel from "./MainPanel/EditChannel";
@@ -106,7 +106,11 @@ function MainPanel({
             <h2>Select A Channel</h2>
         </div>
 
-        content = <div className="loading channel-loading">Loading..</div>;
+        content = 
+            <div className="loading channel-loading">
+                <Spinner />
+                Loading...
+            </div>;
 
         return (
             <div className="main-panel">
