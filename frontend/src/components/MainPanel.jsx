@@ -100,7 +100,21 @@ function MainPanel({
     let content;
 
     // if no user, return a loading state early
-    if (!currentUser) return <div>Loading...</div>;
+    if (!currentUser) {
+        title =
+        <div className="header">
+            <h2>Select A Channel</h2>
+        </div>
+
+        content = <div className="loading channel-loading">Loading..</div>;
+
+        return (
+            <div className="main-panel">
+                {title}
+                {content}
+            </div>
+        )   
+    }
 
     // determine which view is selected
     switch (mainPanelView) {

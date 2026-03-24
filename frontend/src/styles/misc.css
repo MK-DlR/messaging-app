@@ -1,5 +1,14 @@
 /* frontend/src/styles/misc.css */
 
+/* loading */
+.loading {
+  text-align: center;
+}
+
+.channel-loading {
+  padding-top: 10px;
+}
+
 /* shared whitespace */
 .errors, .message, .user-profile, .channel-details {
   white-space: pre-wrap;

@@ -6,6 +6,7 @@ import getIconUrl from "../helpers/getIconUrl";
 
 // display all channels that user is in
 function LeftPanel({ 
+    currentUser,
     setCurrentUser, 
     setSelectedChannel, 
     channels, 
@@ -14,8 +15,47 @@ function LeftPanel({
     setNewChannel 
 }) {
     const navigate = useNavigate()
+
+    let displayChannels;
+
+    // if no user, return a loading state early
+    if (!currentUser) {
+        displayChannels = <div className="loading">Loading..</div>;
+
+        return (
+            <div className="left-panel">
+                <h2 className="header">All Channels</h2>
+                <div className="channel-display">{displayChannels}</div>
+                <div className="button-panel">
+                    <button 
+                        type="button" 
+                        className="submit button"
+                        onClick={() => {
+                            setMainPanelView("createChannel");
+                            setNewChannel({ icon: "", name: "", channelInfo: "" });
+                            setNewChannelUsers([]);
+                        }}
+                    >
+                        + Channel
+                    </button>
+                    <button 
+                        type="button" 
+                        className="logout button"
+                        onClick={() => {
+                            localStorage.removeItem("token");
+                            setCurrentUser(null);
+                            navigate("/login");
+                        }}
+                    >
+                        Logout
+                    </button>
+                </div>
+            </div>
+        )
+    }
+
     // map over and display channels
-    const displayChannels = [...channels]
+    displayChannels = [...channels]
         .sort((a, b) => {
             if (a.isDefault) return -1;
             if (b.isDefault) return 1;
@@ -58,8 +98,8 @@ function LeftPanel({
                         setCurrentUser(null);
                         navigate("/login");
                     }}
-                    >
-                        Logout
+                >
+                    Logout
                 </button>
             </div>
         </div>

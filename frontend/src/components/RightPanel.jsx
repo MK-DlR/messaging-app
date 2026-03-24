@@ -24,7 +24,19 @@ function RightPanel({
     let displayUsers;
     let activeUser;
 
-    if (!currentUser) return <div>Loading...</div>
+    // if no user, return a loading state early
+    if (!currentUser) {
+        displayUsers = <div>Loading..</div>;
+        activeUser = <div>Loading..</div>;
+
+        return (
+            <div className="right-panel">
+                <h2 className="header">All Users</h2>
+                <div className="users-display loading">{displayUsers}</div>
+                <div className="user active-user-display loading">{activeUser}</div>
+            </div>
+        )  
+    }
 
     if (!allUsers) {
         displayUsers = <div>Loading...</div>
