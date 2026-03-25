@@ -5,6 +5,7 @@ const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { prisma } = require("../lib/prisma.js");
+const e = require("express");
 
 // registration - inserts new user into schema
 const registerPost = async (req, res, next) => {
@@ -168,6 +169,39 @@ const loginPost = async (req, res, next) => {
   }
 };
 
+// guest account login
+const guestLoginPost = async (req, res, next) => {
+  try {
+    // search for user by username
+    const result = await prisma.user.findUnique({
+      where: {
+        usernameNormalized: "guest",
+      },
+    });
+    if (result) {
+      // set lastSeen status
+      await prisma.user.update({
+        where: { id: result.id },
+        data: { lastSeen: new Date() },
+      });
+
+      const token = jwt.sign(
+        { id: result.id }, // payload
+        process.env.JWT_SECRET,
+        { expiresIn: process.env.JWT_EXPIRES_IN },
+      );
+      res.status(200).json({ token });
+    } else {
+      // guest user not found - indicates a setup problem
+      return res.status(500).json({
+        error: "Guest account not configured. Please contact support.",
+      });
+    }
+  } catch (err) {
+    return next(err);
+  }
+};
+
 // fetch and return current user's data
 const profileGetMe = async (req, res, next) => {
   try {
@@ -295,6 +329,7 @@ const pingServer = async (req, res, next) => {
 module.exports = {
   registerPost,
   loginPost,
+  guestLoginPost,
   profileGetMe,
   usersGet,
   profileGet,

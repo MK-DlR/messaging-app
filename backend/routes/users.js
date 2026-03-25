@@ -11,6 +11,9 @@ router.post("/register", usersController.registerPost);
 // login
 router.post("/login", usersController.loginPost);
 
+// guest login
+router.post("/guest-login", usersController.guestLoginPost);
+
 // fetch and return current user's data
 router.get("/me", authJWT, usersController.profileGetMe);
 
