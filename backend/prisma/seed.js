@@ -26,6 +26,7 @@ async function seed() {
     defaultChannel = await prisma.channel.create({
       data: {
         name: "Main Chat",
+        channelInfo: "The main general chat for all users.",
         isDefault: true,
         isGroup: true,
       },
