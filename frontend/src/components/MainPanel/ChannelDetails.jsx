@@ -21,7 +21,8 @@ function ChannelDetails ({
     const clickTimer = useRef(null);
 
     // map over and display users
-    const displayUsers = channelDetails.users.map(user => 
+    const displayUsers = channelDetails.users.sort((a, b) => 
+        (a.displayName || a.username).localeCompare(b.displayName || b.username)).map(user =>
         <div
         className="user user-select"
             key={user.username}

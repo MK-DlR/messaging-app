@@ -47,11 +47,19 @@ function RightPanel({
         )  
     }
 
+    /*
+    allUsers.sort((a, b) => 
+    (a.displayName || a.username).localeCompare(b.displayName || b.username)).map(user =>
+        // code here
+    )
+*/
+
     if (!allUsers) {
         displayUsers = <div>Loading...</div>
     } else {
         // map over and display users
-        displayUsers = allUsers.map(user => 
+        displayUsers = allUsers.sort((a, b) => 
+            (a.displayName || a.username).localeCompare(b.displayName || b.username)).map(user =>
             <div
                 key={user.username}
                 className="user"
