@@ -116,22 +116,42 @@ function EditChannel ({
                         className="user user-select"
                         key={user.username}
                         onClick={() => {
-                            // clicking removes user from channel, with confirmation
-                            if (window.confirm("Are you sure you want to remove this user?")) {
-                                async function removeUserFromChannel() {
-                                    // remove user
-                                    await apiFetch(
-                                        `${import.meta.env.VITE_API_URL}/channels/manage/${selectedChannel.id}/members`, 
-                                        { 
-                                            method: "PUT", 
-                                            body: JSON.stringify({ action: "remove", userId: user.id }) 
-                                        }
-                                    );
-                                    // update channel details to display remaining members
-                                    setChannelDetails({ ...channelDetails, users: channelDetails.users.filter(u => u.username !== user.username) });
+                            // unique confirmation when removing last non-owner member from a channel 
+                            if (removableUsers.length === 1) {
+                                if (window.confirm("Are you sure you want to be alone in this channel?")) {
+                                    async function removeUserFromChannel() {
+                                        // remove user
+                                        await apiFetch(
+                                            `${import.meta.env.VITE_API_URL}/channels/manage/${selectedChannel.id}/members`, 
+                                            { 
+                                                method: "PUT", 
+                                                body: JSON.stringify({ action: "remove", userId: user.id }) 
+                                            }
+                                        );
+                                        // update channel details to display remaining members
+                                        setChannelDetails({ ...channelDetails, users: channelDetails.users.filter(u => u.username !== user.username) });
+                                    }
+                                    removeUserFromChannel();
+                                    pingServer();
                                 }
-                                removeUserFromChannel();
-                                pingServer();
+                            } else {
+                                // clicking removes user from channel, with confirmation
+                                if (window.confirm("Are you sure you want to remove this user?")) {
+                                    async function removeUserFromChannel() {
+                                        // remove user
+                                        await apiFetch(
+                                            `${import.meta.env.VITE_API_URL}/channels/manage/${selectedChannel.id}/members`, 
+                                            { 
+                                                method: "PUT", 
+                                                body: JSON.stringify({ action: "remove", userId: user.id }) 
+                                            }
+                                        );
+                                        // update channel details to display remaining members
+                                        setChannelDetails({ ...channelDetails, users: channelDetails.users.filter(u => u.username !== user.username) });
+                                    }
+                                    removeUserFromChannel();
+                                    pingServer();
+                                }
                             }
                             pingServer();
                         }}
