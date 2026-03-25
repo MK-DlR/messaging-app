@@ -95,9 +95,10 @@ function Login() {
                     </label>
                     <button className="submit button" type="submit">Login</button>
                 </form>
-                <button className="guest button" type="guest">Login As Guest</button>
+                <button className="guest button" type="submit">Login As Guest</button>
                 <div className="register-here">Don't have an account? Register <a href="/register">here</a>.</div>
             </div>
+            <div className="footer"><a href="https://github.com/MK-DlR">Created by <i class="fa-brands fa-github" /> MK-DlR</a></div>
         </div>
     )
 }

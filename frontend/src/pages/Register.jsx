@@ -106,6 +106,7 @@ function RegisterUser() {
                 </form>
                 <div className="login-here">Already have an account? Login <a href="/login">here</a>.</div>
             </div>
+            <div className="footer"><a href="https://github.com/MK-DlR">Created by <i class="fa-brands fa-github" /> MK-DlR</a></div>
         </div>
     )
 }
