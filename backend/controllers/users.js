@@ -47,9 +47,12 @@ const registerPost = async (req, res, next) => {
     const usernameErrors = validateUsername(username);
     errors = errors.concat(usernameErrors);
 
+    // convert username to lowercase
+    const lowercaseUser = username.toLowerCase();
+
     // check if username already exists
     const existingUser = await prisma.user.findUnique({
-      where: { username },
+      where: { usernameNormalized: lowercaseUser },
     });
 
     if (existingUser) {
@@ -90,7 +93,11 @@ const registerPost = async (req, res, next) => {
     // hash password and create user
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = await prisma.user.create({
-      data: { username, password: hashedPassword },
+      data: {
+        username,
+        usernameNormalized: lowercaseUser,
+        password: hashedPassword,
+      },
     });
 
     // set lastSeen status
@@ -122,10 +129,13 @@ const loginPost = async (req, res, next) => {
     // extract username and password
     const { username, password } = req.body;
 
+    // convert username to lowercase
+    const lowercaseUser = username.toLowerCase();
+
     // search for user by username
     const result = await prisma.user.findUnique({
       where: {
-        username: username,
+        usernameNormalized: lowercaseUser,
       },
     });
     if (result) {
@@ -218,7 +228,7 @@ const profileGet = async (req, res, next) => {
     // search for user by username
     const result = await prisma.user.findUnique({
       where: {
-        username: username,
+        usernameNormalized: username.toLowerCase(),
       },
       select: {
         username: true,

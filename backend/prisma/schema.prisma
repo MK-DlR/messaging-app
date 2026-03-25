@@ -8,16 +8,17 @@ datasource db {
 }
 
 model User {
-  id              Int       @id @default(autoincrement())
-  username        String    @unique @db.VarChar(32)
-  password        String
-  displayName     String?   @db.VarChar(64)
-  icon            String    @default("default-user.png")
-  profileInfo     String?   @db.VarChar(200)
-  lastSeen        DateTime? @default(now())
-  messages        Message[]
-  channels        Channel[]
-  createdChannels Channel[] @relation("ChannelCreator")
+  id                 Int       @id @default(autoincrement())
+  username           String    @db.VarChar(32)
+  usernameNormalized String    @unique @db.VarChar(32)
+  password           String
+  displayName        String?   @db.VarChar(64)
+  icon               String    @default("default-user.png")
+  profileInfo        String?   @db.VarChar(200)
+  lastSeen           DateTime? @default(now())
+  messages           Message[]
+  channels           Channel[]
+  createdChannels    Channel[] @relation("ChannelCreator")
 
   @@map("users")
 }
