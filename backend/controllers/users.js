@@ -7,6 +7,9 @@ const jwt = require("jsonwebtoken");
 const { prisma } = require("../lib/prisma.js");
 const e = require("express");
 
+// check if user is guest
+const isGuestUser = (user) => user.usernameNormalized === "guest";
+
 // registration - inserts new user into schema
 const registerPost = async (req, res, next) => {
   const validationErrors = validationResult(req);
@@ -288,6 +291,19 @@ const profileGet = async (req, res, next) => {
 // editing own profile
 const profilePut = async (req, res, next) => {
   try {
+    // fetch user to check if guest
+    const currentUser = await prisma.user.findUnique({
+      where: { id: req.user.id },
+      select: { usernameNormalized: true },
+    });
+
+    // if guest, deny update
+    if (isGuestUser(currentUser)) {
+      return res.status(403).json({
+        error: "Guest accounts cannot be edited.",
+      });
+    }
+
     // extract fields to update
     const { displayName, icon, profileInfo } = req.body;
 

@@ -16,6 +16,9 @@ function UserProfile({
     setMainPanelView, 
     previousView 
 }) {
+    // guest check
+    const isGuest = currentUser.username.toLowerCase() === "guest";
+
     if (!userProfile) return <div>Loading...</div>
     return <>
         <div className="header">
@@ -23,7 +26,7 @@ function UserProfile({
                 <img className="profile-icon lg-icon" src={getIconUrl(userProfile.icon)} />
                 {userProfile.displayName || userProfile.username} Details
 
-                {currentUser.id === userProfile.id && (
+                {currentUser.id === userProfile.id && !isGuest && (
                 <i 
                     className="fa-solid fa-pencil edit-icon ui-icon"
                     onClick={() => {

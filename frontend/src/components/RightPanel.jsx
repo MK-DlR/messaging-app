@@ -70,8 +70,11 @@ function RightPanel({
                     clearTimeout(clickTimer.current);
                 
                     if (user.id === currentUser.id) {
-                        setEditingProfile({ ...currentUser });
-                        setMainPanelView("editProfile");
+                        const isGuest = currentUser.username.toLowerCase() === "guest";
+                        if (!isGuest) {
+                            setEditingProfile({ ...currentUser });
+                            setMainPanelView("editProfile");
+                        }
                     } else {
                         createDirectMessage(
                             user.id,
@@ -106,14 +109,19 @@ function RightPanel({
                 }, 250);
                 pingServer();
             }}
-            // double clicking on user's name and/or icon creates DM
-            onDoubleClick={() => {
+            // double clicking on user's name and/or icon opens edit profile
+            nDoubleClick={() => {
                 clearTimeout(clickTimer.current);
-                async function getData() {
-                    setEditingProfile({ ...currentUser })
-                    return setMainPanelView("editProfile");
+                
+                const isGuest = currentUser.username.toLowerCase() === "guest";
+                if (!isGuest) {
+                    async function getData() {
+                        setEditingProfile({ ...currentUser })
+                        return setMainPanelView("editProfile");
+                    }
+                    getData();
                 }
-                getData();
+                
                 pingServer();
             }}
         >
