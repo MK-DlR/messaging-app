@@ -15,7 +15,7 @@ function LeftPanel({
     setNewChannelUsers, 
     setNewChannel 
 }) {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     let displayChannels;
 
