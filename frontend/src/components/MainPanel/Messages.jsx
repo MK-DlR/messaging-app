@@ -35,13 +35,17 @@ function Messages ({
 
     // set up autoscroll to bottom
     const messagesEndRef = useRef(null);
+    const prevChannelIdRef = useRef(selectedChannel.id);
 
     // autoscroll
     useEffect(() => {
-        setTimeout(() => {
-            messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-        }, 100);
-        pingServer();
+        if (selectedChannel.id !== prevChannelIdRef.current) {
+            // Scroll to bottom on channel switch
+            setTimeout(() => {
+                messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+            }, 100);
+            prevChannelIdRef.current = selectedChannel.id;
+        }
     }, [selectedChannel]);
 
     useEffect(() => {
