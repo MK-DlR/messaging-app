@@ -199,13 +199,14 @@ The application includes a pre-seeded database with a default channel and a gues
 
 ## Roadmap
 
+- [ ] Add liscence
 - [ ] Administrator role and functionality
 - [ ] Friends list feature
-- [ ] User blocking
-- [ ] Change password functionality
-- [ ] Adding users to channels requiring accepting invitation
-- [ ] User set online status
-- [ ] User to user pinging
+- [ ] User-User blocking
+- [ ] Change passwords
+- [ ] Channel invitations
+- [ ] Custom online status
+- [ ] User-User pinging
 - [ ] New message notifications
 - [ ] Message direct reply
 - [ ] Custom channel list organization
