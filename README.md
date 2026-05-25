@@ -199,7 +199,7 @@ The application includes a pre-seeded database with a default channel and a gues
 
 ## Roadmap
 
-- [ ] Add liscence
+- [ ] Add licence
 - [ ] Administrator role and functionality
 - [ ] Friends list feature
 - [ ] User-User blocking
