@@ -206,9 +206,11 @@ The application includes a pre-seeded database with a default channel and a gues
 - [ ] Adding users to channels requiring accepting invitation
 - [ ] User set online status
 - [ ] User to user pinging
+- [ ] New message notifications
 - [ ] Message direct reply
-- [ ] Custom organize channel list
+- [ ] Custom channel list organization
 - [ ] Special icon for channel creators
+  - [ ] Special icon for application admin/s
 
 See the [open issues](https://github.com/MK-DlR/messaging-app/issues) for a full list of proposed features (and known issues).
 
