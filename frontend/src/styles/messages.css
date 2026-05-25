@@ -21,6 +21,7 @@
 .user-message {
   position: relative;
   overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(0, 229, 255, 0.08);
 }
 
 /* message bubble styling */
@@ -39,6 +40,13 @@
   padding: 12px;
   font-size: 14px;
   color: var(--light-grey);
+}
+
+.message-image {
+  max-width: 100%;
+  max-height: 400px;
+  border-radius: 4px;
+  display: block;
 }
 
 /* hover */

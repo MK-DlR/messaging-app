@@ -33,7 +33,7 @@
 }
 
 .add-file-icon:hover, .send-icon:hover {
-  color: var(--light-grey);
+  color: var(--black);
   background: var(--orange);
   border-radius: 50%;
   transition-duration: 0.4s;

@@ -78,3 +78,9 @@ input[type=text], .description-textarea, .edit-textarea, .user-textarea, .passwo
   box-sizing: border-box;
   background-color: var(--dark-grey);
 }
+
+input:focus,
+textarea:focus {
+  outline: 2px solid rgba(255, 46, 136, 0.4);
+  box-shadow: 0 0 6px rgba(255, 46, 136, 0.15);
+}

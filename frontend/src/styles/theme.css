@@ -13,7 +13,5 @@
   --dark-blue: #0a2a33;
 
   --orange: #ff2e88; /* actually pink */
-
-  --glow-cyan: rgba(0, 229, 255, 0.25);
-  --glow-pink: rgba(255, 46, 136, 0.2);
+  --dark-pink: #a81656;
 }
