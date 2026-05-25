@@ -236,6 +236,7 @@ Project Link: [Repository](https://github.com/MK-DlR/messaging-app) & [Live Demo
 
 - [The Odin Project](https://www.theodinproject.com/dashboard)
 - [Font Awesome](https://fontawesome.com/)
+- [Messages Icon](https://icons8.com/icon/9OUVlDsyirZq/messages) by [Icons8](https://icons8.com/)
 - [Othneil Drew's Best README Template](https://github.com/othneildrew/Best-README-Template)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
