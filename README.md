@@ -15,7 +15,6 @@
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
-[![project_license][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
 <!-- PROJECT LOGO -->
@@ -229,14 +228,6 @@ As this is a student project created for The Odin Project curriculum, it is curr
 <a href="https://github.com/MK-DlR/messaging-app/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=MK-DlR/messaging-app" alt="contrib.rocks image" />
 </a>
-
-<!-- LICENSE -->
-
-## License
-
-Distributed under the project_license. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- CONTACT -->
 
