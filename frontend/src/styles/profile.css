@@ -5,33 +5,38 @@
   display: flex;
   flex-direction: column;
   width: min(800px, 90%);
-  border: 1px solid var(--light-blue);
+  border: 1px solid rgba(0, 229, 255, 0.25);
   border-radius: 4px;
   align-self: center;
-}
 
-.user-profile.form {
   background-color: var(--dark-grey);
 }
 
 .profile-displayname {
   font-weight: bold;
   font-size: 25px;
+  color: var(--light-blue);
+  text-shadow: 0 0 6px rgba(0, 229, 255, 0.2);
 }
 
-hr {
-  border: 1px dashed var(--light-blue);
+.profile-username {
+  font-style: italic;
+  color: var(--light-grey);
 }
 
 .user-seen {
   display: flex;
+  align-items: center; /* important */
+  gap: 6px; /* controlled spacing instead of break */
 }
 
 .profile-username,
 .profile-seen {
   font-size: 14px;
+  margin: 0; /* prevents row break issues */
 }
 
 .profile-username {
   font-style: italic;
+  color: var(--light-blue);
 }

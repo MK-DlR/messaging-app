@@ -8,7 +8,7 @@ import ApiProvider from './components/ApiProvider.jsx';
 import "./styles/auth.css";
 import "./styles/base.css";
 import "./styles/buttons.css";
-import "./styles/channels.css";
+import "./styles/channels-users.css";
 import "./styles/forms.css";
 import "./styles/header.css";
 import "./styles/icons.css";
@@ -19,7 +19,6 @@ import "./styles/profile.css";
 import "./styles/spinner.css"; 
 import "./styles/textbox.css";
 import "./styles/theme.css";
-import "./styles/users.css";
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

@@ -1,13 +1,19 @@
-/* frontend/src/styles/theme.css */
+/* theme.css - cyberpunk palette upgrade */
 
-/* theme variables */
 :root {
-  --black: #000000;
-  --darkest-grey: #111113;
-  --dark-grey: #1B1C20;
-  --light-grey: #C5C4C9;
-  --white: #DDDEE0;
-  --light-blue: #41B9CA;
-  --dark-blue: #173D40;
-  --orange: #F3583A;
+  --black: #05060a;
+  --darkest-grey: #0b0f14;
+  --dark-grey: #121a22;
+
+  --light-grey: #9aa4b2;
+  --white: #e6f1ff;
+
+  /* cyberpunk accents */
+  --light-blue: #00e5ff;
+  --dark-blue: #0a2a33;
+
+  --orange: #ff2e88; /* actually pink */
+
+  --glow-cyan: rgba(0, 229, 255, 0.25);
+  --glow-pink: rgba(255, 46, 136, 0.2);
 }

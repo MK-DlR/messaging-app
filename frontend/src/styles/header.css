@@ -1,18 +1,23 @@
 /* frontend/src/styles/header.css */
 
-/* headers */
 .header {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 80px;
-  align-items: center;
   flex-shrink: 0;
-  border-bottom: 1px solid var(--light-blue);
+  border-bottom: 1px solid rgba(0, 229, 255, 0.25);
+  background-color: var(--darkest-grey);
+  background: linear-gradient(
+    190deg,
+    rgba(0, 229, 255, 0.05),
+    transparent
+  );
 }
 
 .header h2 {
   display: flex;
   align-items: center;
   gap: 8px;
+  text-shadow: 0 0 8px rgba(0, 229, 255, 0.15);
 }

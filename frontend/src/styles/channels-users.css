@@ -1,0 +1,123 @@
+/* frontend/src/styles/channels-users.css */
+
+/* leftpanel - channels */
+.channel-header {
+  display: flex;
+  flex-direction: column;
+}
+
+.channel-info {
+  display: flex;
+}
+
+.channel-name, .channel-description {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 50vw;
+}
+
+/* channel details */
+.channel-details {
+  display: flex;
+  flex-direction: column;
+  padding-top: 10px;
+  gap: 10px;
+  max-width: 90vw;
+}
+
+.channel-details-name, .channel-details-info {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.channel-details-info {
+  width: min(800px, 90%);
+  align-self: center;
+}
+
+.channel-members {
+  text-align: center;
+}
+
+/* display - channels and users */
+.channel,
+.user {
+  border-left: 1px solid transparent;
+  box-sizing: border-box;
+}
+
+.channel, .user, .message-header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  overflow-wrap: break-word;
+  word-break: break-all;
+  cursor: pointer;
+}
+
+/* right panel - users */
+.all-users {
+  display: flex;
+  justify-content: space-between;
+  width: min(800px, 90%);
+  align-self: center;
+  gap: 10px;
+}
+
+.selected-users,
+.add-users,
+.display-users {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: flex-start;
+  width: 280px;
+  border-radius: 4px;
+  background-color: var(--dark-grey);
+  padding: 10px;
+}
+
+.selected-users .user-select,
+.add-users .user-select,
+.display-users .user-select {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  padding-right: 5px;
+}
+
+.user-search {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.add-users .user-search[type="text"] {
+  background-color: var(--darkest-grey);
+}
+
+/* base user state */
+.user {
+  border-left: 1px solid transparent;
+}
+
+/* hover glow identity */
+.channel-display .channel:hover,
+.users-display .user:hover,
+.selected-users .user:hover,
+.add-users .user:hover {
+  background: rgba(0, 229, 255, 0.06);
+}
+
+.channel-display .channel:hover {
+  border-left: 1px solid var(--light-blue);
+}
+
+.users-display .user:hover,
+.selected-users .user:hover,
+.add-users .user:hover {
+  border-right: 1px solid var(--light-blue);
+}

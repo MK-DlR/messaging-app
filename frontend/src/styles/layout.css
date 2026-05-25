@@ -1,32 +1,34 @@
 /* frontend/src/styles/layout.css */
 
-/* layout - panels and containers */
 .panel-container {
   display: flex;
   height: 100vh;
 }
 
-.left-panel, .main-panel, .right-panel {
+.left-panel,
+.main-panel,
+.right-panel {
   display: flex;
   flex-direction: column;
   height: 100vh;
 }
 
-.left-panel, .right-panel {
-  display: flex;
-  flex-direction: column;
+.left-panel,
+.right-panel {
   width: 15%;
   overflow-x: hidden;
 }
 
 .main-panel {
-  border-left: 1px solid var(--light-blue);
-  border-right: 1px solid var(--light-blue);
   width: 70%;
+  border-left: 1px solid var(--dark-blue);
+  border-right: 1px solid var(--dark-blue);
 }
 
-/* layout - scrollable content areas */
-.message-display, .channel-display, .users-display {
+/* scrollbar */
+.message-display,
+.channel-display,
+.users-display {
   height: 85vh;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -35,15 +37,17 @@
   scrollbar-width: thin;
 }
 
-/* layout - fixed bottom bars */
-.button-panel, .active-user-display, .textbox {
+/* bottom alignment */
+.button-panel,
+.active-user-display,
+.textbox {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
   height: 80px;
   box-sizing: border-box;
-  border-top: 1px solid var(--light-blue);
+  border-top: 1px solid var(--dark-blue);
 }
 
 .textbox {
