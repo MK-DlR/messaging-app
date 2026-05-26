@@ -147,6 +147,7 @@ To get a local copy up and running, follow these steps.
    npm run dev
    ```
 7. Open the app<br />
+   It's recommended to start the backend before starting the frontend, or the database won't be running when the frontend loads.<br />
    Frontend: `http://localhost:5173`<br />
    Backend: `http://localhost:3000`
 
