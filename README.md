@@ -86,7 +86,7 @@ To get a local copy up and running, follow these steps.
 
 ### Prerequisites
 
-- Node.js (recommended v18.11+)
+- Node.js (recommended v22+)
 - npm
 - PostgreSQL database
 
