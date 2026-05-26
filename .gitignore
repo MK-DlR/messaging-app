@@ -4,6 +4,9 @@ node_modules/
 # Environment variables
 .env
 
+# Prisma generated files
+**/generated/prisma/
+
 # Resources
 docs/
 mockup.png
