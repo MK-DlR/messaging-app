@@ -7,20 +7,20 @@ import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
 import ApiProvider from './components/ApiProvider.jsx';
 
-import "./styles/auth.css";
-import "./styles/base.css";
-import "./styles/buttons.css";
-import "./styles/channels-users.css";
-import "./styles/forms.css";
-import "./styles/header.css";
-import "./styles/icons.css";
-import "./styles/layout.css";
-import "./styles/messages.css";
-import "./styles/misc.css";
-import "./styles/profile.css";
-import "./styles/spinner.css"; 
-import "./styles/textbox.css";
-import "./styles/theme.css";
+import "./css/auth.css";
+import "./css/base.css";
+import "./css/buttons.css";
+import "./css/channels-users.css";
+import "./css/forms.css";
+import "./css/header.css";
+import "./css/icons.css";
+import "./css/layout.css";
+import "./css/messages.css";
+import "./css/misc.css";
+import "./css/profile.css";
+import "./css/spinner.css"; 
+import "./css/textbox.css";
+import "./css/theme.css";
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
