@@ -230,9 +230,9 @@ Project Link: [Repository](https://github.com/MK-DlR/messaging-app) & [Live Demo
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<!-- ACKNOWLEDGMENTS -->
+<!-- ACKNOWLEDGEMENTS -->
 
-## Acknowledgments
+## Acknowledgements
 
 - [The Odin Project](https://www.theodinproject.com/dashboard)
 - [Font Awesome](https://fontawesome.com/)
