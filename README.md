@@ -124,11 +124,11 @@ To get a local copy up and running, follow these steps.
    From the `backend` folder, run the following commands:<br />
    4.1. Generate Prisma client
    ```sh
-   npx prisma generate --config ./prisma.config.js
+   npx prisma generate
    ```
    4.2. Create database tables<Br />
    ```sh
-   npx prisma migrate dev --name init --config ./prisma.config.js
+   npx prisma migrate dev --name init
    ```
 5. Seed the database (IMPORTANT)<br />
    This will create:
