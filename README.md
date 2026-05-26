@@ -48,10 +48,15 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
+    <li>
+      <a href="#usage">Usage</a>
+      <ul>
+        <li><a href="#how-to-use-the-app">How to Use the App</a></li>
+        <li><a href="#default-setup-behavior">Default Setup Behavior</a></li>
+      </ul>
+    </li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
@@ -169,7 +174,7 @@ This is a full-stack messaging application where users can join channels and sen
 
 The application includes a pre-seeded database with a default channel and a guest account for quick testing.
 
-### How to use the app
+### How to Use the App
 
 1. Open the app at http://localhost:5173 or visit the [live demo](https://messaging-app-bice-nine.vercel.app/)
 2. Register a new account or log in
@@ -178,7 +183,7 @@ The application includes a pre-seeded database with a default channel and a gues
 4. Send messages in the chat input
 5. Messages will appear in real time within the selected channel
 
-### Default setup behavior
+### Default Setup Behavior
 
 - A “Main Chat” channel is created automatically via the seed script
 - A guest user account is also created for immediate access
