@@ -3,8 +3,10 @@
 // imports
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+
 import App from './App.jsx'
 import ApiProvider from './components/ApiProvider.jsx';
+
 import "./styles/auth.css";
 import "./styles/base.css";
 import "./styles/buttons.css";
