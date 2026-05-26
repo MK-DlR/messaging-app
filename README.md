@@ -156,7 +156,7 @@ To get a local copy up and running, follow these steps.
 - Frontend: React + Vite
 - Authentication: JWT
 - Default seed includes a guest account + main chat channel
-- CORS is configured for local development (localhost:5173)
+- CORS is configured for local development
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
