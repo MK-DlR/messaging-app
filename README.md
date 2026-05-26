@@ -18,7 +18,7 @@
 <h3 align="center">Messaging App</h3>
 
   <p align="center">
-    Full-stack messaging web app with group chats and private DMs, featuring a Guest Account for easy previewing and demoing.
+    Full-stack cyberpunk messaging web app with group chats and private DMs, featuring a Guest Account for easy previewing and demoing.
     <br />
     <a href="https://github.com/MK-DlR/messaging-app"><strong>Explore the docs »</strong></a>
     <br />
