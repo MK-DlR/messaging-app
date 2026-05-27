@@ -115,55 +115,45 @@ To get a local copy up and running, follow these steps.
    npm install
    ```
 3. Set up environment variables<br />
-   Backend (`backend/.env`):
+   Backend:
    ```sh
-   PORT=3000
-   DATABASE_URL="your_postgres_connection_string"
-   JWT_SECRET="your_secret_key"
-   JWT_EXPIRES_IN="7d"
+   cp backend/.env.example backend/.env
    ```
-   Frontend (`frontend/.env`):
+   Frontend:
    ```sh
-   VITE_API_URL=http://localhost:3000
+   cp frontend/.env.example frontend/.env
    ```
-4. Set up the database (Prisma)<br />
-   From the `backend` folder, run the following commands:<br />
-   4.1. Generate Prisma client
-   ```sh
-   npx prisma generate
-   ```
-   4.2. Create database tables<Br />
+   Open each `.env` file and fill in your `DATABASE_URL` and `JWT_SECRET`.
+4. Set up the database<br />
+   From the `backend` folder:
    ```sh
    npx prisma migrate dev --name init
    ```
-5. Seed the database (IMPORTANT)<br />
-   This will create:
-   - Default “Main Chat” channel
-   - Guest user account
+5. Seed the database<br />
+   Still from the `backend` folder:
    ```sh
    node prisma/seed.js
    ```
-6. Run the application<br />
-   Start backend (from `/backend`):
+   This will create a default "Main Chat" channel and a guest user account.
+6. Start the application<br />
+   Backend (from `/backend`):
    ```sh
    node --watch app.js
    ```
-   Start frontend (from `/frontend`):
+   Frontend (from `/frontend`):
    ```sh
    npm run dev
    ```
-7. Open the app<br />
-   It's recommended to start the backend before starting the frontend, or the database won't be running when the frontend loads.<br />
-   Frontend: `http://localhost:5173`<br />
-   Backend: `http://localhost:3000`
+   Start the backend before the frontend, otherwise API calls on initial load will fail.
+7. Open the app
+   - Frontend: `http://localhost:5173`
+   - Backend: `http://localhost:3000`
 
 ### Notes
 
 - Backend: Express + Prisma + PostgreSQL
 - Frontend: React + Vite
 - Authentication: JWT
-- Default seed includes a guest account + main chat channel
-- CORS is configured for local development
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
