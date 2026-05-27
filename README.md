@@ -115,12 +115,9 @@ To get a local copy up and running, follow these steps.
    npm install
    ```
 3. Set up environment variables<br />
-   Backend:
+   From the root `messaging-app` folder:
    ```sh
    cp backend/.env.example backend/.env
-   ```
-   Frontend:
-   ```sh
    cp frontend/.env.example frontend/.env
    ```
    Open each `.env` file and fill in your `DATABASE_URL` and `JWT_SECRET`.
@@ -172,7 +169,7 @@ The application includes a pre-seeded database with a default channel and a gues
    - Alternatively, use the pre-created guest account (from the seed script)
 3. Select the “Main Chat” channel from the sidebar
 4. Send messages in the chat input
-5. Messages will appear in real time within the selected channel
+5. Messages update automatically every few seconds
 
 ### Default Setup Behavior
 
@@ -264,9 +261,9 @@ Project Link: [Repository](https://github.com/MK-DlR/messaging-app) & [Live Demo
 [Angular-url]: https://angular.io/
 [Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
 [Bootstrap-url]: https://getbootstrap.com
-[Express]: https://img.shields.io/badge/Express.js-%23404d59.svg?logo=express&logoColor=%2361DAFB
+[Express]: https://img.shields.io/badge/Express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB
 [Express-url]: https://expressjs.com/en/
-[Javascript]: https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=000
+[Javascript]: https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=000
 [Javascript-url]: https://developer.mozilla.org/en-US/docs/Web/JavaScript
 [JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
 [JQuery-url]: https://jquery.com
@@ -274,19 +271,19 @@ Project Link: [Repository](https://github.com/MK-DlR/messaging-app) & [Live Demo
 [Laravel-url]: https://laravel.com
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
-[Node.js]: https://img.shields.io/badge/Node.js-6DA55F?logo=node.js&logoColor=white
+[Node.js]: https://img.shields.io/badge/Node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white
 [Node-url]: https://nodejs.org/en
-[Postgres]: https://img.shields.io/badge/Postgres-%23316192.svg?logo=postgresql&logoColor=white
+[Postgres]: https://img.shields.io/badge/Postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white
 [Postgres-url]: https://www.postgresql.org/
-[Prisma]: https://img.shields.io/badge/Prisma-2D3748?logo=prisma&logoColor=white
+[Prisma]: https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white
 [Prisma-url]: https://www.prisma.io/
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://reactjs.org/
-[React-router]: https://img.shields.io/badge/React_Router-CA4245?logo=react-router&logoColor=white
+[React-router]: https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white
 [React-router-url]: https://reactrouter.com/
 [Svelte.dev]: https://img.shields.io/badge/Svelte-4A4A55?style=for-the-badge&logo=svelte&logoColor=FF3E00
 [Svelte-url]: https://svelte.dev/
-[Vite]: https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=fff
+[Vite]: https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=fff
 [Vite-url]: https://vite.dev/
 [Vue.js]: https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D
 [Vue-url]: https://vuejs.org/
