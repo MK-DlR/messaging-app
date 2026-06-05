@@ -15,7 +15,7 @@
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-<h3 align="center">Messaging App</h3>
+<h3 align="center">Hack the Planet</h3>
 
   <p align="center">
     Full-stack cyberpunk messaging web app with group chats and private DMs, featuring a Guest Account for easy previewing and demoing.
@@ -67,7 +67,7 @@
 
 ## About The Project
 
-[![Messaging App Screen Shot][product-screenshot]](https://messaging-app-bice-nine.vercel.app/)
+[![Hack the Planet Screen Shot][product-screenshot]](https://messaging-app-bice-nine.vercel.app/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
